@@ -7,11 +7,11 @@ public class PlayerController : MonoBehaviour
     public bool smoothTransition = false;
     public float transitionSpeed = 10f;
     public float transitionRotationSpeed = 500f;
+    public Transform camera;
 
     Vector3 targetGridPos;
     Vector3 prevtargetGridPos;
     Vector3 targetRotation;
-
 
     private void Start()
     {
@@ -51,8 +51,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    
-
     public void RotateLeft() { if (AtRest) targetRotation -= Vector3.up * 90f; }
     public void RotateRight() { if (AtRest) targetRotation += Vector3.up * 90f; }
     public void MoveForward() { if (AtRest) targetGridPos += transform.forward; }
@@ -60,12 +58,8 @@ public class PlayerController : MonoBehaviour
     public void MoveLeft() { if (AtRest) targetGridPos -= transform.right; }
     public void MoveRight() { if (AtRest) targetGridPos += transform.right; }
 
-
-
-   
     bool AtRest {
         get {
-
             if ((Vector3.Distance(transform.position, targetGridPos) < 0.01f) &&
                     (Vector3.Distance(transform.eulerAngles, targetRotation) < 0.01))
                     return true;
@@ -73,5 +67,9 @@ public class PlayerController : MonoBehaviour
                 return false;
         }
     }
-    
+
+    void CameraStepMotion()
+    {
+        // Camera Step Motion code
+    }
 }

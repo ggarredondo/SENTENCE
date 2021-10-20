@@ -635,6 +635,7 @@ MonoBehaviour:
   smoothTransition: 1
   transitionSpeed: 10
   transitionRotationSpeed: 500
+  camera: {fileID: 1327483134}
 --- !u!4 &1815206598
 Transform:
   m_ObjectHideFlags: 0
