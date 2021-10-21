@@ -9,9 +9,7 @@ public class PlayerController : MonoBehaviour
     public float transitionRotationSpeed = 500f;
     public Transform cam;
 
-    Vector3 targetGridPos;
-    Vector3 prevtargetGridPos;
-    Vector3 targetRotation;
+    Vector3 targetGridPos, prevtargetGridPos, targetRotation;
 
     private void Start()
     {
@@ -25,30 +23,24 @@ public class PlayerController : MonoBehaviour
 
     void MovePlayer()
     {
-        if (true)
-        {
+        if (!Physics.Raycast(transform.position, targetGridPos - transform.position, 0.6f)) {
             prevtargetGridPos = targetGridPos;
-
             Vector3 targetPosition = targetGridPos;
 
-            if (targetRotation.y > 270f && targetRotation.y < 361f) targetRotation.y = 0f;
-            if (targetRotation.y < 0f) targetRotation.y = 270f;
-
             if (!smoothTransition)
-            {
                 transform.position = targetPosition;
-                transform.rotation = Quaternion.Euler(targetRotation);
-            } else
-
-            {
+            else
                 transform.position = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * transitionSpeed);
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(targetRotation), Time.deltaTime * transitionRotationSpeed);
-            }
         }
         else
-        {
             targetGridPos = prevtargetGridPos;
-        }
+
+        if (targetRotation.y > 270f && targetRotation.y < 361f) targetRotation.y = 0f;
+        if (targetRotation.y < 0f) targetRotation.y = 270f;
+        if (!smoothTransition)
+            transform.rotation = Quaternion.Euler(targetRotation);
+        else
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(targetRotation), Time.deltaTime * transitionRotationSpeed);
     }
 
     public void RotateLeft() { if (AtRest) targetRotation -= Vector3.up * 90f; }
