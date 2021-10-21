@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     public bool smoothTransition = false;
     public float transitionSpeed = 10f;
     public float transitionRotationSpeed = 500f;
-    public Transform camera;
+    public Transform cam;
 
     Vector3 targetGridPos;
     Vector3 prevtargetGridPos;
@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        targetGridPos = Vector3Int.RoundToInt(transform.position);
+        targetGridPos = transform.position;
     }
 
     private void FixedUpdate()
