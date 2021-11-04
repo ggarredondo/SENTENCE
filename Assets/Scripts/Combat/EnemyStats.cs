@@ -5,6 +5,6 @@ using UnityEngine;
 [System.Serializable]
 public class EnemyStats
 {
-    public float health;
+    public float health, max_health;
     public float attack;
 }
