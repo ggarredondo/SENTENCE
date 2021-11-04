@@ -13,12 +13,16 @@ public enum Type
     Fragment
 }
 
-public class Alter : MonoBehaviour
+[System.Serializable]
+public class Alter
 {
-    public new string name;
+    // info
+    public string name;
     public string age;
     public string gender;
+
+    // stats
     public Type type;
-    public float damage;
+    public float attack;
     public float resilience;
 }
