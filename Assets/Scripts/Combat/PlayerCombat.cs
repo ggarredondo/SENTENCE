@@ -2,25 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum TurnState
+{
+    WAITING,
+    SELECTING,
+    ATTACKING,
+    DEAD
+}
+
 public class PlayerCombat : MonoBehaviour
 {
     public PlayerStats stats;
     public PlayerInput player;
     public GameObject UI;
+    public EnemyCombat enemy;
+    public TurnState current_state = TurnState.DEAD;
 
-    private bool is_fighting;
+    private bool was_fighting = true;
 
-    // Start is called before the first frame update
-    void Start()
+    void FightTransition() 
     {
-        is_fighting = false;
+        if (player.is_fighting != was_fighting) 
+        {
+            UI.transform.Find("CombatUI").gameObject.SetActive(player.is_fighting);
+            if (player.is_fighting)
+                current_state = TurnState.SELECTING;
+            else
+                current_state = TurnState.DEAD;
+            was_fighting = player.is_fighting;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        UI.transform.Find("CombatUI").gameObject.SetActive(is_fighting);
-        if (Input.GetKeyDown(KeyCode.I)) // debug
-            is_fighting = !is_fighting; // debug
+        FightTransition();
     }
 }
