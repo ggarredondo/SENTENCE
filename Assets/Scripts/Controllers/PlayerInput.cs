@@ -5,13 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerController))]
 public class PlayerInput : MonoBehaviour
 {
-    public KeyCode forward = KeyCode.W;
-    public KeyCode back = KeyCode.S;
-    public KeyCode left = KeyCode.A;
-    public KeyCode right = KeyCode.D;
-    public KeyCode turnLeft = KeyCode.Q;
-    public KeyCode turnRight = KeyCode.E;
-
     PlayerController controller;
 
     private void Awake()
@@ -21,11 +14,11 @@ public class PlayerInput : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyUp(forward)) controller.MoveForward();
-        if (Input.GetKeyUp(back)) controller.MoveBackward();
-        if (Input.GetKeyUp(left)) controller.MoveLeft();
-        if (Input.GetKeyUp(right)) controller.MoveRight();
-        if (Input.GetKeyUp(turnLeft)) controller.RotateLeft();
-        if (Input.GetKeyUp(turnRight)) controller.RotateRight();
+        if (Input.GetButtonUp("Up")) controller.MoveForward();
+        if (Input.GetButtonUp("Down")) controller.MoveBackward();
+        if (Input.GetButtonUp("Left")) controller.MoveLeft();
+        if (Input.GetButtonUp("Right")) controller.MoveRight();
+        if (Input.GetButtonUp("TurnLeft")) controller.RotateLeft();
+        if (Input.GetButtonUp("TurnRight")) controller.RotateRight();
     }
 }

@@ -16,6 +16,9 @@ public enum Type
 [System.Serializable]
 public class Alter
 {
+    // variables
+    public Sprite sprite;
+
     // info
     public string name;
     public string age;
@@ -23,6 +26,7 @@ public class Alter
 
     // stats
     public Type type;
-    public float attack;
-    public float resilience;
+    public float attack; // to damage traumas
+    public float resilience; // to resist emotional attacks and stay in front
+    public float priority; // for switching
 }

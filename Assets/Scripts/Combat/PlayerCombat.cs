@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerCombat : MonoBehaviour
 {
     public PlayerStats stats;
-    public GameObject CombatUI;
+    public PlayerInput player;
+    public GameObject UI;
 
     private bool is_fighting;
 
@@ -18,6 +19,8 @@ public class PlayerCombat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CombatUI.SetActive(is_fighting);
+        UI.transform.Find("CombatUI").gameObject.SetActive(is_fighting);
+        if (Input.GetKeyDown(KeyCode.I)) // debug
+            is_fighting = !is_fighting; // debug
     }
 }

@@ -7,7 +7,6 @@ public class PlayerController : MonoBehaviour
     public bool smoothTransition = false;
     public float transitionSpeed = 10f;
     public float transitionRotationSpeed = 500f;
-    public Transform cam;
 
     Vector3 targetGridPos, prevtargetGridPos, targetRotation;
 
@@ -50,20 +49,10 @@ public class PlayerController : MonoBehaviour
     public void MoveLeft() { if (AtRest) targetGridPos -= transform.right; }
     public void MoveRight() { if (AtRest) targetGridPos += transform.right; }
 
-    bool AtRest {
+    public bool AtRest {
         get {
-            if ((Vector3.Distance(transform.position, targetGridPos) < 0.01f) &&
-                    (Vector3.Distance(transform.eulerAngles, targetRotation) < 0.01))
-                    return true;
-            else
-                return false;
+            return (Vector3.Distance(transform.position, targetGridPos) < 0.01f) &&
+                    (Vector3.Distance(transform.eulerAngles, targetRotation) < 0.01);
         }
     }
-
-    void CameraStepMotion()
-    {
-        // Camera Step Motion code
-    }
-
-   
 }
