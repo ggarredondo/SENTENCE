@@ -6,7 +6,7 @@ public enum TurnState
 {
     WAITING,
     SELECTING,
-    ATTACKING,
+    AVOIDING,
     DEAD
 }
 
@@ -37,5 +37,9 @@ public class PlayerCombat : MonoBehaviour
     void Update()
     {
         FightTransition();
+        switch (current_state)
+        {
+
+        }
     }
 }

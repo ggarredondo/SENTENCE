@@ -8,7 +8,7 @@ public class EnemyCombat : MonoBehaviour
     public SpriteRenderer sprite_renderer;
     public GameObject UI;
     public GameObject player;
-    public TurnState current_state = TurnState.DEAD;
+    public TurnState current_state = TurnState.WAITING;
 
     // Start is called before the first frame update
     void Start() {
@@ -18,6 +18,9 @@ public class EnemyCombat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        switch (current_state)
+        {
+            
+        }
     }
 }
