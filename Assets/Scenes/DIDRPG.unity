@@ -2183,7 +2183,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1815206595}
   independant_collider: {fileID: 1223248228}
-  enemy: {fileID: 1102831703}
+  enemy_combat: {fileID: 0}
 --- !u!212 &1102831701
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4054,7 +4054,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 960f2f9444ee0e04aba0c5a346ef1da2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  is_fighting: 0
 --- !u!114 &1815206597
 MonoBehaviour:
   m_ObjectHideFlags: 0

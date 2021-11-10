@@ -6,8 +6,7 @@ public enum TurnState
 {
     WAITING,
     SELECTING,
-    AVOIDING,
-    DEAD
+    AVOIDING
 }
 
 public class PlayerCombat : MonoBehaviour
@@ -15,31 +14,43 @@ public class PlayerCombat : MonoBehaviour
     public PlayerStats stats;
     public PlayerInput player;
     public GameObject UI;
-    public EnemyCombat enemy;
-    public TurnState current_state = TurnState.DEAD;
+    EnemyCombat enemy;
+    public TurnState current_state = TurnState.WAITING;
 
-    private bool was_fighting = true;
+    private GameObject AlterSystemUI, CombatUI, ActionMenu, AvoidPanel;
 
-    void FightTransition() 
+    private void Start()
     {
-        if (player.is_fighting != was_fighting) 
-        {
-            UI.transform.Find("CombatUI").gameObject.SetActive(player.is_fighting);
-            if (player.is_fighting)
-                current_state = TurnState.SELECTING;
-            else
-                current_state = TurnState.DEAD;
-            was_fighting = player.is_fighting;
-        }
+        AlterSystemUI = UI.transform.Find("AlterSystemUI").gameObject;
+        CombatUI = UI.transform.Find("CombatUI").gameObject;
+        ActionMenu = CombatUI.transform.Find("ActionMenu").gameObject;
+        AvoidPanel = CombatUI.transform.Find("AvoidPanel").gameObject;
+    }
+
+    private void UIStateManagement()
+    {
+        CombatUI.SetActive(current_state != TurnState.WAITING);
+        AlterSystemUI.SetActive(current_state == TurnState.SELECTING || current_state == TurnState.WAITING);
+        ActionMenu.SetActive(current_state == TurnState.SELECTING);
+        AvoidPanel.SetActive(current_state == TurnState.AVOIDING);
+    }
+
+    public void SetEnemy(EnemyCombat enemy) {
+        this.enemy = enemy;
     }
 
     // Update is called once per frame
     void Update()
     {
-        FightTransition();
+        UIStateManagement();
         switch (current_state)
         {
+            case (TurnState.SELECTING):
+                
+            break;
+            case (TurnState.AVOIDING):
 
+            break;
         }
     }
 }

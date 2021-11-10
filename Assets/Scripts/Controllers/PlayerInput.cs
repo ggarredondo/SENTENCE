@@ -6,16 +6,17 @@ using UnityEngine;
 public class PlayerInput : MonoBehaviour
 {
     PlayerController controller;
-    public bool is_fighting = false;
+    PlayerCombat player_combat;
 
     private void Awake()
     {
         controller = GetComponent<PlayerController>();
+        player_combat = GetComponent<PlayerCombat>();
     }
 
     private void Update()
     {
-        if (!is_fighting)
+        if (player_combat.current_state == TurnState.WAITING)
         {
             if (Input.GetButtonUp("Up")) controller.MoveForward();
             if (Input.GetButtonUp("Down")) controller.MoveBackward();
