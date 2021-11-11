@@ -5,6 +5,7 @@ using UnityEngine;
 public class AvoidController : MonoBehaviour
 {
     public GameObject player_object;
+    public GameObject AvoidPanel;
     public float speed = 1f;
 
     private PlayerCombat player_combat;
@@ -22,6 +23,8 @@ public class AvoidController : MonoBehaviour
         {
             mouse_position = Input.mousePosition;
             transform.position = Vector2.Lerp(transform.position, mouse_position, Time.deltaTime * speed);
+            if (!AvoidPanel.GetComponent<BoxCollider2D>().bounds.Contains(transform.position))
+                transform.position = AvoidPanel.GetComponent<BoxCollider2D>().bounds.ClosestPoint(transform.position);
         }
     }
 }

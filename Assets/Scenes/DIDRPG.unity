@@ -2266,6 +2266,7 @@ MonoBehaviour:
     max_health: 100
     attack: 10
   UI: {fileID: 432792654}
+  enemy_object: {fileID: 1102831699}
   player_object: {fileID: 1815206595}
 --- !u!1 &1114203643
 GameObject:
@@ -2945,8 +2946,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player_object: {fileID: 1815206595}
-  speed: 1
   AvoidPanel: {fileID: 1612080894}
+  speed: 1
 --- !u!61 &1396369752
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2971,7 +2972,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 50.4, y: 44.4}
   m_EdgeRadius: 0
 --- !u!4 &1402866283 stripped
 Transform:
@@ -3824,7 +3825,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 380, y: 380}
   m_EdgeRadius: 0
 --- !u!1 &1654865612
 GameObject:
@@ -4172,11 +4173,11 @@ MonoBehaviour:
     max_mana: 10
     system:
     - sprite: {fileID: 0}
-      name: Testius
+      name: Adamth
       age: 1
       gender: None
       type: 0
-      attack: 5
+      attack: 10
       resilience: 0
       priority: 0
   player: {fileID: 1815206596}
