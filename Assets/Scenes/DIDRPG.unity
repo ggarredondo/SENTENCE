@@ -15110,7 +15110,7 @@ PrefabInstance:
     - target: {fileID: -7635826562936255635, guid: 5a636743033f37941bd93416de626d32, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 9fc53cbe9e8e48c48959c29b61f06abe, type: 2}
+      objectReference: {fileID: 2100000, guid: 40e1db6d6354bac44b6e29b760893de6, type: 2}
     - target: {fileID: 919132149155446097, guid: 5a636743033f37941bd93416de626d32, type: 3}
       propertyPath: m_Name
       value: cube part textured
