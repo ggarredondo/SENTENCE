@@ -43,7 +43,7 @@ public class EnemyCombat : MonoBehaviour
             break; //temp
             case TurnState.AVOIDING:
                 if (timer <= Time.time) //temp
-                    player.current_state = TurnState.SELECTING; //temp
+                    player.current_state = TurnState.TRANSITION_TO_SELECT; //temp
             break;
         }
     }

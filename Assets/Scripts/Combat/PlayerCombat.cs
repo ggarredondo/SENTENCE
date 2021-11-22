@@ -8,6 +8,8 @@ public enum TurnState
 {
     WAITING,
     SELECTING,
+    TRANSITION_TO_AVOID,
+    TRANSITION_TO_SELECT,
     AVOIDING
 }
 
@@ -18,10 +20,11 @@ public class PlayerCombat : MonoBehaviour
     public GameObject UI;
     EnemyCombat enemy;
     public TurnState current_state = TurnState.WAITING;
+    public float rotation_speed = 1f;
 
-    private GameObject AlterSystemUI, CombatUI, ActionMenu, AvoidPanel, mana_bar;
-    private Image health_bar, host;
-    private Vector3 host_initial_pos;
+    private GameObject AlterSystemUI, CombatUI, ActionMenu, AvoidPanel, health_bar, mana_bar;
+    private Image health_bar_image, host;
+    private Vector3 host_initial_pos, avoid_initial_pos, avoid_initial_scale, avoid_selecting_scale;
 
     private void Start()
     {
@@ -29,22 +32,40 @@ public class PlayerCombat : MonoBehaviour
         CombatUI = UI.transform.Find("CombatUI").gameObject;
         ActionMenu = CombatUI.transform.Find("ActionMenu").gameObject;
         AvoidPanel = CombatUI.transform.Find("AvoidPanel").gameObject;
-        health_bar = AvoidPanel.transform.Find("PlayerHealthBar").Find("ProgressForeground").GetComponent<Image>();
+        health_bar = CombatUI.transform.Find("PlayerHealthBar").gameObject;
+        health_bar_image = health_bar.transform.Find("ProgressForeground").GetComponent<Image>();
         mana_bar = ActionMenu.transform.Find("PlayerManaBar").gameObject;
         mana_bar.transform.Find("ManaText").GetComponent<Text>().text = stats.max_mana.ToString() + "\n/\n" + stats.max_mana.ToString();
         host = CombatUI.transform.Find("Host").GetComponent<Image>();
-        host_initial_pos = host.transform.position;
+        host_initial_pos = host.transform.localPosition;
+        avoid_initial_pos = AvoidPanel.transform.localPosition;
+        avoid_initial_scale = AvoidPanel.transform.localScale;
+        avoid_selecting_scale = new Vector3(0.3f, 0.3f, 1f);
+        AvoidPanel.transform.localPosition = host_initial_pos;
+        AvoidPanel.transform.localScale = avoid_selecting_scale;
     }
 
     private void UIStateManagement()
     {
         CombatUI.SetActive(current_state != TurnState.WAITING);
-        CombatUI.transform.Find("HostSafeZone").gameObject.SetActive(current_state != TurnState.AVOIDING);
-        if (current_state == TurnState.SELECTING)
-            host.transform.position = host_initial_pos;
         AlterSystemUI.SetActive(current_state == TurnState.SELECTING || current_state == TurnState.WAITING);
         ActionMenu.SetActive(current_state == TurnState.SELECTING);
-        AvoidPanel.SetActive(current_state == TurnState.AVOIDING);
+        health_bar.SetActive(current_state == TurnState.AVOIDING);
+        if (current_state == TurnState.TRANSITION_TO_SELECT)
+        {
+            host.transform.localPosition = host_initial_pos;
+            AvoidPanel.transform.localPosition = host_initial_pos;
+            AvoidPanel.transform.localScale = avoid_selecting_scale;
+            current_state = TurnState.SELECTING;
+        }
+        else if (current_state == TurnState.TRANSITION_TO_AVOID)
+        {
+            host.transform.localPosition = AvoidPanel.GetComponent<BoxCollider2D>().bounds.center;
+            AvoidPanel.transform.localPosition = avoid_initial_pos;
+            AvoidPanel.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+            AvoidPanel.transform.localScale = avoid_initial_scale;
+            current_state = TurnState.AVOIDING;
+        }
     }
 
     public void SetEnemy(EnemyCombat enemy) {
@@ -53,15 +74,14 @@ public class PlayerCombat : MonoBehaviour
 
     public void Attack()
     {
-        current_state = TurnState.AVOIDING;
+        current_state = TurnState.TRANSITION_TO_AVOID;
         enemy.TakeDamage(stats.system[0].attack);
-        host.transform.position = AvoidPanel.GetComponent<BoxCollider2D>().bounds.center;
     }
 
     public void TakeDamage(float damage)
     {
         stats.health -= damage;
-        health_bar.transform.localScale = new Vector3(stats.health / stats.max_health, 1f, 1f);
+        health_bar_image.transform.localScale = new Vector3(stats.health / stats.max_health, 1f, 1f);
         if (stats.health <= 0)
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
@@ -72,8 +92,8 @@ public class PlayerCombat : MonoBehaviour
         UIStateManagement();
         switch (current_state)
         {
-            case TurnState.AVOIDING:
-
+            case TurnState.SELECTING:
+                AvoidPanel.transform.Rotate(0f, 0f, rotation_speed);
             break;
         }
     }
