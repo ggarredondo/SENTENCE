@@ -8,9 +8,11 @@ public enum TurnState
 {
     WAITING,
     SELECTING,
-    TRANSITION_TO_AVOID,
+    AVOIDING,
+    TRANSITION_TO_FIGHT,
     TRANSITION_TO_SELECT,
-    AVOIDING
+    TRANSITION_TO_AVOID,
+    TRANSITION_TO_END,
 }
 
 public class PlayerCombat : MonoBehaviour
@@ -41,17 +43,17 @@ public class PlayerCombat : MonoBehaviour
         avoid_initial_pos = AvoidPanel.transform.localPosition;
         avoid_initial_scale = AvoidPanel.transform.localScale;
         avoid_selecting_scale = new Vector3(0.3f, 0.3f, 1f);
-        AvoidPanel.transform.localPosition = host_initial_pos;
-        AvoidPanel.transform.localScale = avoid_selecting_scale;
     }
 
     private void UIStateManagement()
     {
-        CombatUI.SetActive(current_state != TurnState.WAITING);
+        CombatUI.SetActive(current_state != TurnState.WAITING && current_state != TurnState.TRANSITION_TO_FIGHT);
         AlterSystemUI.SetActive(current_state == TurnState.SELECTING || current_state == TurnState.WAITING);
         ActionMenu.SetActive(current_state == TurnState.SELECTING);
         health_bar.SetActive(current_state == TurnState.AVOIDING);
-        if (current_state == TurnState.TRANSITION_TO_SELECT)
+        if (current_state == TurnState.TRANSITION_TO_FIGHT)
+            current_state = TurnState.TRANSITION_TO_SELECT;
+        else if (current_state == TurnState.TRANSITION_TO_SELECT)
         {
             host.transform.localPosition = host_initial_pos;
             AvoidPanel.transform.localPosition = host_initial_pos;
