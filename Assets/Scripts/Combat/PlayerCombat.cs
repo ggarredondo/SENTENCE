@@ -12,7 +12,8 @@ public enum TurnState
     TRANSITION_TO_FIGHT,
     TRANSITION_TO_SELECT,
     TRANSITION_TO_AVOID,
-    TRANSITION_TO_END,
+    TRANSITION_TO_PLAYERS_DEATH,
+    TRANSITION_TO_ENEMYS_DEATH
 }
 
 public class PlayerCombat : MonoBehaviour
