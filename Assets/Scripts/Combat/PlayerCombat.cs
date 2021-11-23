@@ -9,6 +9,7 @@ public enum TurnState
     WAITING,
     SELECTING,
     AVOIDING,
+    ATTACKING,
     TRANSITION_TO_FIGHT,
     TRANSITION_TO_SELECT,
     TRANSITION_TO_AVOID,
@@ -50,13 +51,42 @@ public class PlayerCombat : MonoBehaviour
     private void UIStateManagement()
     {
         CombatUI.SetActive(current_state != TurnState.WAITING && current_state != TurnState.TRANSITION_TO_FIGHT);
-        AlterSystemUI.SetActive(current_state == TurnState.SELECTING || current_state == TurnState.WAITING);
+        AlterSystemUI.SetActive(current_state == TurnState.SELECTING || current_state == TurnState.WAITING || 
+            current_state == TurnState.ATTACKING);
         ActionMenu.SetActive(current_state == TurnState.SELECTING);
         health_bar.SetActive(current_state == TurnState.AVOIDING);
+    }
 
+    public void SetEnemy(EnemyCombat enemy) {
+        this.enemy = enemy;
+    }
+
+    public void Attack()
+    {
+        current_state = TurnState.ATTACKING;
+        enemy.TakeDamage(stats.system[0].attack);
+    }
+
+    public void TakeDamage(float damage)
+    {
+        stats.health -= damage;
+        health_bar_image.transform.localScale = new Vector3(stats.health / stats.max_health, 1f, 1f);
+        if (stats.health <= 0)
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        UIStateManagement();
         switch (current_state)
         {
             case TurnState.SELECTING:
+                AvoidPanel.transform.Rotate(0f, 0f, Time.deltaTime * rotation_speed);
+                timer = Time.time + transition_time;
+                break;
+
+            case TurnState.ATTACKING:
                 AvoidPanel.transform.Rotate(0f, 0f, Time.deltaTime * rotation_speed);
                 timer = Time.time + transition_time;
                 break;
@@ -79,8 +109,8 @@ public class PlayerCombat : MonoBehaviour
                 AvoidPanel.transform.localPosition = Vector2.Lerp(AvoidPanel.transform.localPosition, host_initial_pos,
                   Time.deltaTime * transition_speed);
 
-                AvoidPanel.transform.localScale = Vector3.MoveTowards(AvoidPanel.transform.localScale, avoid_select_scale,
-                  Time.deltaTime * transition_speed * 0.5f);
+                AvoidPanel.transform.localScale = Vector3.Lerp(AvoidPanel.transform.localScale, avoid_select_scale,
+                  Time.deltaTime * transition_speed);
 
                 if (timer <= Time.time)
                 {
@@ -101,8 +131,8 @@ public class PlayerCombat : MonoBehaviour
                 AvoidPanel.transform.localPosition = Vector2.Lerp(AvoidPanel.transform.localPosition, avoid_initial_pos,
                   Time.deltaTime * transition_speed);
 
-                AvoidPanel.transform.localScale = Vector3.MoveTowards(AvoidPanel.transform.localScale, avoid_initial_scale,
-                  Time.deltaTime * transition_speed * 0.5f);
+                AvoidPanel.transform.localScale = Vector3.Lerp(AvoidPanel.transform.localScale, avoid_initial_scale,
+                  Time.deltaTime * transition_speed);
 
                 if (timer <= Time.time)
                 {
@@ -114,29 +144,5 @@ public class PlayerCombat : MonoBehaviour
                 }
                 break;
         }
-    }
-
-    public void SetEnemy(EnemyCombat enemy) {
-        this.enemy = enemy;
-    }
-
-    public void Attack()
-    {
-        current_state = TurnState.TRANSITION_TO_AVOID;
-        enemy.TakeDamage(stats.system[0].attack);
-    }
-
-    public void TakeDamage(float damage)
-    {
-        stats.health -= damage;
-        health_bar_image.transform.localScale = new Vector3(stats.health / stats.max_health, 1f, 1f);
-        if (stats.health <= 0)
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        UIStateManagement();
     }
 }

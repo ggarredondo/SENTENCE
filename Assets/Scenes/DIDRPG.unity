@@ -1967,7 +1967,7 @@ Transform:
   - {fileID: 562063158}
   - {fileID: 358333647}
   m_Father: {fileID: 1114203647}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &209935397
 PrefabInstance:
@@ -5376,7 +5376,7 @@ RectTransform:
   - {fileID: 951507333}
   - {fileID: 781727490}
   m_Father: {fileID: 1114203647}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5868,8 +5868,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1244834527}
+  m_Children: []
   m_Father: {fileID: 1114203647}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8988,6 +8987,8 @@ MonoBehaviour:
   UI: {fileID: 432792654}
   enemy_object: {fileID: 1102831699}
   player_object: {fileID: 1815206595}
+  depletion_transition_time: 2
+  depletion_transition_speed: 2
 --- !u!4 &1104363553 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6126135561446613998, guid: 70df45a515cff944c9cc4515e1f5cb2e, type: 3}
@@ -9091,6 +9092,7 @@ RectTransform:
   m_Children:
   - {fileID: 704160537}
   - {fileID: 734466119}
+  - {fileID: 1244834527}
   - {fileID: 707425837}
   - {fileID: 1612080895}
   - {fileID: 206756832}
@@ -10564,13 +10566,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1244834526}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 248.57689, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 514799108}
   - {fileID: 1942820960}
-  m_Father: {fileID: 734466119}
-  m_RootOrder: 0
+  m_Father: {fileID: 1114203647}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1245108223
 PrefabInstance:
@@ -12011,7 +12013,7 @@ RectTransform:
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children: []
   m_Father: {fileID: 1114203647}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -12986,7 +12988,7 @@ Transform:
   m_LocalScale: {x: 2.6086957, y: 2.6086957, z: 2.6086957}
   m_Children: []
   m_Father: {fileID: 1114203647}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1527911831 stripped
 Transform:
@@ -13538,7 +13540,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1114203647}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
