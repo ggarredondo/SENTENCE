@@ -23,7 +23,7 @@ public class PlayerCombat : MonoBehaviour
     public GameObject UI;
     EnemyCombat enemy;
     public TurnState current_state = TurnState.WAITING;
-    public float rotation_speed = 200f, selecting_scale = 0.3f, transition_speed = 4f, transition_time = 1f;
+    public float rotation_speed = -200f, selecting_scale = 0.3f, transition_speed = 4f, transition_time = 1f;
 
     private GameObject AlterSystemUI, CombatUI, ActionMenu, AvoidPanel, health_bar, mana_bar;
     private Image health_bar_image, host;
@@ -61,15 +61,34 @@ public class PlayerCombat : MonoBehaviour
                 timer = Time.time + transition_time;
                 break;
 
+            case TurnState.AVOIDING:
+                timer = Time.time + transition_time;
+                break;
+
             case TurnState.TRANSITION_TO_FIGHT:
                 current_state = TurnState.TRANSITION_TO_SELECT;
                 break;
 
             case TurnState.TRANSITION_TO_SELECT:
-                host.transform.localPosition = host_initial_pos;
-                AvoidPanel.transform.localPosition = host_initial_pos;
-                AvoidPanel.transform.localScale = avoid_select_scale;
-                current_state = TurnState.SELECTING;
+                AvoidPanel.transform.localRotation = Quaternion.Lerp(AvoidPanel.transform.localRotation, Quaternion.Euler(0f, 0f, 180f),
+                    Time.deltaTime * transition_speed);
+
+                host.transform.localPosition = Vector2.Lerp(host.transform.localPosition, host_initial_pos,
+                   Time.deltaTime * transition_speed);
+
+                AvoidPanel.transform.localPosition = Vector2.Lerp(AvoidPanel.transform.localPosition, host_initial_pos,
+                  Time.deltaTime * transition_speed);
+
+                AvoidPanel.transform.localScale = Vector3.MoveTowards(AvoidPanel.transform.localScale, avoid_select_scale,
+                  Time.deltaTime * transition_speed * 0.5f);
+
+                if (timer <= Time.time)
+                {
+                    host.transform.localPosition = host_initial_pos;
+                    AvoidPanel.transform.localPosition = host_initial_pos;
+                    AvoidPanel.transform.localScale = avoid_select_scale;
+                    current_state = TurnState.SELECTING;
+                }
                 break;
 
             case TurnState.TRANSITION_TO_AVOID:

@@ -15075,7 +15075,7 @@ MonoBehaviour:
   player: {fileID: 1815206596}
   UI: {fileID: 432792654}
   current_state: 0
-  rotation_speed: 200
+  rotation_speed: -200
   selecting_scale: 0.3
   transition_speed: 4
   transition_time: 1
