@@ -23,11 +23,12 @@ public class PlayerCombat : MonoBehaviour
     public GameObject UI;
     EnemyCombat enemy;
     public TurnState current_state = TurnState.WAITING;
-    public float rotation_speed = 1f;
+    public float rotation_speed = 200f, selecting_scale = 0.3f, transition_speed = 4f, transition_time = 1f;
 
     private GameObject AlterSystemUI, CombatUI, ActionMenu, AvoidPanel, health_bar, mana_bar;
     private Image health_bar_image, host;
-    private Vector3 host_initial_pos, avoid_initial_pos, avoid_initial_scale, avoid_selecting_scale;
+    private Vector3 host_initial_pos, avoid_initial_pos, avoid_initial_scale, avoid_select_scale;
+    private float timer;
 
     private void Start()
     {
@@ -43,7 +44,7 @@ public class PlayerCombat : MonoBehaviour
         host_initial_pos = host.transform.localPosition;
         avoid_initial_pos = AvoidPanel.transform.localPosition;
         avoid_initial_scale = AvoidPanel.transform.localScale;
-        avoid_selecting_scale = new Vector3(0.3f, 0.3f, 1f);
+        avoid_select_scale = new Vector3(selecting_scale, selecting_scale, 1f);
     }
 
     private void UIStateManagement()
@@ -52,22 +53,47 @@ public class PlayerCombat : MonoBehaviour
         AlterSystemUI.SetActive(current_state == TurnState.SELECTING || current_state == TurnState.WAITING);
         ActionMenu.SetActive(current_state == TurnState.SELECTING);
         health_bar.SetActive(current_state == TurnState.AVOIDING);
-        if (current_state == TurnState.TRANSITION_TO_FIGHT)
-            current_state = TurnState.TRANSITION_TO_SELECT;
-        else if (current_state == TurnState.TRANSITION_TO_SELECT)
+
+        switch (current_state)
         {
-            host.transform.localPosition = host_initial_pos;
-            AvoidPanel.transform.localPosition = host_initial_pos;
-            AvoidPanel.transform.localScale = avoid_selecting_scale;
-            current_state = TurnState.SELECTING;
-        }
-        else if (current_state == TurnState.TRANSITION_TO_AVOID)
-        {
-            host.transform.localPosition = AvoidPanel.GetComponent<BoxCollider2D>().bounds.center;
-            AvoidPanel.transform.localPosition = avoid_initial_pos;
-            AvoidPanel.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-            AvoidPanel.transform.localScale = avoid_initial_scale;
-            current_state = TurnState.AVOIDING;
+            case TurnState.SELECTING:
+                AvoidPanel.transform.Rotate(0f, 0f, Time.deltaTime * rotation_speed);
+                timer = Time.time + transition_time;
+                break;
+
+            case TurnState.TRANSITION_TO_FIGHT:
+                current_state = TurnState.TRANSITION_TO_SELECT;
+                break;
+
+            case TurnState.TRANSITION_TO_SELECT:
+                host.transform.localPosition = host_initial_pos;
+                AvoidPanel.transform.localPosition = host_initial_pos;
+                AvoidPanel.transform.localScale = avoid_select_scale;
+                current_state = TurnState.SELECTING;
+                break;
+
+            case TurnState.TRANSITION_TO_AVOID:
+                AvoidPanel.transform.localRotation = Quaternion.Lerp(AvoidPanel.transform.localRotation, Quaternion.Euler(0f, 0f, 0f),
+                    Time.deltaTime * transition_speed);
+
+                host.transform.localPosition = Vector2.Lerp(host.transform.localPosition, avoid_initial_pos,
+                   Time.deltaTime * transition_speed);
+
+                AvoidPanel.transform.localPosition = Vector2.Lerp(AvoidPanel.transform.localPosition, avoid_initial_pos,
+                  Time.deltaTime * transition_speed);
+
+                AvoidPanel.transform.localScale = Vector3.MoveTowards(AvoidPanel.transform.localScale, avoid_initial_scale,
+                  Time.deltaTime * transition_speed * 0.5f);
+
+                if (timer <= Time.time)
+                {
+                    host.transform.localPosition = avoid_initial_pos;
+                    AvoidPanel.transform.localPosition = avoid_initial_pos;
+                    AvoidPanel.transform.localScale = avoid_initial_scale;
+                    AvoidPanel.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+                    current_state = TurnState.AVOIDING;
+                }
+                break;
         }
     }
 
@@ -93,11 +119,5 @@ public class PlayerCombat : MonoBehaviour
     void Update()
     {
         UIStateManagement();
-        switch (current_state)
-        {
-            case TurnState.SELECTING:
-                AvoidPanel.transform.Rotate(0f, 0f, rotation_speed);
-            break;
-        }
     }
 }
