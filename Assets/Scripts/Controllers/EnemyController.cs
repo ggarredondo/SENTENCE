@@ -23,6 +23,7 @@ public class EnemyController : MonoBehaviour
             if (Mathf.RoundToInt(Vector3.Distance(player.transform.position, this.transform.position)) <= 1)
             {
                 player.GetComponent<PlayerCombat>().current_state = TurnState.TRANSITION_TO_FIGHT;
+                enemy_combat.ResetHealthBar();
                 player.GetComponent<PlayerCombat>().SetEnemy(enemy_combat);
             }
         }
