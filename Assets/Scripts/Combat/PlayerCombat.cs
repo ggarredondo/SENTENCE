@@ -38,7 +38,7 @@ public class PlayerCombat : MonoBehaviour
     private Image health_bar_image, host;
     private Vector3 host_initial_pos, avoid_initial_pos, avoid_initial_scale, avoid_select_scale;
     private float timer;
-    public TransitionPhase current_phase = TransitionPhase.FIRST_PHASE;
+    private TransitionPhase current_phase = TransitionPhase.FIRST_PHASE;
 
     private void Start()
     {
@@ -63,7 +63,7 @@ public class PlayerCombat : MonoBehaviour
         CombatUI.SetActive(current_state != TurnState.WAITING && ActivateCombatUI);
         FadePanel.SetActive(current_state == TurnState.TRANSITION_TO_FIGHT || current_state == TurnState.TRANSITION_TO_ENEMYS_DEATH);
         AlterSystemUI.SetActive(current_state == TurnState.SELECTING || current_state == TurnState.WAITING || 
-            current_state == TurnState.ATTACKING && current_state == TurnState.TRANSITION_TO_ENEMYS_DEATH);
+            current_state == TurnState.ATTACKING || current_state == TurnState.TRANSITION_TO_ENEMYS_DEATH);
         ActionMenu.SetActive(current_state == TurnState.SELECTING);
         health_bar.SetActive(current_state == TurnState.AVOIDING);
     }
@@ -156,10 +156,6 @@ public class PlayerCombat : MonoBehaviour
                     current_state = TurnState.AVOIDING;
                 }
                 break;
-
-            case TurnState.TRANSITION_TO_ENEMYS_DEATH:
-                AvoidPanel.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-                break;
         }
     }
 
@@ -169,6 +165,10 @@ public class PlayerCombat : MonoBehaviour
 
     public EnemyCombat GetEnemy() {
         return enemy;
+    }
+
+    public void ResetAvoidPanelRotation() {
+        AvoidPanel.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
     }
 
     public void Attack()

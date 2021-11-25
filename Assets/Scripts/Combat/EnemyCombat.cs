@@ -111,6 +111,7 @@ public class EnemyCombat : MonoBehaviour
                             - Time.deltaTime * fade_speed);
                         if (FadePanel.GetComponent<Image>().color.a <= 0f) {
                             player.current_state = TurnState.WAITING;
+                            player.ResetAvoidPanelRotation();
                             enemy_object.SetActive(false);
                         }
                         break;
