@@ -10,6 +10,7 @@ public enum TurnState
     SELECTING,
     AVOIDING,
     ATTACKING,
+    SWITCHING,
     TRANSITION_TO_FIGHT,
     TRANSITION_TO_SELECT,
     TRANSITION_TO_AVOID,
@@ -64,6 +65,7 @@ public class PlayerCombat : MonoBehaviour
         FadePanel.SetActive(current_state == TurnState.TRANSITION_TO_FIGHT || current_state == TurnState.TRANSITION_TO_ENEMYS_DEATH);
         AlterSystemUI.SetActive((current_state == TurnState.SELECTING || current_state == TurnState.ATTACKING 
             || current_state == TurnState.TRANSITION_TO_ENEMYS_DEATH) && ActivateCombatUI);
+        AlterSystemUI.transform.Find("Alter4").gameObject.SetActive(current_state == TurnState.SWITCHING);
         ActionMenu.SetActive(current_state == TurnState.SELECTING);
         health_bar.SetActive(current_state == TurnState.AVOIDING);
     }
