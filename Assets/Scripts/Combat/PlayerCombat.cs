@@ -62,8 +62,8 @@ public class PlayerCombat : MonoBehaviour
     {
         CombatUI.SetActive(current_state != TurnState.WAITING && ActivateCombatUI);
         FadePanel.SetActive(current_state == TurnState.TRANSITION_TO_FIGHT || current_state == TurnState.TRANSITION_TO_ENEMYS_DEATH);
-        AlterSystemUI.SetActive(current_state == TurnState.SELECTING || current_state == TurnState.WAITING || 
-            current_state == TurnState.ATTACKING || current_state == TurnState.TRANSITION_TO_ENEMYS_DEATH);
+        AlterSystemUI.SetActive((current_state == TurnState.SELECTING || current_state == TurnState.ATTACKING 
+            || current_state == TurnState.TRANSITION_TO_ENEMYS_DEATH) && ActivateCombatUI);
         ActionMenu.SetActive(current_state == TurnState.SELECTING);
         health_bar.SetActive(current_state == TurnState.AVOIDING);
     }
