@@ -21407,8 +21407,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 1, g: 0, b: 0.18181801, a: 1}
-  m_EffectDistance: {x: 8, y: -8}
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 1}
+  m_EffectDistance: {x: 10, y: -10}
   m_UseGraphicAlpha: 1
 --- !u!1 &1615717660
 GameObject:
@@ -23321,7 +23321,6 @@ MonoBehaviour:
   transition_speed: 4
   transition_time: 1
   fade_speed: 0.65
-  selection_arrow_range: 1
 --- !u!1001 &1819077627
 PrefabInstance:
   m_ObjectHideFlags: 0
