@@ -63,8 +63,8 @@ public class PlayerCombat : MonoBehaviour
     {
         CombatUI.SetActive(current_state != TurnState.WAITING && ActivateCombatUI);
         FadePanel.SetActive(current_state == TurnState.TRANSITION_TO_FIGHT || current_state == TurnState.TRANSITION_TO_ENEMYS_DEATH);
-        AlterSystemUI.SetActive((current_state == TurnState.SELECTING || current_state == TurnState.ATTACKING 
-            || current_state == TurnState.TRANSITION_TO_ENEMYS_DEATH) && ActivateCombatUI);
+        AlterSystemUI.SetActive(current_state != TurnState.AVOIDING && current_state != TurnState.TRANSITION_TO_AVOID
+            && current_state != TurnState.TRANSITION_TO_SELECT && ActivateCombatUI);
         AlterSystemUI.transform.Find("Alter4").gameObject.SetActive(current_state == TurnState.SWITCHING);
         ActionMenu.SetActive(current_state == TurnState.SELECTING);
         health_bar.SetActive(current_state == TurnState.AVOIDING);
