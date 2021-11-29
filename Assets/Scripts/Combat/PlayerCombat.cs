@@ -33,19 +33,25 @@ public class PlayerCombat : MonoBehaviour
     EnemyCombat enemy;
     public TurnState current_state = TurnState.WAITING;
     public bool ActivateCombatUI = false;
-    public float rotation_speed = -200f, selecting_scale = 0.3f, transition_speed = 4f, transition_time = 1f, fade_speed = 0.65f;
+    public float rotation_speed = -200f, selecting_scale = 0.3f, transition_speed = 4f, transition_time = 1f, fade_speed = 0.65f,
+        alterUI_transition_threshold = 0.005f;
+    public int switch_max = 1;
 
-    private GameObject AlterSystemUI, CombatUI, ActionMenu, AvoidPanel, FadePanel, health_bar, mana_bar;
+    private GameObject AlterSystemUI, CombatUI, ActionMenu, AvoidPanel, FadePanel, SelectionArrow, health_bar, mana_bar;
+    private Button AttackButton, DefendButton, MagicButton, SwitchButton;
     private Image health_bar_image, host;
+    private List<GameObject> AlterImages;
     private Vector3 host_initial_pos, avoid_initial_pos, avoid_initial_scale, avoid_select_scale;
     private float timer;
     private TransitionPhase current_phase = TransitionPhase.FIRST_PHASE;
-    private Alter current_alter;
+    private int current_alter = 0, switch_number, switch_counter = 0, off_screen_alter;
+    private bool ActivateAlterUI;
+    private Quaternion alterUI_target_angle;
 
     private void Start()
     {
-        AlterSystemUI = UI.transform.Find("AlterSystemUI").gameObject;
         CombatUI = UI.transform.Find("CombatUI").gameObject;
+        AlterSystemUI = CombatUI.transform.Find("AlterSystemUI").gameObject;
         ActionMenu = CombatUI.transform.Find("ActionMenu").gameObject;
         AvoidPanel = CombatUI.transform.Find("AvoidPanel").gameObject;
         FadePanel = UI.transform.Find("Fade").Find("FadePanel").gameObject;
@@ -58,35 +64,54 @@ public class PlayerCombat : MonoBehaviour
         avoid_initial_pos = AvoidPanel.transform.localPosition;
         avoid_initial_scale = AvoidPanel.transform.localScale;
         avoid_select_scale = new Vector3(selecting_scale, selecting_scale, 1f);
-        current_alter = stats.system[0];
+        off_screen_alter = 2;
+        AttackButton = ActionMenu.transform.Find("AttackButton").GetComponent<Button>();
+        DefendButton = ActionMenu.transform.Find("DefendButton").GetComponent<Button>();
+        MagicButton = ActionMenu.transform.Find("MagicButton").GetComponent<Button>();
+        SwitchButton = ActionMenu.transform.Find("SwitchButton").GetComponent<Button>();
+        AlterImages = new List<GameObject>();
+        AlterImages.Add(AlterSystemUI.transform.Find("Alter1").gameObject);
+        AlterImages.Add(AlterSystemUI.transform.Find("Alter2").gameObject);
+        AlterImages.Add(AlterSystemUI.transform.Find("Alter3").gameObject);
+        AlterImages.Add(AlterSystemUI.transform.Find("Alter4").gameObject);
+        SelectionArrow = CombatUI.transform.Find("SelectionArrow").gameObject;
     }
 
     private void AlterUISpriteUpdate()
     {
-        AlterSystemUI.transform.Find("Alter1").Find("SpriteContainer").Find("Sprite").GetComponent<Image>().sprite = stats.system[0].sprite;
-        if (stats.system[1] != null)
-            AlterSystemUI.transform.Find("Alter2").Find("SpriteContainer").Find("Sprite").GetComponent<Image>().sprite = stats.system[1].sprite;
-        if (stats.system[2] != null)
-            AlterSystemUI.transform.Find("Alter3").Find("SpriteContainer").Find("Sprite").GetComponent<Image>().sprite = stats.system[2].sprite;
-        if (stats.system[3] != null)
-            AlterSystemUI.transform.Find("Alter4").Find("SpriteContainer").Find("Sprite").GetComponent<Image>().sprite = stats.system[3].sprite;
+        AlterImages[0].transform.Find("SpriteContainer").Find("Sprite").GetComponent<Image>().sprite = stats.system[0].sprite;
+        if (stats.system.Count >= 2)
+            AlterImages[1].transform.Find("SpriteContainer").Find("Sprite").GetComponent<Image>().sprite = stats.system[1].sprite;
+        else
+            AlterImages[1].transform.Find("SpriteContainer").Find("Sprite").GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
+        if (stats.system.Count >= 3)
+            AlterImages[2].transform.Find("SpriteContainer").Find("Sprite").GetComponent<Image>().sprite = stats.system[2].sprite;
+        else
+            AlterImages[2].transform.Find("SpriteContainer").Find("Sprite").GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
+        if (stats.system.Count >= 4)
+            AlterImages[3].transform.Find("SpriteContainer").Find("Sprite").GetComponent<Image>().sprite = stats.system[3].sprite;
+        else
+            AlterImages[3].transform.Find("SpriteContainer").Find("Sprite").GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
     }
 
     private void UIStateManagement()
     {
         CombatUI.SetActive(current_state != TurnState.WAITING && ActivateCombatUI);
         FadePanel.SetActive(current_state == TurnState.TRANSITION_TO_FIGHT || current_state == TurnState.TRANSITION_TO_ENEMYS_DEATH);
-        AlterSystemUI.SetActive(current_state != TurnState.AVOIDING && current_state != TurnState.TRANSITION_TO_AVOID
-            && current_state != TurnState.TRANSITION_TO_SELECT && ActivateCombatUI);
-        AlterSystemUI.transform.Find("Alter4").gameObject.SetActive(current_state == TurnState.SWITCHING);
+        ActivateAlterUI = current_state != TurnState.AVOIDING && current_state != TurnState.TRANSITION_TO_AVOID
+            && current_state != TurnState.TRANSITION_TO_SELECT;
+        AlterSystemUI.SetActive(ActivateAlterUI);
+        SelectionArrow.SetActive(ActivateAlterUI);
+        AlterImages[off_screen_alter].SetActive(current_state == TurnState.SWITCHING);
         ActionMenu.SetActive(current_state == TurnState.SELECTING);
         health_bar.SetActive(current_state == TurnState.AVOIDING);
+        SwitchButton.interactable = switch_counter < switch_max && stats.system.Count > 1;
     }
 
     private void ScriptAnimation()
     {
         if (current_state == TurnState.SELECTING || current_state == TurnState.ATTACKING 
-            || current_state == TurnState.TRANSITION_TO_ENEMYS_DEATH)
+            || current_state == TurnState.TRANSITION_TO_ENEMYS_DEATH || current_state == TurnState.SWITCHING)
         {
             AvoidPanel.transform.Rotate(0f, 0f, Time.deltaTime * rotation_speed);
             timer = Time.time + transition_time;
@@ -98,6 +123,7 @@ public class PlayerCombat : MonoBehaviour
                 switch (current_phase)
                 {
                     case TransitionPhase.FIRST_PHASE:
+                        AlterUISpriteUpdate();
                         AvoidPanel.transform.localPosition = host_initial_pos;
                         AvoidPanel.transform.localScale = avoid_select_scale;
                         current_phase = TransitionPhase.SECOND_PHASE;
@@ -145,6 +171,7 @@ public class PlayerCombat : MonoBehaviour
                     host.transform.localPosition = host_initial_pos;
                     AvoidPanel.transform.localPosition = host_initial_pos;
                     AvoidPanel.transform.localScale = avoid_select_scale;
+                    switch_counter = 0;
                     current_state = TurnState.SELECTING;
                 }
                 break;
@@ -171,6 +198,22 @@ public class PlayerCombat : MonoBehaviour
                     current_state = TurnState.AVOIDING;
                 }
                 break;
+
+            case TurnState.SWITCHING:
+                AlterSystemUI.transform.localRotation = Quaternion.Lerp(AlterSystemUI.transform.localRotation, 
+                    alterUI_target_angle, Time.deltaTime * transition_speed);
+                foreach (GameObject AlterImage in AlterImages)
+                    AlterImage.transform.localRotation = Quaternion.Euler(-AlterSystemUI.transform.localRotation.eulerAngles);
+                if (Vector3.Distance(AlterSystemUI.transform.localRotation.eulerAngles, alterUI_target_angle.eulerAngles) 
+                    <= alterUI_transition_threshold)
+                {
+                    AlterSystemUI.transform.localRotation = alterUI_target_angle;
+                    foreach (GameObject AlterImage in AlterImages)
+                        AlterImage.transform.localRotation = Quaternion.Euler(0f, 0f, -alterUI_target_angle.eulerAngles.z);
+                    off_screen_alter = (off_screen_alter + switch_number) % 4;
+                    current_state = TurnState.SELECTING;
+                }
+                break;
         }
     }
 
@@ -189,12 +232,22 @@ public class PlayerCombat : MonoBehaviour
     public void Attack()
     {
         current_state = TurnState.ATTACKING;
-        enemy.TakeDamage(current_alter.attack);
+        enemy.TakeDamage(stats.system[current_alter].attack);
+    }
+
+    public void Switch() {
+        ++switch_counter;
+        for (switch_number = 1; AlterImages[(current_alter + switch_number) % 4].transform.Find("SpriteContainer")
+            .Find("Sprite").GetComponent<Image>().color.a == 0f; ++switch_number)
+        { }
+        alterUI_target_angle = Quaternion.Euler(new Vector3(0f, 0f, 90f * switch_number) + AlterSystemUI.transform.localRotation.eulerAngles);
+        current_alter = (current_alter + switch_number) % 4;
+        current_state = TurnState.SWITCHING;
     }
 
     public void TakeDamage(float damage)
     {
-        stats.health -= Mathf.Round(damage - damage * current_alter.resilience * 0.01f);
+        stats.health -= Mathf.Round(damage - damage * stats.system[current_alter].resilience * 0.01f);
         health_bar_image.transform.localScale = new Vector3(stats.health / stats.max_health, 1f, 1f);
         if (stats.health <= 0)
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
