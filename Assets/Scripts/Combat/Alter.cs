@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum Type
 {
+    Protector,
     Caretaker,
     Persecutor,
     Gatekeeper,
@@ -27,6 +28,5 @@ public class Alter
     // stats
     public Type type;
     public float attack; // to damage traumas
-    public float resilience; // to resist emotional attacks and stay in front
-    public float priority; // for switching
+    public float resilience; // to resist emotional attacks
 }

@@ -40,6 +40,7 @@ public class PlayerCombat : MonoBehaviour
     private Vector3 host_initial_pos, avoid_initial_pos, avoid_initial_scale, avoid_select_scale;
     private float timer;
     private TransitionPhase current_phase = TransitionPhase.FIRST_PHASE;
+    private Alter current_alter;
 
     private void Start()
     {
@@ -57,6 +58,18 @@ public class PlayerCombat : MonoBehaviour
         avoid_initial_pos = AvoidPanel.transform.localPosition;
         avoid_initial_scale = AvoidPanel.transform.localScale;
         avoid_select_scale = new Vector3(selecting_scale, selecting_scale, 1f);
+        current_alter = stats.system[0];
+    }
+
+    private void AlterUISpriteUpdate()
+    {
+        AlterSystemUI.transform.Find("Alter1").Find("SpriteContainer").Find("Sprite").GetComponent<Image>().sprite = stats.system[0].sprite;
+        if (stats.system[1] != null)
+            AlterSystemUI.transform.Find("Alter2").Find("SpriteContainer").Find("Sprite").GetComponent<Image>().sprite = stats.system[1].sprite;
+        if (stats.system[2] != null)
+            AlterSystemUI.transform.Find("Alter3").Find("SpriteContainer").Find("Sprite").GetComponent<Image>().sprite = stats.system[2].sprite;
+        if (stats.system[3] != null)
+            AlterSystemUI.transform.Find("Alter4").Find("SpriteContainer").Find("Sprite").GetComponent<Image>().sprite = stats.system[3].sprite;
     }
 
     private void UIStateManagement()
@@ -176,12 +189,12 @@ public class PlayerCombat : MonoBehaviour
     public void Attack()
     {
         current_state = TurnState.ATTACKING;
-        enemy.TakeDamage(stats.system[0].attack);
+        enemy.TakeDamage(current_alter.attack);
     }
 
     public void TakeDamage(float damage)
     {
-        stats.health -= damage;
+        stats.health -= Mathf.Round(damage - damage * current_alter.resilience * 0.01f);
         health_bar_image.transform.localScale = new Vector3(stats.health / stats.max_health, 1f, 1f);
         if (stats.health <= 0)
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
