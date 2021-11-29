@@ -204,7 +204,7 @@ public class PlayerCombat : MonoBehaviour
                     alterUI_target_angle, Time.deltaTime * transition_speed);
                 foreach (GameObject AlterImage in AlterImages)
                     AlterImage.transform.localRotation = Quaternion.Euler(-AlterSystemUI.transform.localRotation.eulerAngles);
-                if (Vector3.Distance(AlterSystemUI.transform.localRotation.eulerAngles, alterUI_target_angle.eulerAngles) 
+                if (Vector3.Distance(AlterSystemUI.transform.localRotation.eulerAngles, alterUI_target_angle.eulerAngles)
                     <= alterUI_transition_threshold)
                 {
                     AlterSystemUI.transform.localRotation = alterUI_target_angle;
