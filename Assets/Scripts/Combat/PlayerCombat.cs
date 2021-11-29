@@ -33,8 +33,7 @@ public class PlayerCombat : MonoBehaviour
     EnemyCombat enemy;
     public TurnState current_state = TurnState.WAITING;
     public bool ActivateCombatUI = false;
-    public float rotation_speed = -200f, selecting_scale = 0.3f, transition_speed = 4f, transition_time = 1f, fade_speed = 0.65f,
-        alterUI_transition_threshold = 0.005f;
+    public float rotation_speed = -200f, selecting_scale = 0.3f, transition_speed = 4f, transition_time = 1f, fade_speed = 0.65f;
     public int switch_max = 1;
 
     private GameObject AlterSystemUI, CombatUI, ActionMenu, AvoidPanel, FadePanel, SelectionArrow, health_bar, mana_bar;
@@ -111,7 +110,7 @@ public class PlayerCombat : MonoBehaviour
     private void ScriptAnimation()
     {
         if (current_state == TurnState.SELECTING || current_state == TurnState.ATTACKING 
-            || current_state == TurnState.TRANSITION_TO_ENEMYS_DEATH || current_state == TurnState.SWITCHING)
+            || current_state == TurnState.TRANSITION_TO_ENEMYS_DEATH)
         {
             AvoidPanel.transform.Rotate(0f, 0f, Time.deltaTime * rotation_speed);
             timer = Time.time + transition_time;
@@ -200,12 +199,13 @@ public class PlayerCombat : MonoBehaviour
                 break;
 
             case TurnState.SWITCHING:
+                AvoidPanel.transform.Rotate(0f, 0f, Time.deltaTime * rotation_speed);
+
                 AlterSystemUI.transform.localRotation = Quaternion.Lerp(AlterSystemUI.transform.localRotation, 
                     alterUI_target_angle, Time.deltaTime * transition_speed);
                 foreach (GameObject AlterImage in AlterImages)
                     AlterImage.transform.localRotation = Quaternion.Euler(-AlterSystemUI.transform.localRotation.eulerAngles);
-                if (Vector3.Distance(AlterSystemUI.transform.localRotation.eulerAngles, alterUI_target_angle.eulerAngles)
-                    <= alterUI_transition_threshold)
+                if (timer <= Time.time)
                 {
                     AlterSystemUI.transform.localRotation = alterUI_target_angle;
                     foreach (GameObject AlterImage in AlterImages)
