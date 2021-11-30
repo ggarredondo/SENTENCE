@@ -7,6 +7,6 @@ public class PlayerStats
 {
     public float level, experience;
     public float health, max_health;
-    public float mana, max_mana;
+    public float mana, max_mana, mana_regen;
     public List<Alter> system;
 }

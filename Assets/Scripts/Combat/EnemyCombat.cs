@@ -63,6 +63,9 @@ public class EnemyCombat : MonoBehaviour
 
     private void ScriptAnimation()
     {
+        if (player.current_state == TurnState.ATTACKING || player.current_state == TurnState.DEFENDING)
+            timer = Time.time + interval; //temp
+
         switch (player.current_state)
         {
             case TurnState.AVOIDING:
@@ -79,7 +82,6 @@ public class EnemyCombat : MonoBehaviour
                     cut_animation.GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
                     cut_animation.SetActive(false);          
                 }
-                timer = Time.time + interval; //temp
                 break;
 
             case TurnState.TRANSITION_TO_ENEMYS_DEATH:
