@@ -35,7 +35,7 @@ public class PlayerCombat : MonoBehaviour
     public TurnState current_state = TurnState.WAITING;
     public bool ActivateCombatUI = false;
     public float rotation_speed = -200f, selecting_scale = 0.3f, transition_speed = 4f, transition_time = 1f, fade_speed = 0.65f,
-        depletion_transition_threshold = 0.005f;
+        depletion_transition_threshold = 0.005f, attack_multiplier = 1f;
     public int switch_max = 1;
 
     private GameObject AlterSystemUI, CombatUI, ActionMenu, AvoidPanel, FadePanel, SelectionArrow, health_bar, mana_bar, shield;
@@ -78,6 +78,7 @@ public class PlayerCombat : MonoBehaviour
         AlterImages.Add(AlterSystemUI.transform.Find("Alter4").gameObject);
         SelectionArrow = CombatUI.transform.Find("SelectionArrow").gameObject;
         shield = host.transform.Find("DefendingShield").gameObject;
+        shield.GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
     }
 
     private void AlterUISpriteUpdate()
@@ -108,7 +109,6 @@ public class PlayerCombat : MonoBehaviour
         AlterImages[off_screen_alter].SetActive(current_state == TurnState.SWITCHING);
         ActionMenu.SetActive(current_state == TurnState.SELECTING);
         mana_bar.SetActive(current_state == TurnState.SELECTING || current_state == TurnState.DEFENDING);
-        shield.SetActive(defending);
         health_bar.SetActive(current_state == TurnState.AVOIDING);
         SwitchButton.interactable = switch_counter < switch_max && stats.system.Count > 1;
     }
@@ -126,6 +126,14 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
+    private void FadeImage(Image img, float fade_speed, float max) {
+        img.color = new Color(1f, 1f, 1f, img.color.a + Time.deltaTime * fade_speed);
+        if (img.color.a > max)
+            img.color = new Color(1f, 1f, 1f, max);
+        else if (img.color.a < 0)
+            img.color = new Color(1f, 1f, 1f, 0f);
+    }
+
     private void ScriptAnimation()
     {
         if (current_state == TurnState.SELECTING || current_state == TurnState.ATTACKING 
@@ -134,6 +142,11 @@ public class PlayerCombat : MonoBehaviour
             AvoidPanel.transform.Rotate(0f, 0f, Time.deltaTime * rotation_speed);
             timer = Time.time + transition_time;
         }
+
+        if (defending)
+            FadeImage(shield.GetComponent<Image>(), fade_speed, 0.5f);
+        else
+            FadeImage(shield.GetComponent<Image>(), -fade_speed, 0.5f);
 
         switch (current_state)
         {
@@ -172,6 +185,8 @@ public class PlayerCombat : MonoBehaviour
                 break;
 
             case TurnState.TRANSITION_TO_SELECT:
+                defending = false;
+
                 AvoidPanel.transform.localRotation = Quaternion.Lerp(AvoidPanel.transform.localRotation, Quaternion.Euler(0f, 0f, 180f),
                     Time.deltaTime * transition_speed);
 
@@ -186,7 +201,6 @@ public class PlayerCombat : MonoBehaviour
 
                 if (timer <= Time.time)
                 {
-                    defending = false;
                     host.transform.localPosition = host_initial_pos;
                     AvoidPanel.transform.localPosition = host_initial_pos;
                     AvoidPanel.transform.localScale = avoid_select_scale;
@@ -256,7 +270,7 @@ public class PlayerCombat : MonoBehaviour
     public void Attack()
     {
         current_state = TurnState.ATTACKING;
-        enemy.TakeDamage(stats.system[current_alter].attack);
+        enemy.TakeDamage(stats.system[current_alter].attack * attack_multiplier);
     }
 
     public void Defend()

@@ -9793,6 +9793,7 @@ MonoBehaviour:
   transition_time: 1
   fade_speed: 0.65
   depletion_transition_threshold: 0.005
+  attack_multiplier: 1
   switch_max: 1
 --- !u!4 &1817900696 stripped
 Transform:
