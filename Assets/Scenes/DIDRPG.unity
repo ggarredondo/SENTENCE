@@ -9762,6 +9762,10 @@ MonoBehaviour:
       type: 3
       attack: 10
       resilience: 10
+      skill1: 4
+      skill2: 0
+      skill3: 0
+      skill4: 0
     - sprite: {fileID: 21300000, guid: 7b2cd9ab584b4e44d8505bc0ea1a7070, type: 3}
       name: Arathorn
       age: 22
@@ -9769,6 +9773,10 @@ MonoBehaviour:
       type: 3
       attack: 15
       resilience: 30
+      skill1: 0
+      skill2: 0
+      skill3: 0
+      skill4: 0
     - sprite: {fileID: 21300000, guid: c984336789e88c344a1c8e5a43be7473, type: 3}
       name: Cinderella
       age: 3000
@@ -9776,6 +9784,10 @@ MonoBehaviour:
       type: 6
       attack: 5
       resilience: 5
+      skill1: 2
+      skill2: 3
+      skill3: 0
+      skill4: 0
     - sprite: {fileID: 21300000, guid: 2f27906a1466f5541a9f3ee62c817cab, type: 3}
       name: Brunhilda
       age: 63
@@ -9783,6 +9795,10 @@ MonoBehaviour:
       type: 1
       attack: 5
       resilience: 20
+      skill1: 1
+      skill2: 0
+      skill3: 0
+      skill4: 0
   player: {fileID: 1815206596}
   UI: {fileID: 432792654}
   current_state: 0
