@@ -14,15 +14,6 @@ public enum Type
     Fragment
 }
 
-public enum MagicSkills
-{
-    None,
-    Heal,
-    Sharpen,
-    Harden,
-    Switch
-}
-
 [System.Serializable]
 public class Alter
 {
@@ -40,8 +31,5 @@ public class Alter
     public float resilience; // to resist emotional attacks
 
     // skills
-    public MagicSkills skill1 = MagicSkills.None, 
-        skill2 = MagicSkills.None, 
-        skill3 = MagicSkills.None, 
-        skill4 = MagicSkills.None;
+    public List<MagicSkill> skills;
 }

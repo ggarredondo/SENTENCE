@@ -35,11 +35,12 @@ public class PlayerCombat : MonoBehaviour
     public TurnState current_state = TurnState.WAITING;
     public bool ActivateCombatUI = false;
     public float rotation_speed = -200f, selecting_scale = 0.3f, transition_speed = 4f, transition_time = 1f, fade_speed = 0.65f,
-        depletion_transition_threshold = 0.005f, attack_multiplier = 1f;
+        depletion_transition_threshold = 0.005f, attack_multiplier, max_attack_multiplier = 2f;
     public int switch_max = 1;
 
-    private GameObject AlterSystemUI, CombatUI, ActionMenu, AvoidPanel, FadePanel, SelectionArrow, health_bar, mana_bar, shield;
+    private GameObject AlterSystemUI, CombatUI, ActionMenu, MagicMenu, AvoidPanel, FadePanel, SelectionArrow, health_bar, mana_bar, shield;
     private Button MagicButton, SwitchButton;
+    private List<Button> SkillButtons;
     private Image health_bar_image, mana_forebar, host;
     private Text mana_text;
     private List<GameObject> AlterImages;
@@ -47,7 +48,7 @@ public class PlayerCombat : MonoBehaviour
     private float timer;
     private TransitionPhase current_phase = TransitionPhase.FIRST_PHASE;
     private int current_alter = 0, switch_number, switch_counter = 0, off_screen_alter;
-    private bool ActivateAlterUI, defending = false;
+    private bool ActivateAlterUI, defending = false, magic_interactable, toggle_magic_menu = false;
     private Quaternion alterUI_target_angle;
 
     private void Start()
@@ -55,6 +56,7 @@ public class PlayerCombat : MonoBehaviour
         CombatUI = UI.transform.Find("CombatUI").gameObject;
         AlterSystemUI = CombatUI.transform.Find("AlterSystemUI").gameObject;
         ActionMenu = CombatUI.transform.Find("ActionMenu").gameObject;
+        MagicMenu = ActionMenu.transform.Find("MagicMenu").gameObject;
         AvoidPanel = CombatUI.transform.Find("AvoidPanel").gameObject;
         FadePanel = UI.transform.Find("Fade").Find("FadePanel").gameObject;
         health_bar = CombatUI.transform.Find("PlayerHealthBar").gameObject;
@@ -71,6 +73,11 @@ public class PlayerCombat : MonoBehaviour
         off_screen_alter = 2;
         MagicButton = ActionMenu.transform.Find("MagicButton").GetComponent<Button>();
         SwitchButton = ActionMenu.transform.Find("SwitchButton").GetComponent<Button>();
+        SkillButtons = new List<Button>();
+        SkillButtons.Add(MagicMenu.transform.Find("Skill1Button").GetComponent<Button>());
+        SkillButtons.Add(MagicMenu.transform.Find("Skill2Button").GetComponent<Button>());
+        SkillButtons.Add(MagicMenu.transform.Find("Skill3Button").GetComponent<Button>());
+        SkillButtons.Add(MagicMenu.transform.Find("Skill4Button").GetComponent<Button>());
         AlterImages = new List<GameObject>();
         AlterImages.Add(AlterSystemUI.transform.Find("Alter1").gameObject);
         AlterImages.Add(AlterSystemUI.transform.Find("Alter2").gameObject);
@@ -98,6 +105,16 @@ public class PlayerCombat : MonoBehaviour
             AlterImages[3].transform.Find("SpriteContainer").Find("Sprite").GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
     }
 
+    private void MagicMenuUpdate()
+    {
+        magic_interactable = false;
+        for (short i = 0; i < SkillButtons.Count && !magic_interactable; ++i)
+            magic_interactable = !(stats.system[current_alter].skills[i].name == "----");
+        MagicButton.interactable = magic_interactable;
+        for (short i = 0; i < SkillButtons.Count; ++i)
+            SkillButtons[i].transform.Find("SkillText").GetComponent<Text>().text = stats.system[current_alter].skills[i].name;
+    }
+
     private void UIStateManagement()
     {
         CombatUI.SetActive(current_state != TurnState.WAITING && ActivateCombatUI);
@@ -111,6 +128,11 @@ public class PlayerCombat : MonoBehaviour
         mana_bar.SetActive(current_state == TurnState.SELECTING || current_state == TurnState.DEFENDING);
         health_bar.SetActive(current_state == TurnState.AVOIDING);
         SwitchButton.interactable = switch_counter < switch_max && stats.system.Count > 1;
+        MagicMenu.SetActive(toggle_magic_menu);
+
+        for (short i = 0; i < SkillButtons.Count; ++i)
+            SkillButtons[i].interactable = !(stats.system[current_alter].skills[i].name == "----"
+                || stats.system[current_alter].skills[i].name == "Switch" || stats.system[current_alter].skills[i].cost > stats.mana);
     }
 
     private void UpdateManaBar() {
@@ -155,8 +177,10 @@ public class PlayerCombat : MonoBehaviour
                 {
                     case TransitionPhase.FIRST_PHASE:
                         AlterUISpriteUpdate();
+                        MagicMenuUpdate();
                         AvoidPanel.transform.localPosition = host_initial_pos;
                         AvoidPanel.transform.localScale = avoid_select_scale;
+                        attack_multiplier = 1f;
                         current_phase = TransitionPhase.SECOND_PHASE;
                         break;
 
@@ -205,6 +229,7 @@ public class PlayerCombat : MonoBehaviour
                     AvoidPanel.transform.localPosition = host_initial_pos;
                     AvoidPanel.transform.localScale = avoid_select_scale;
                     switch_counter = 0;
+                    toggle_magic_menu = false;
                     current_state = TurnState.SELECTING;
                 }
                 break;
@@ -273,6 +298,10 @@ public class PlayerCombat : MonoBehaviour
         enemy.TakeDamage(stats.system[current_alter].attack * attack_multiplier);
     }
 
+    public void Magic() {
+        toggle_magic_menu = !toggle_magic_menu;
+    }
+
     public void Defend()
     {
         defending = true;
@@ -290,6 +319,7 @@ public class PlayerCombat : MonoBehaviour
         { }
         alterUI_target_angle = Quaternion.Euler(new Vector3(0f, 0f, 90f * switch_number) + AlterSystemUI.transform.localRotation.eulerAngles);
         current_alter = (current_alter + switch_number) % 4;
+        MagicMenuUpdate();
         current_state = TurnState.SWITCHING;
     }
 
