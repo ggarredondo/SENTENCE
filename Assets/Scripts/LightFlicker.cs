@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LightFlicker : MonoBehaviour
 {
-    public Light light;
+    public Light light_variable;
 
     public float minTime;
     public float maxTime;
@@ -31,7 +31,7 @@ public class LightFlicker : MonoBehaviour
 
         if (timer <= 0)
         {
-            light.enabled = !light.enabled;
+            light_variable.enabled = !light_variable.enabled;
             timer = Random.Range(minTime, maxTime);
         }
     }
