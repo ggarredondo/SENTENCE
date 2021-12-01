@@ -148,12 +148,11 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    private void FadeImage(Image img, float fade_speed, float max) {
-        img.color = new Color(1f, 1f, 1f, img.color.a + Time.deltaTime * fade_speed);
-        if (img.color.a > max)
-            img.color = new Color(1f, 1f, 1f, max);
-        else if (img.color.a < 0)
-            img.color = new Color(1f, 1f, 1f, 0f);
+    private void FadeImage(Image img, Color new_color, float fade_speed, float threshold) {
+        img.color = Color.Lerp(img.color, new_color, Time.deltaTime * fade_speed);
+        if (Vector4.Distance(new Vector4(img.color.r, img.color.g, img.color.b, img.color.a),
+            new Vector4(new_color.r, new_color.g, new_color.g, new_color.a)) <= threshold)
+            img.color = new_color;
     }
 
     private void ScriptAnimation()
@@ -166,9 +165,9 @@ public class PlayerCombat : MonoBehaviour
         }
 
         if (defending)
-            FadeImage(shield.GetComponent<Image>(), fade_speed, 0.5f);
+            FadeImage(shield.GetComponent<Image>(), new Color(1f, 1f, 1f, 0.5f), transition_speed, depletion_transition_threshold);
         else
-            FadeImage(shield.GetComponent<Image>(), -fade_speed, 0.5f);
+            FadeImage(shield.GetComponent<Image>(), new Color(1f, 1f, 1f, 0f), transition_speed, depletion_transition_threshold);
 
         switch (current_state)
         {
@@ -300,6 +299,37 @@ public class PlayerCombat : MonoBehaviour
 
     public void Magic() {
         toggle_magic_menu = !toggle_magic_menu;
+    }
+
+    private void Skill(MagicSkill mskill) {
+        switch (mskill.name)
+        {
+            case "Heal":
+                Debug.Log("Heal");
+                break;
+            case "Sharpen":
+                Debug.Log("Sharpen");
+                break;
+            case "Harden":
+                Debug.Log("Harden");
+                break;
+        }
+    }
+
+    public void Skill1() {
+        Skill(stats.system[current_alter].skills[0]);
+    }
+
+    public void Skill2() {
+        Skill(stats.system[current_alter].skills[1]);
+    }
+
+    public void Skill3() {
+        Skill(stats.system[current_alter].skills[2]);
+    }
+
+    public void Skill4() {
+        Skill(stats.system[current_alter].skills[3]);
     }
 
     public void Defend()
