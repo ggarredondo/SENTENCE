@@ -35,20 +35,22 @@ public class PlayerCombat : MonoBehaviour
     public TurnState current_state = TurnState.WAITING;
     public bool ActivateCombatUI = false;
     public float rotation_speed = -200f, selecting_scale = 0.3f, transition_speed = 4f, transition_time = 1f, fade_speed = 0.65f,
-        depletion_transition_threshold = 0.005f, attack_multiplier, max_attack_multiplier = 2f;
+        fade_threshold = 0.005f, depletion_threshold = 1f, attack_multiplier, max_attack_multiplier = 2f, defense_multiplier, 
+        max_defense_multiplier = 2f, target_health;
     public int switch_max = 1;
 
     private GameObject AlterSystemUI, CombatUI, ActionMenu, MagicMenu, AvoidPanel, FadePanel, SelectionArrow, health_bar, mana_bar, shield;
     private Button MagicButton, SwitchButton;
     private List<Button> SkillButtons;
-    private Image health_bar_image, mana_forebar, host;
+    private Image health_forebar, mana_forebar, host;
+    private Color health_forebar_color, health_forebar_regenerating;
     private Text mana_text;
     private List<GameObject> AlterImages;
     private Vector3 host_initial_pos, avoid_initial_pos, avoid_initial_scale, avoid_select_scale, target_mana_scale;
     private float timer;
     private TransitionPhase current_phase = TransitionPhase.FIRST_PHASE;
     private int current_alter = 0, switch_number, switch_counter = 0, off_screen_alter;
-    private bool ActivateAlterUI, defending = false, magic_interactable, toggle_magic_menu = false;
+    private bool ActivateAlterUI, ActivateActionMenu, defending = false, magic_interactable, toggle_magic_menu = false, regenerating;
     private Quaternion alterUI_target_angle;
 
     private void Start()
@@ -60,7 +62,9 @@ public class PlayerCombat : MonoBehaviour
         AvoidPanel = CombatUI.transform.Find("AvoidPanel").gameObject;
         FadePanel = UI.transform.Find("Fade").Find("FadePanel").gameObject;
         health_bar = CombatUI.transform.Find("PlayerHealthBar").gameObject;
-        health_bar_image = health_bar.transform.Find("ProgressForeground").GetComponent<Image>();
+        health_forebar = health_bar.transform.Find("ProgressForeground").GetComponent<Image>();
+        health_forebar_color = health_forebar.color;
+        health_forebar_regenerating = new Color(0.5f, 1f, 0f, 1f);
         mana_bar = CombatUI.transform.Find("PlayerManaBar").gameObject;
         mana_forebar = mana_bar.transform.Find("ProgressForeground").GetComponent<Image>();
         mana_text = mana_bar.transform.Find("ManaText").GetComponent<Text>();
@@ -130,23 +134,35 @@ public class PlayerCombat : MonoBehaviour
         AlterSystemUI.SetActive(ActivateAlterUI);
         SelectionArrow.SetActive(ActivateAlterUI);
         AlterImages[off_screen_alter].SetActive(current_state == TurnState.SWITCHING);
-        ActionMenu.SetActive(current_state == TurnState.SELECTING);
+        ActivateActionMenu = current_state == TurnState.SELECTING;
+        ActionMenu.SetActive(ActivateActionMenu);
+        if (!ActivateActionMenu)
+            toggle_magic_menu = false;
         mana_bar.SetActive(current_state == TurnState.SELECTING || current_state == TurnState.DEFENDING);
         health_bar.SetActive(current_state == TurnState.AVOIDING);
         SwitchButton.interactable = switch_counter < switch_max && stats.system.Count > 1;
         MagicMenu.SetActive(toggle_magic_menu);
-
         for (short i = 0; i < SkillButtons.Count; ++i)
             SkillButtons[i].interactable = !(stats.system[current_alter].skills[i].name == "----"
                 || stats.system[current_alter].skills[i].name == "Switch" || stats.system[current_alter].skills[i].cost > stats.mana);
+
+        // update health bar
+        health_forebar.transform.localScale = new Vector3(stats.health / stats.max_health, 1f, 1f);
+        regenerating = target_health > stats.health;
+        if (target_health < 0f)
+            target_health = 0f;
+        else if (target_health > stats.max_health)
+            target_health = stats.max_health;
+        if (stats.health <= 0) // temp
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // temp
     }
 
     private void UpdateManaBar() {
         mana_forebar.transform.localScale = Vector3.Lerp(mana_forebar.transform.localScale, target_mana_scale,
-                    Time.deltaTime * transition_speed);
+                    Time.deltaTime * 2f);
         mana_text.text = (Mathf.Round(mana_forebar.transform.localScale.y * stats.max_mana)).ToString() + "\n/\n"
             + stats.max_mana.ToString();
-        if (Vector3.Distance(mana_forebar.transform.localScale, target_mana_scale) <= depletion_transition_threshold)
+        if (Vector3.Distance(mana_forebar.transform.localScale, target_mana_scale) <= fade_threshold)
         {
             mana_forebar.transform.localScale = target_mana_scale;
             mana_text.text = stats.mana.ToString() + "\n/\n" + stats.max_mana.ToString();
@@ -171,9 +187,14 @@ public class PlayerCombat : MonoBehaviour
         }
 
         if (defending)
-            FadeImage(shield.GetComponent<Image>(), new Color(1f, 1f, 1f, 0.5f), transition_speed, depletion_transition_threshold);
+            FadeImage(shield.GetComponent<Image>(), new Color(1f, 1f, 1f, 0.5f), transition_speed, fade_threshold);
         else
-            FadeImage(shield.GetComponent<Image>(), new Color(1f, 1f, 1f, 0f), transition_speed, depletion_transition_threshold);
+            FadeImage(shield.GetComponent<Image>(), new Color(1f, 1f, 1f, 0f), transition_speed, fade_threshold);
+
+        if (regenerating)
+            FadeImage(health_forebar, health_forebar_regenerating, transition_speed, fade_threshold);
+        else
+            FadeImage(health_forebar, health_forebar_color, transition_speed, fade_threshold);
 
         switch (current_state)
         {
@@ -186,6 +207,8 @@ public class PlayerCombat : MonoBehaviour
                         AvoidPanel.transform.localPosition = host_initial_pos;
                         AvoidPanel.transform.localScale = avoid_select_scale;
                         attack_multiplier = 1f;
+                        defense_multiplier = 1f;
+                        target_health = stats.health;
                         current_phase = TransitionPhase.SECOND_PHASE;
                         break;
 
@@ -210,6 +233,9 @@ public class PlayerCombat : MonoBehaviour
                 break;
 
             case TurnState.AVOIDING:
+                stats.health = Mathf.Lerp(stats.health, target_health, Time.deltaTime * transition_speed);
+                if (Mathf.Abs(target_health - stats.health) <= depletion_threshold)
+                    stats.health = target_health;
                 timer = Time.time + transition_time;
                 break;
 
@@ -234,7 +260,6 @@ public class PlayerCombat : MonoBehaviour
                     AvoidPanel.transform.localPosition = host_initial_pos;
                     AvoidPanel.transform.localScale = avoid_select_scale;
                     switch_counter = 0;
-                    toggle_magic_menu = false;
                     current_state = TurnState.SELECTING;
                 }
                 break;
@@ -361,10 +386,8 @@ public class PlayerCombat : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        stats.health -= Mathf.Round(damage - damage * stats.system[current_alter].resilience * 0.01f * System.Convert.ToSingle(defending));
-        health_bar_image.transform.localScale = new Vector3(stats.health / stats.max_health, 1f, 1f); // temp
-        if (stats.health <= 0) // temp
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // temp
+        target_health = stats.health - Mathf.Round(damage - damage * stats.system[current_alter].resilience * defense_multiplier * 0.01f 
+            * System.Convert.ToSingle(defending));
     }
 
     // Update is called once per frame

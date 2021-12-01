@@ -11099,6 +11099,9 @@ MonoBehaviour:
   depletion_transition_threshold: 0.005
   attack_multiplier: 1
   max_attack_multiplier: 2
+  defense_multiplier: 0
+  max_defense_multiplier: 2
+  health_change: 0
   switch_max: 1
 --- !u!4 &1817900696 stripped
 Transform:

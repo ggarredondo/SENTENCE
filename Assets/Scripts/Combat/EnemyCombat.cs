@@ -122,7 +122,7 @@ public class EnemyCombat : MonoBehaviour
         }
     }
 
-    float interval = 4f;//temp
+    float interval = 30f;//temp
     // Update is called once per frame
     void Update()
     {
