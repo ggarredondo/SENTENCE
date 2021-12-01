@@ -11080,7 +11080,7 @@ MonoBehaviour:
       resilience: 20
       skills:
       - name: Heal
-        cost: 2
+        cost: 3
       - name: ----
         cost: 0
       - name: ----
@@ -11096,12 +11096,13 @@ MonoBehaviour:
   transition_speed: 4
   transition_time: 1
   fade_speed: 0.65
-  depletion_transition_threshold: 0.005
+  fade_threshold: 0.005
+  depletion_threshold: 1
   attack_multiplier: 1
   max_attack_multiplier: 2
   defense_multiplier: 0
   max_defense_multiplier: 2
-  health_change: 0
+  target_health: 0
   switch_max: 1
 --- !u!4 &1817900696 stripped
 Transform:

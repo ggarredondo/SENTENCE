@@ -10,7 +10,6 @@ public enum TurnState
     SELECTING,
     AVOIDING,
     ATTACKING,
-    DEFENDING,
     SWITCHING,
     TRANSITION_TO_FIGHT,
     TRANSITION_TO_SELECT,
@@ -44,13 +43,14 @@ public class PlayerCombat : MonoBehaviour
     private List<Button> SkillButtons;
     private Image health_forebar, mana_forebar, host;
     private Color health_forebar_color, health_forebar_regenerating;
-    private Text mana_text;
+    private Text mana_text, AttackButtonText, DefendButtonText;
     private List<GameObject> AlterImages;
     private Vector3 host_initial_pos, avoid_initial_pos, avoid_initial_scale, avoid_select_scale, target_mana_scale;
     private float timer;
     private TransitionPhase current_phase = TransitionPhase.FIRST_PHASE;
     private int current_alter = 0, switch_number, switch_counter = 0, off_screen_alter;
-    private bool ActivateAlterUI, ActivateActionMenu, defending = false, magic_interactable, toggle_magic_menu = false, regenerating;
+    private bool ActivateAlterUI, ActivateActionMenu, defending = false, magic_interactable, toggle_magic_menu = false, regenerating,
+        update_mana_bar = false;
     private Quaternion alterUI_target_angle;
 
     private void Start()
@@ -75,6 +75,8 @@ public class PlayerCombat : MonoBehaviour
         avoid_initial_scale = AvoidPanel.transform.localScale;
         avoid_select_scale = new Vector3(selecting_scale, selecting_scale, 1f);
         off_screen_alter = 2;
+        AttackButtonText = ActionMenu.transform.Find("AttackButton").Find("AttackText").GetComponent<Text>();
+        DefendButtonText = ActionMenu.transform.Find("DefendButton").Find("DefendText").GetComponent<Text>();
         MagicButton = ActionMenu.transform.Find("MagicButton").GetComponent<Button>();
         SwitchButton = ActionMenu.transform.Find("SwitchButton").GetComponent<Button>();
         SkillButtons = new List<Button>();
@@ -128,7 +130,8 @@ public class PlayerCombat : MonoBehaviour
     private void UIStateManagement()
     {
         CombatUI.SetActive(current_state != TurnState.WAITING && ActivateCombatUI);
-        FadePanel.SetActive(current_state == TurnState.TRANSITION_TO_FIGHT || current_state == TurnState.TRANSITION_TO_ENEMYS_DEATH);
+        FadePanel.SetActive(current_state == TurnState.TRANSITION_TO_FIGHT || current_state == TurnState.TRANSITION_TO_ENEMYS_DEATH || 
+            update_mana_bar);
         ActivateAlterUI = current_state != TurnState.AVOIDING && current_state != TurnState.TRANSITION_TO_AVOID
             && current_state != TurnState.TRANSITION_TO_SELECT;
         AlterSystemUI.SetActive(ActivateAlterUI);
@@ -138,7 +141,7 @@ public class PlayerCombat : MonoBehaviour
         ActionMenu.SetActive(ActivateActionMenu);
         if (!ActivateActionMenu)
             toggle_magic_menu = false;
-        mana_bar.SetActive(current_state == TurnState.SELECTING || current_state == TurnState.DEFENDING);
+        mana_bar.SetActive(current_state == TurnState.SELECTING);
         health_bar.SetActive(current_state == TurnState.AVOIDING);
         SwitchButton.interactable = switch_counter < switch_max && stats.system.Count > 1;
         MagicMenu.SetActive(toggle_magic_menu);
@@ -166,6 +169,7 @@ public class PlayerCombat : MonoBehaviour
         {
             mana_forebar.transform.localScale = target_mana_scale;
             mana_text.text = stats.mana.ToString() + "\n/\n" + stats.max_mana.ToString();
+            update_mana_bar = false;
             current_state = TurnState.TRANSITION_TO_AVOID;
         }
     }
@@ -180,7 +184,7 @@ public class PlayerCombat : MonoBehaviour
     private void ScriptAnimation()
     {
         if (current_state == TurnState.SELECTING || current_state == TurnState.ATTACKING 
-            || current_state == TurnState.TRANSITION_TO_ENEMYS_DEATH || current_state == TurnState.DEFENDING)
+            || current_state == TurnState.TRANSITION_TO_ENEMYS_DEATH)
         {
             AvoidPanel.transform.Rotate(0f, 0f, Time.deltaTime * rotation_speed);
             timer = Time.time + transition_time;
@@ -230,6 +234,11 @@ public class PlayerCombat : MonoBehaviour
                         }
                         break;
                 }
+                break;
+
+            case TurnState.SELECTING:
+                if (update_mana_bar)
+                    UpdateManaBar();
                 break;
 
             case TurnState.AVOIDING:
@@ -287,10 +296,6 @@ public class PlayerCombat : MonoBehaviour
                 }
                 break;
 
-            case TurnState.DEFENDING:
-                UpdateManaBar();
-                break;
-
             case TurnState.SWITCHING:
                 AvoidPanel.transform.Rotate(0f, 0f, Time.deltaTime * rotation_speed);
 
@@ -336,15 +341,24 @@ public class PlayerCombat : MonoBehaviour
         switch (mskill.name)
         {
             case "Heal":
-                Debug.Log("Heal");
+                target_health = stats.health + Mathf.Round(stats.max_health * 0.2f);
                 break;
             case "Sharpen":
-                Debug.Log("Sharpen");
+                if (attack_multiplier < max_attack_multiplier) {
+                    attack_multiplier += 0.25f;
+                    AttackButtonText.text += '^';
+                }
                 break;
             case "Harden":
-                Debug.Log("Harden");
+                if (defense_multiplier < max_defense_multiplier) {
+                    defense_multiplier += 0.25f;
+                    DefendButtonText.text += '^';
+                }
                 break;
         }
+        stats.mana -= mskill.cost;
+        target_mana_scale = new Vector3(1f, stats.mana / stats.max_mana, 1f);
+        update_mana_bar = true;
     }
 
     public void Skill1() {
@@ -370,7 +384,7 @@ public class PlayerCombat : MonoBehaviour
         if (stats.mana > stats.max_mana)
             stats.mana = stats.max_mana;
         target_mana_scale = new Vector3(1f, stats.mana / stats.max_mana, 1f);
-        current_state = TurnState.DEFENDING;
+        update_mana_bar = true;
     }
 
     public void Switch() {

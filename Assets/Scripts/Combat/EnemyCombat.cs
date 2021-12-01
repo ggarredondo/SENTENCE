@@ -63,7 +63,7 @@ public class EnemyCombat : MonoBehaviour
 
     private void ScriptAnimation()
     {
-        if (player.current_state == TurnState.ATTACKING || player.current_state == TurnState.DEFENDING)
+        if (player.current_state == TurnState.ATTACKING || player.current_state == TurnState.SELECTING)
             timer = Time.time + interval; //temp
 
         switch (player.current_state)
@@ -122,7 +122,7 @@ public class EnemyCombat : MonoBehaviour
         }
     }
 
-    float interval = 30f;//temp
+    float interval = 4f;//temp
     // Update is called once per frame
     void Update()
     {
