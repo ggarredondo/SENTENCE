@@ -10,11 +10,12 @@ public class EnemyCombat : MonoBehaviour
     public GameObject UI;
     public GameObject enemy_object;
     public GameObject player_object;
+    public List<Projectile> projectiles;
     public float depletion_transition_speed = 2.5f, depletion_transition_threshold = 0.005f, fade_speed = 0.65f;
 
     private Image health_bar;
     private PlayerCombat player;
-    private float timer;
+    private float timer, length = 4f;
     private Vector3 target_health_scale;
     private GameObject cut_animation, FadePanel;
     private TransitionPhase current_phase = TransitionPhase.FIRST_PHASE;
@@ -64,13 +65,13 @@ public class EnemyCombat : MonoBehaviour
     private void ScriptAnimation()
     {
         if (player.current_state == TurnState.ATTACKING || player.current_state == TurnState.SELECTING)
-            timer = Time.time + interval; //temp
+            timer = Time.time + length;
 
         switch (player.current_state)
         {
             case TurnState.AVOIDING:
-                if (timer <= Time.time) //temp
-                    player.current_state = TurnState.TRANSITION_TO_SELECT; //temp
+                if (timer <= Time.time)
+                    player.current_state = TurnState.TRANSITION_TO_SELECT;
                 break;
 
             case TurnState.ATTACKING:
@@ -122,7 +123,6 @@ public class EnemyCombat : MonoBehaviour
         }
     }
 
-    float interval = 4f;//temp
     // Update is called once per frame
     void Update()
     {

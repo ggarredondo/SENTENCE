@@ -6695,12 +6695,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats:
     level: 1
-    health: 100
-    max_health: 100
+    health: 200
+    max_health: 200
     attack: 10
   UI: {fileID: 432792654}
   enemy_object: {fileID: 1102831699}
   player_object: {fileID: 1815206595}
+  projectiles: []
   depletion_transition_speed: 2
   depletion_transition_threshold: 0.005
   fade_speed: 0.65
@@ -11039,6 +11040,22 @@ MonoBehaviour:
         cost: 0
       - name: ----
         cost: 0
+    - sprite: {fileID: 21300000, guid: 2f27906a1466f5541a9f3ee62c817cab, type: 3}
+      name: Brunhilda
+      age: 63
+      gender: Female
+      type: 1
+      attack: 5
+      resilience: 20
+      skills:
+      - name: Heal
+        cost: 3
+      - name: ----
+        cost: 0
+      - name: ----
+        cost: 0
+      - name: ----
+        cost: 0
     - sprite: {fileID: 21300000, guid: 7b2cd9ab584b4e44d8505bc0ea1a7070, type: 3}
       name: Arathorn
       age: 22
@@ -11067,22 +11084,6 @@ MonoBehaviour:
         cost: 3
       - name: Harden
         cost: 3
-      - name: ----
-        cost: 0
-      - name: ----
-        cost: 0
-    - sprite: {fileID: 21300000, guid: 2f27906a1466f5541a9f3ee62c817cab, type: 3}
-      name: Brunhilda
-      age: 63
-      gender: Female
-      type: 1
-      attack: 5
-      resilience: 20
-      skills:
-      - name: Heal
-        cost: 3
-      - name: ----
-        cost: 0
       - name: ----
         cost: 0
       - name: ----

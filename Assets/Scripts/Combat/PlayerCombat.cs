@@ -211,7 +211,9 @@ public class PlayerCombat : MonoBehaviour
                         AvoidPanel.transform.localPosition = host_initial_pos;
                         AvoidPanel.transform.localScale = avoid_select_scale;
                         attack_multiplier = 1f;
+                        AttackButtonText.text = "Attack";
                         defense_multiplier = 1f;
+                        DefendButtonText.text = "Defend";
                         target_health = stats.health;
                         current_phase = TransitionPhase.SECOND_PHASE;
                         break;
@@ -330,7 +332,7 @@ public class PlayerCombat : MonoBehaviour
     public void Attack()
     {
         current_state = TurnState.ATTACKING;
-        enemy.TakeDamage(stats.system[current_alter].attack * attack_multiplier);
+        enemy.TakeDamage(Mathf.Round(stats.system[current_alter].attack * attack_multiplier));
     }
 
     public void Magic() {
