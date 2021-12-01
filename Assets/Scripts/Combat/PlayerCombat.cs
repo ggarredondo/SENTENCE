@@ -111,8 +111,14 @@ public class PlayerCombat : MonoBehaviour
         for (short i = 0; i < SkillButtons.Count && !magic_interactable; ++i)
             magic_interactable = !(stats.system[current_alter].skills[i].name == "----");
         MagicButton.interactable = magic_interactable;
-        for (short i = 0; i < SkillButtons.Count; ++i)
+        for (short i = 0; i < SkillButtons.Count; ++i) {
             SkillButtons[i].transform.Find("SkillText").GetComponent<Text>().text = stats.system[current_alter].skills[i].name;
+            if (stats.system[current_alter].skills[i].name != "----")
+                SkillButtons[i].transform.Find("SkillCost").GetComponent<Text>().text = '\n' +
+                    stats.system[current_alter].skills[i].cost.ToString();
+            else
+                SkillButtons[i].transform.Find("SkillCost").GetComponent<Text>().text = "";
+        }
     }
 
     private void UIStateManagement()
