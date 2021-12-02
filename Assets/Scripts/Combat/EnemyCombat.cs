@@ -116,10 +116,11 @@ public class EnemyCombat : MonoBehaviour
                 break;
         }
 
-        // Movement specific code
-        switch (projectiles[current_projectile].movement)
+        // More type specific code
+        switch (projectiles[current_projectile].type)
         {
-            case ProjectileMovement.APPARITION:
+            case ProjectileType.PUNCH:
+            case ProjectileType.KICK:
                 for (int i = 0; i < projectiles.Count; ++i) {
                     if (i != current_projectile && projectiles[i].movement == ProjectileMovement.APPARITION) {
                         current_projectile = i;
@@ -158,7 +159,7 @@ public class EnemyCombat : MonoBehaviour
                     aux_image = spawned_projectiles[i].GetComponent<Image>();
                     spawned_projectiles[i].GetComponent<Image>().color = new Color(1f, 1f, 1f, aux_image.color.a + 
                         Time.deltaTime * projectiles[current_projectile].speed * projectile_apparates[i]);
-                    projectile_can_damage[i] = spawned_projectiles[i].GetComponent<Image>().color.a >= alpha_threshold;
+                    projectile_can_damage[i] = spawned_projectiles[i].GetComponent<Image>().color.a > alpha_threshold;
                     if (aux_image.color.a >= 1f)
                         projectile_apparates[i] = -1;
                 }
@@ -192,7 +193,8 @@ public class EnemyCombat : MonoBehaviour
                     projectile_direction.Clear();
                     projectile_can_damage.Clear();
                     projectile_apparates.Clear();
-                    if (projectiles[current_projectile].movement == ProjectileMovement.APPARITION)
+                    if (projectiles[current_projectile].type == ProjectileType.PUNCH 
+                        || projectiles[current_projectile].type == ProjectileType.KICK)
                         current_projectile = 0;
                     else
                         current_projectile = (current_projectile + 1) % projectiles.Count;
