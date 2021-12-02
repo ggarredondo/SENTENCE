@@ -7,17 +7,20 @@ public class EnemyCombat : MonoBehaviour
 {
     public EnemyStats stats;
     SpriteRenderer sprite_renderer;
-    public GameObject UI;
+    public GameObject UI, ProjectilesPanel;
     public GameObject enemy_object;
     public GameObject player_object;
+    public int current_projectile = 0;
     public List<Projectile> projectiles;
     public float depletion_transition_speed = 2.5f, depletion_transition_threshold = 0.005f, fade_speed = 0.65f;
 
     private Image health_bar;
     private PlayerCombat player;
-    private float timer, length = 4f;
-    private Vector3 target_health_scale;
-    private GameObject cut_animation, FadePanel;
+    private float timer_length, timer_interval;
+    private Vector3 target_health_scale, aux_pos;
+    private List<GameObject> spawned_projectiles;
+    private List<Vector3> projectile_direction;
+    private GameObject cut_animation, FadePanel, host;
     private TransitionPhase current_phase = TransitionPhase.FIRST_PHASE;
 
     // Start is called before the first frame update
@@ -29,6 +32,10 @@ public class EnemyCombat : MonoBehaviour
         player = player_object.GetComponent<PlayerCombat>();
         cut_animation = UI.transform.Find("CombatUI").Find("Cut").gameObject;
         cut_animation.SetActive(false);
+        ProjectilesPanel = UI.transform.Find("CombatUI").Find("ProjectilesPanel").gameObject;
+        host = UI.transform.Find("CombatUI").Find("Host").gameObject;
+        spawned_projectiles = new List<GameObject>();
+        projectile_direction = new List<Vector3>();
     }
 
     public void TakeDamage(float damage)
@@ -62,16 +69,59 @@ public class EnemyCombat : MonoBehaviour
         }
     }
 
+    private void SpawnProjectiles()
+    {
+        switch (projectiles[current_projectile].type) 
+        {
+            case ProjectileType.DIRECT:
+                spawned_projectiles.Add(Instantiate(projectiles[current_projectile].UI_object));
+                spawned_projectiles[spawned_projectiles.Count - 1].transform.SetParent(ProjectilesPanel.transform, false);
+                aux_pos = spawned_projectiles[spawned_projectiles.Count - 1].transform.localPosition;
+                projectile_direction.Add((host.transform.localPosition - aux_pos).normalized);
+                spawned_projectiles[spawned_projectiles.Count-1].transform.localPosition = 
+                    new Vector3(aux_pos.x + Random.value*10f, aux_pos.y + Random.value * 10f, aux_pos.z + Random.value * 10f);
+                break;
+        }
+    }
+
+    private void ThrowProjectiles()
+    {
+        switch (projectiles[current_projectile].type)
+        {
+            case ProjectileType.DIRECT:
+                for (int i = 0; i < spawned_projectiles.Count; ++i)
+                    spawned_projectiles[i].transform.localPosition += projectile_direction[i] * Time.deltaTime 
+                        * projectiles[current_projectile].speed;
+                break;
+        }
+    }
+
     private void ScriptAnimation()
     {
         if (player.current_state == TurnState.ATTACKING || player.current_state == TurnState.SELECTING)
-            timer = Time.time + length;
+            timer_length = Time.time + projectiles[current_projectile].length;
 
         switch (player.current_state)
         {
             case TurnState.AVOIDING:
-                if (timer <= Time.time)
+                // Spawn a projectile every [interval] seconds
+                if (timer_interval <= Time.time) {
+                    SpawnProjectiles();
+                    timer_interval = Time.time + projectiles[current_projectile].interval;
+                }
+
+                // Throw current projectiles
+                ThrowProjectiles();
+
+                // Finish Avoid state
+                if (timer_length <= Time.time) {
                     player.current_state = TurnState.TRANSITION_TO_SELECT;
+                    foreach (GameObject spawned_projectile in spawned_projectiles)
+                        Destroy(spawned_projectile);
+                    spawned_projectiles.Clear();
+                    projectile_direction.Clear();
+                    current_projectile = (current_projectile + 1) % projectiles.Count;
+                }
                 break;
 
             case TurnState.ATTACKING:
@@ -81,7 +131,8 @@ public class EnemyCombat : MonoBehaviour
                     health_bar.transform.localScale = target_health_scale;
                     player.current_state = TurnState.TRANSITION_TO_AVOID;
                     cut_animation.GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
-                    cut_animation.SetActive(false);          
+                    cut_animation.SetActive(false);
+                    timer_interval = 0f;
                 }
                 break;
 

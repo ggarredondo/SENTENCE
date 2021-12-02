@@ -6,14 +6,15 @@ public enum ProjectileType
 {
     DIRECT,
     FALL,
-    CURVED_FALL,
-    APPARITION
+    FALL_CURVED,
+    APPARITION,
+    ROTATION_HORIZONTAL,
 }
 
 [System.Serializable]
 public class Projectile
 {
-    public Sprite sprite;
-    public float length, interval;
+    public GameObject UI_object;
     public ProjectileType type;
+    public float speed, length, interval;
 }
