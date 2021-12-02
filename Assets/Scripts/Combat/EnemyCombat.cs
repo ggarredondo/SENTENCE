@@ -12,11 +12,12 @@ public class EnemyCombat : MonoBehaviour
     public GameObject player_object;
     public int current_projectile = 0;
     public List<Projectile> projectiles;
-    public float depletion_transition_speed = 2.5f, depletion_transition_threshold = 0.005f, fade_speed = 0.65f;
+    public float depletion_transition_speed = 2.5f, depletion_transition_threshold = 0.005f, fade_speed = 0.65f,
+        damage_threshold = 0.1f;
 
     private Image health_bar;
     private PlayerCombat player;
-    private float timer_length, timer_interval;
+    private float timer_length, timer_interval, host_radius;
     private Vector3 target_health_scale, aux_pos;
     private List<GameObject> spawned_projectiles;
     private List<Vector3> projectile_direction;
@@ -48,6 +49,10 @@ public class EnemyCombat : MonoBehaviour
         target_health_scale = new Vector3(stats.health / stats.max_health, 1f, 1f);
     }
 
+    public void Attack() {
+        player.TakeDamage(stats.attack);
+    }
+
     public void ResetHealthBar() {
         health_bar.transform.localScale = new Vector3(1f, 1f, 1f);
     }
@@ -76,6 +81,7 @@ public class EnemyCombat : MonoBehaviour
             case ProjectileType.DIRECT:
                 spawned_projectiles.Add(Instantiate(projectiles[current_projectile].UI_object));
                 spawned_projectiles[spawned_projectiles.Count - 1].transform.SetParent(ProjectilesPanel.transform, false);
+                spawned_projectiles[spawned_projectiles.Count - 1].GetComponent<Hitbox>().SetEnemy(this);
                 aux_pos = spawned_projectiles[spawned_projectiles.Count - 1].transform.localPosition;
                 projectile_direction.Add((host.transform.localPosition - aux_pos).normalized);
                 spawned_projectiles[spawned_projectiles.Count-1].transform.localPosition = 

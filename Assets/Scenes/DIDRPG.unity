@@ -6734,14 +6734,15 @@ MonoBehaviour:
   player_object: {fileID: 1815206595}
   current_projectile: 0
   projectiles:
-  - UI_object: {fileID: 5009376355940832662, guid: 7d9987be8c898f1488e1804b15375f63, type: 3}
+  - UI_object: {fileID: 3206222915327600271, guid: 7d9987be8c898f1488e1804b15375f63, type: 3}
     type: 0
-    speed: 1
+    speed: 200
     length: 10
     interval: 0.1
   depletion_transition_speed: 2
   depletion_transition_threshold: 0.005
   fade_speed: 0.65
+  damage_threshold: 0.1
 --- !u!1 &1114203643
 GameObject:
   m_ObjectHideFlags: 0
@@ -8522,6 +8523,7 @@ GameObject:
   - component: {fileID: 1396369749}
   - component: {fileID: 1396369751}
   - component: {fileID: 1396369752}
+  - component: {fileID: 1396369753}
   m_Layer: 5
   m_Name: Host
   m_TagString: Untagged
@@ -8626,8 +8628,29 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 50.4, y: 44.4}
+  m_Size: {x: 50, y: 44}
   m_EdgeRadius: 0
+--- !u!50 &1396369753
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1396369747}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &1402055910
 GameObject:
   m_ObjectHideFlags: 0

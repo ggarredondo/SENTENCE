@@ -157,7 +157,7 @@ public class PlayerCombat : MonoBehaviour
         else if (target_health > stats.max_health)
             target_health = stats.max_health;
         if (stats.health <= 0) // temp
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // temp
+            SceneManager.LoadScene("DIDRPG"); // temp
     }
 
     private void UpdateManaBar() {
