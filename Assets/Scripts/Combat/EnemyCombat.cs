@@ -115,6 +115,19 @@ public class EnemyCombat : MonoBehaviour
                     new Vector3(aux_pos.x + Random.value * 131.6f, aux_pos.y + Random.value * -92.9f, aux_pos.z);
                 break;
         }
+
+        // Movement specific code
+        switch (projectiles[current_projectile].movement)
+        {
+            case ProjectileMovement.APPARITION:
+                for (int i = 0; i < projectiles.Count; ++i) {
+                    if (i != current_projectile && projectiles[i].movement == ProjectileMovement.APPARITION) {
+                        current_projectile = i;
+                        break;
+                    }
+                }
+                break;
+        }
     }
 
     public bool CanHit(int index) {
@@ -177,7 +190,12 @@ public class EnemyCombat : MonoBehaviour
                         Destroy(spawned_projectile);
                     spawned_projectiles.Clear();
                     projectile_direction.Clear();
-                    current_projectile = (current_projectile + 1) % projectiles.Count;
+                    projectile_can_damage.Clear();
+                    projectile_apparates.Clear();
+                    if (projectiles[current_projectile].movement == ProjectileMovement.APPARITION)
+                        current_projectile = 0;
+                    else
+                        current_projectile = (current_projectile + 1) % projectiles.Count;
                 }
                 break;
 
