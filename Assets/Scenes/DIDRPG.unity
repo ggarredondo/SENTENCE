@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 9b2d152bb78cc6542b7aba1e8d652fa5, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -6738,7 +6738,7 @@ MonoBehaviour:
     type: 0
     speed: 200
     length: 10
-    interval: 0.1
+    interval: 0.2
   depletion_transition_speed: 2
   depletion_transition_threshold: 0.005
   fade_speed: 0.65
