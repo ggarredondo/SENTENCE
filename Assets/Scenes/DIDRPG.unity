@@ -4888,7 +4888,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 06d9f2f51559e9b4cb2f60c73e175de1, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -6610,18 +6610,6 @@ MonoBehaviour:
   player_object: {fileID: 1815206595}
   current_projectile: 0
   projectiles:
-  - UI_object: {fileID: 3206222915327600271, guid: 7d9987be8c898f1488e1804b15375f63, type: 3}
-    movement: 0
-    type: 0
-    speed: 200
-    length: 10
-    interval: 0.2
-  - UI_object: {fileID: 2574967738278422871, guid: 6bd6298a2cea91e47a3bcd3af01dc6a0, type: 3}
-    movement: 1
-    type: 1
-    speed: 200
-    length: 10
-    interval: 0.3
   - UI_object: {fileID: 4025898974265036050, guid: 040bc01c8fd98d3428dae5fa972ea379, type: 3}
     movement: 3
     type: 2
@@ -6634,10 +6622,22 @@ MonoBehaviour:
     speed: 2
     length: 10
     interval: 0.5
+  - UI_object: {fileID: 3206222915327600271, guid: 7d9987be8c898f1488e1804b15375f63, type: 3}
+    movement: 0
+    type: 0
+    speed: 200
+    length: 10
+    interval: 0.2
+  - UI_object: {fileID: 2574967738278422871, guid: 6bd6298a2cea91e47a3bcd3af01dc6a0, type: 3}
+    movement: 1
+    type: 1
+    speed: 200
+    length: 10
+    interval: 0.3
   depletion_transition_speed: 2
   depletion_transition_threshold: 0.005
   fade_speed: 0.65
-  alpha_threshold: 0
+  alpha_threshold: 0.02
 --- !u!1 &1114203643
 GameObject:
   m_ObjectHideFlags: 0
