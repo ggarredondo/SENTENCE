@@ -13,7 +13,7 @@ public class EnemyCombat : MonoBehaviour
     public int current_projectile = 0;
     public List<Projectile> projectiles;
     public float depletion_transition_speed = 2.5f, depletion_transition_threshold = 0.005f, fade_speed = 0.65f,
-        alpha_threshold = 0.2f;
+        alpha_threshold = 0.3f;
 
     private Image health_bar, aux_image;
     private PlayerCombat player;
