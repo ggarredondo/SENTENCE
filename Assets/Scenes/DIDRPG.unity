@@ -6610,6 +6610,18 @@ MonoBehaviour:
   player_object: {fileID: 1815206595}
   current_projectile: 0
   projectiles:
+  - UI_object: {fileID: 4025898974265036050, guid: 040bc01c8fd98d3428dae5fa972ea379, type: 3}
+    movement: 3
+    type: 2
+    speed: 2
+    length: 10
+    interval: 0.5
+  - UI_object: {fileID: 597277970600341614, guid: f0edf66a5c3122c44ab2b1dfe37c5775, type: 3}
+    movement: 3
+    type: 3
+    speed: 2
+    length: 10
+    interval: 0.5
   - UI_object: {fileID: 3206222915327600271, guid: 7d9987be8c898f1488e1804b15375f63, type: 3}
     movement: 0
     type: 0
@@ -6625,7 +6637,7 @@ MonoBehaviour:
   depletion_transition_speed: 2
   depletion_transition_threshold: 0.005
   fade_speed: 0.65
-  damage_threshold: 0.1
+  alpha_threshold: 0
 --- !u!1 &1114203643
 GameObject:
   m_ObjectHideFlags: 0
@@ -11253,6 +11265,7 @@ MonoBehaviour:
   max_attack_multiplier: 2
   defense_multiplier: 0
   max_defense_multiplier: 2
+  healing_factor: 0.25
   target_health: 0
   switch_max: 1
 --- !u!4 &1817900696 stripped

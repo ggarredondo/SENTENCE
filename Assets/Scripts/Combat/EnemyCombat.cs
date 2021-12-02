@@ -13,15 +13,16 @@ public class EnemyCombat : MonoBehaviour
     public int current_projectile = 0;
     public List<Projectile> projectiles;
     public float depletion_transition_speed = 2.5f, depletion_transition_threshold = 0.005f, fade_speed = 0.65f,
-        damage_threshold = 0.1f;
+        alpha_threshold = 0.2f;
 
-    private Image health_bar;
+    private Image health_bar, aux_image;
     private PlayerCombat player;
     private float timer_length, timer_interval, host_radius;
     private Vector3 target_health_scale, aux_pos;
     private List<GameObject> spawned_projectiles;
     private List<Vector3> projectile_direction;
     private List<bool> projectile_can_damage;
+    private List<int> projectile_apparates;
     private GameObject cut_animation, FadePanel, host;
     private TransitionPhase current_phase = TransitionPhase.FIRST_PHASE;
 
@@ -39,6 +40,7 @@ public class EnemyCombat : MonoBehaviour
         spawned_projectiles = new List<GameObject>();
         projectile_direction = new List<Vector3>();
         projectile_can_damage = new List<bool>();
+        projectile_apparates = new List<int>();
     }
 
     public void TakeDamage(float damage)
@@ -86,6 +88,7 @@ public class EnemyCombat : MonoBehaviour
         aux_pos = spawned_projectiles[spawned_projectiles.Count - 1].transform.localPosition;
         projectile_direction.Add((host.transform.localPosition - aux_pos).normalized);
         projectile_can_damage.Add(false);
+        projectile_apparates.Add(1);
 
         // Type specific code
         switch (projectiles[current_projectile].type) 
@@ -101,8 +104,15 @@ public class EnemyCombat : MonoBehaviour
                 break;
 
             case ProjectileType.PUNCH:
+                spawned_projectiles[spawned_projectiles.Count - 1].GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
                 spawned_projectiles[spawned_projectiles.Count - 1].transform.localPosition =
-                    new Vector3(aux_pos.x + Random.value * 10f, aux_pos.y + Random.value * 10f, aux_pos.z);
+                    new Vector3(aux_pos.x + Random.value * 113.4f, aux_pos.y + Random.value * -132.7f, aux_pos.z);
+                break;
+
+            case ProjectileType.KICK:
+                spawned_projectiles[spawned_projectiles.Count - 1].GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
+                spawned_projectiles[spawned_projectiles.Count - 1].transform.localPosition =
+                    new Vector3(aux_pos.x + Random.value * 131.6f, aux_pos.y + Random.value * -92.9f, aux_pos.z);
                 break;
         }
     }
@@ -127,6 +137,17 @@ public class EnemyCombat : MonoBehaviour
                 for (int i = 0; i < spawned_projectiles.Count; ++i) {
                     spawned_projectiles[i].transform.localPosition += Vector3.down * Time.deltaTime * projectiles[current_projectile].speed;
                     projectile_can_damage[i] = true;
+                }
+                break;
+
+            case ProjectileMovement.APPARITION:
+                for (int i = 0; i < spawned_projectiles.Count; ++i) {
+                    aux_image = spawned_projectiles[i].GetComponent<Image>();
+                    spawned_projectiles[i].GetComponent<Image>().color = new Color(1f, 1f, 1f, aux_image.color.a + 
+                        Time.deltaTime * projectiles[current_projectile].speed * projectile_apparates[i]);
+                    projectile_can_damage[i] = spawned_projectiles[i].GetComponent<Image>().color.a >= alpha_threshold;
+                    if (aux_image.color.a >= 1f)
+                        projectile_apparates[i] = -1;
                 }
                 break;
         }
