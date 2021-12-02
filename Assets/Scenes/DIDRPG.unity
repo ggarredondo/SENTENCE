@@ -6615,6 +6615,11 @@ MonoBehaviour:
     speed: 200
     length: 10
     interval: 0.2
+  - UI_object: {fileID: 2574967738278422871, guid: 6bd6298a2cea91e47a3bcd3af01dc6a0, type: 3}
+    type: 1
+    speed: 200
+    length: 10
+    interval: 0.3
   depletion_transition_speed: 2
   depletion_transition_threshold: 0.005
   fade_speed: 0.65

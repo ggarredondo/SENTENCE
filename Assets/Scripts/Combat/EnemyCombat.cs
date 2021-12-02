@@ -21,6 +21,7 @@ public class EnemyCombat : MonoBehaviour
     private Vector3 target_health_scale, aux_pos;
     private List<GameObject> spawned_projectiles;
     private List<Vector3> projectile_direction;
+    private List<bool> projectile_can_damage;
     private GameObject cut_animation, FadePanel, host;
     private TransitionPhase current_phase = TransitionPhase.FIRST_PHASE;
 
@@ -37,6 +38,7 @@ public class EnemyCombat : MonoBehaviour
         host = UI.transform.Find("CombatUI").Find("Host").gameObject;
         spawned_projectiles = new List<GameObject>();
         projectile_direction = new List<Vector3>();
+        projectile_can_damage = new List<bool>();
     }
 
     public void TakeDamage(float damage)
@@ -80,8 +82,10 @@ public class EnemyCombat : MonoBehaviour
         spawned_projectiles.Add(Instantiate(projectiles[current_projectile].UI_object));
         spawned_projectiles[spawned_projectiles.Count - 1].transform.SetParent(ProjectilesPanel.transform, false);
         spawned_projectiles[spawned_projectiles.Count - 1].GetComponent<Hitbox>().SetEnemy(this);
+        spawned_projectiles[spawned_projectiles.Count - 1].GetComponent<Hitbox>().SetIndex(spawned_projectiles.Count - 1);
         aux_pos = spawned_projectiles[spawned_projectiles.Count - 1].transform.localPosition;
         projectile_direction.Add((host.transform.localPosition - aux_pos).normalized);
+        projectile_can_damage.Add(false);
 
         // Type specific code
         switch (projectiles[current_projectile].type) 
@@ -90,7 +94,16 @@ public class EnemyCombat : MonoBehaviour
                 spawned_projectiles[spawned_projectiles.Count-1].transform.localPosition = 
                     new Vector3(aux_pos.x + Random.value*10f, aux_pos.y + Random.value * 10f, aux_pos.z + Random.value * 10f);
                 break;
+
+            case ProjectileType.FALL:
+                spawned_projectiles[spawned_projectiles.Count - 1].transform.localPosition =
+                    new Vector3(aux_pos.x + Random.value * 138.3f, aux_pos.y, aux_pos.z);
+                break;
         }
+    }
+
+    public bool CanHit(int index) {
+        return projectile_can_damage[index];
     }
 
     private void ThrowProjectiles()
@@ -98,9 +111,18 @@ public class EnemyCombat : MonoBehaviour
         switch (projectiles[current_projectile].type)
         {
             case ProjectileType.DIRECT:
-                for (int i = 0; i < spawned_projectiles.Count; ++i)
-                    spawned_projectiles[i].transform.localPosition += projectile_direction[i] * Time.deltaTime 
+                for (int i = 0; i < spawned_projectiles.Count; ++i) {
+                    spawned_projectiles[i].transform.localPosition += projectile_direction[i] * Time.deltaTime
                         * projectiles[current_projectile].speed;
+                    projectile_can_damage[i] = true;
+                }
+                break;
+
+            case ProjectileType.FALL:
+                for (int i = 0; i < spawned_projectiles.Count; ++i) {
+                    spawned_projectiles[i].transform.localPosition += Vector3.down * Time.deltaTime * projectiles[current_projectile].speed;
+                    projectile_can_damage[i] = true;
+                }
                 break;
         }
     }
