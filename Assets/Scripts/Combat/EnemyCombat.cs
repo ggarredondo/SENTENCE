@@ -76,14 +76,17 @@ public class EnemyCombat : MonoBehaviour
 
     private void SpawnProjectiles()
     {
+        // Common spawn code
+        spawned_projectiles.Add(Instantiate(projectiles[current_projectile].UI_object));
+        spawned_projectiles[spawned_projectiles.Count - 1].transform.SetParent(ProjectilesPanel.transform, false);
+        spawned_projectiles[spawned_projectiles.Count - 1].GetComponent<Hitbox>().SetEnemy(this);
+        aux_pos = spawned_projectiles[spawned_projectiles.Count - 1].transform.localPosition;
+        projectile_direction.Add((host.transform.localPosition - aux_pos).normalized);
+
+        // Type specific code
         switch (projectiles[current_projectile].type) 
         {
             case ProjectileType.DIRECT:
-                spawned_projectiles.Add(Instantiate(projectiles[current_projectile].UI_object));
-                spawned_projectiles[spawned_projectiles.Count - 1].transform.SetParent(ProjectilesPanel.transform, false);
-                spawned_projectiles[spawned_projectiles.Count - 1].GetComponent<Hitbox>().SetEnemy(this);
-                aux_pos = spawned_projectiles[spawned_projectiles.Count - 1].transform.localPosition;
-                projectile_direction.Add((host.transform.localPosition - aux_pos).normalized);
                 spawned_projectiles[spawned_projectiles.Count-1].transform.localPosition = 
                     new Vector3(aux_pos.x + Random.value*10f, aux_pos.y + Random.value * 10f, aux_pos.z + Random.value * 10f);
                 break;
