@@ -65,6 +65,7 @@ public class PlayerCombat : MonoBehaviour
         health_forebar = health_bar.transform.Find("ProgressForeground").GetComponent<Image>();
         health_forebar_color = health_forebar.color;
         health_forebar_regenerating = new Color(0.5f, 1f, 0f, 1f);
+        target_health = stats.health;
         mana_bar = CombatUI.transform.Find("PlayerManaBar").gameObject;
         mana_forebar = mana_bar.transform.Find("ProgressForeground").GetComponent<Image>();
         mana_text = mana_bar.transform.Find("ManaText").GetComponent<Text>();
@@ -141,8 +142,6 @@ public class PlayerCombat : MonoBehaviour
         ActionMenu.SetActive(ActivateActionMenu);
         if (!ActivateActionMenu)
             toggle_magic_menu = false;
-        mana_bar.SetActive(current_state == TurnState.SELECTING);
-        health_bar.SetActive(current_state == TurnState.AVOIDING);
         SwitchButton.interactable = switch_counter < switch_max && stats.system.Count > 1;
         MagicMenu.SetActive(toggle_magic_menu);
         for (short i = 0; i < SkillButtons.Count; ++i)
@@ -150,7 +149,7 @@ public class PlayerCombat : MonoBehaviour
                 || stats.system[current_alter].skills[i].name == "Switch" || stats.system[current_alter].skills[i].cost > stats.mana);
 
         // update health bar
-        health_forebar.transform.localScale = new Vector3(stats.health / stats.max_health, 1f, 1f);
+        health_forebar.transform.localScale = new Vector3(1f, stats.health / stats.max_health, 1f);
         regenerating = target_health > stats.health;
         if (target_health < 0f)
             target_health = 0f;
@@ -181,8 +180,17 @@ public class PlayerCombat : MonoBehaviour
             img.color = new_color;
     }
 
+    private void SmoothHealthbarUpdate() {
+        stats.health = Mathf.Lerp(stats.health, target_health, Time.deltaTime * transition_speed);
+        if (Mathf.Abs(target_health - stats.health) <= depletion_threshold)
+            stats.health = target_health;
+    }
+
     private void ScriptAnimation()
     {
+        if (current_state != TurnState.WAITING)
+            SmoothHealthbarUpdate();
+
         if (current_state == TurnState.SELECTING || current_state == TurnState.ATTACKING 
             || current_state == TurnState.TRANSITION_TO_ENEMYS_DEATH)
         {
@@ -214,7 +222,8 @@ public class PlayerCombat : MonoBehaviour
                         AttackButtonText.text = "Attack";
                         defense_multiplier = 1f;
                         DefendButtonText.text = "Defend";
-                        target_health = stats.health;
+                        stats.health = stats.max_health;
+                        target_health = stats.max_health;
                         current_phase = TransitionPhase.SECOND_PHASE;
                         break;
 
@@ -244,9 +253,6 @@ public class PlayerCombat : MonoBehaviour
                 break;
 
             case TurnState.AVOIDING:
-                stats.health = Mathf.Lerp(stats.health, target_health, Time.deltaTime * transition_speed);
-                if (Mathf.Abs(target_health - stats.health) <= depletion_threshold)
-                    stats.health = target_health;
                 timer = Time.time + transition_time;
                 break;
 
