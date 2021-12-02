@@ -35,7 +35,7 @@ public class PlayerCombat : MonoBehaviour
     public bool ActivateCombatUI = false;
     public float rotation_speed = -200f, selecting_scale = 0.3f, transition_speed = 4f, transition_time = 1f, fade_speed = 0.65f,
         fade_threshold = 0.005f, depletion_threshold = 1f, attack_multiplier, max_attack_multiplier = 2f, defense_multiplier, 
-        max_defense_multiplier = 2f, target_health;
+        max_defense_multiplier = 2f, healing_factor = 0.25f, target_health;
     public int switch_max = 1;
 
     private GameObject AlterSystemUI, CombatUI, ActionMenu, MagicMenu, AvoidPanel, FadePanel, SelectionArrow, health_bar, mana_bar, shield;
@@ -43,7 +43,7 @@ public class PlayerCombat : MonoBehaviour
     private List<Button> SkillButtons;
     private Image health_forebar, mana_forebar, host;
     private Color health_forebar_color, health_forebar_regenerating;
-    private Text mana_text, AttackButtonText, DefendButtonText;
+    private Text health_text, mana_text, AttackButtonText, DefendButtonText;
     private List<GameObject> AlterImages;
     private Vector3 host_initial_pos, avoid_initial_pos, avoid_initial_scale, avoid_select_scale, target_mana_scale;
     private float timer;
@@ -70,6 +70,8 @@ public class PlayerCombat : MonoBehaviour
         mana_forebar = mana_bar.transform.Find("ProgressForeground").GetComponent<Image>();
         mana_text = mana_bar.transform.Find("ManaText").GetComponent<Text>();
         mana_text.text = stats.mana.ToString() + "\n/\n" + stats.max_mana.ToString();
+        health_text = health_bar.transform.Find("HealthText").GetComponent<Text>();
+        health_text.text = stats.health.ToString() + "\n/\n" + stats.max_health.ToString();
         host = CombatUI.transform.Find("Host").GetComponent<Image>();
         host_initial_pos = host.transform.localPosition;
         avoid_initial_pos = AvoidPanel.transform.localPosition;
@@ -150,6 +152,7 @@ public class PlayerCombat : MonoBehaviour
 
         // update health bar
         health_forebar.transform.localScale = new Vector3(1f, stats.health / stats.max_health, 1f);
+        health_text.text = Mathf.Round(stats.health).ToString() + "\n/\n" + stats.max_health.ToString();
         regenerating = target_health > stats.health;
         if (target_health < 0f)
             target_health = 0f;
@@ -349,7 +352,7 @@ public class PlayerCombat : MonoBehaviour
         switch (mskill.name)
         {
             case "Heal":
-                target_health = stats.health + Mathf.Round(stats.max_health * 0.2f);
+                target_health = stats.health + Mathf.Round(stats.max_health * healing_factor);
                 break;
             case "Sharpen":
                 if (attack_multiplier < max_attack_multiplier) {

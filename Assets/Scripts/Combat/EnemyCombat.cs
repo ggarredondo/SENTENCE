@@ -90,14 +90,19 @@ public class EnemyCombat : MonoBehaviour
         // Type specific code
         switch (projectiles[current_projectile].type) 
         {
-            case ProjectileType.DIRECT:
+            case ProjectileType.DROP:
                 spawned_projectiles[spawned_projectiles.Count-1].transform.localPosition = 
-                    new Vector3(aux_pos.x + Random.value*10f, aux_pos.y + Random.value * 10f, aux_pos.z + Random.value * 10f);
+                    new Vector3(aux_pos.x + Random.value*10f, aux_pos.y + Random.value * 10f, aux_pos.z);
                 break;
 
-            case ProjectileType.FALL:
+            case ProjectileType.FACES:
                 spawned_projectiles[spawned_projectiles.Count - 1].transform.localPosition =
                     new Vector3(aux_pos.x + Random.value * 138.3f, aux_pos.y, aux_pos.z);
+                break;
+
+            case ProjectileType.PUNCH:
+                spawned_projectiles[spawned_projectiles.Count - 1].transform.localPosition =
+                    new Vector3(aux_pos.x + Random.value * 10f, aux_pos.y + Random.value * 10f, aux_pos.z);
                 break;
         }
     }
@@ -108,9 +113,9 @@ public class EnemyCombat : MonoBehaviour
 
     private void ThrowProjectiles()
     {
-        switch (projectiles[current_projectile].type)
+        switch (projectiles[current_projectile].movement)
         {
-            case ProjectileType.DIRECT:
+            case ProjectileMovement.DIRECT:
                 for (int i = 0; i < spawned_projectiles.Count; ++i) {
                     spawned_projectiles[i].transform.localPosition += projectile_direction[i] * Time.deltaTime
                         * projectiles[current_projectile].speed;
@@ -118,7 +123,7 @@ public class EnemyCombat : MonoBehaviour
                 }
                 break;
 
-            case ProjectileType.FALL:
+            case ProjectileMovement.FALL:
                 for (int i = 0; i < spawned_projectiles.Count; ++i) {
                     spawned_projectiles[i].transform.localPosition += Vector3.down * Time.deltaTime * projectiles[current_projectile].speed;
                     projectile_can_damage[i] = true;
