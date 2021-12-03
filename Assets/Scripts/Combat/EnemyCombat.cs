@@ -86,7 +86,8 @@ public class EnemyCombat : MonoBehaviour
         spawned_projectiles[spawned_projectiles.Count - 1].GetComponent<Hitbox>().SetEnemy(this);
         spawned_projectiles[spawned_projectiles.Count - 1].GetComponent<Hitbox>().SetIndex(spawned_projectiles.Count - 1);
         aux_pos = spawned_projectiles[spawned_projectiles.Count - 1].transform.localPosition;
-        projectile_direction.Add((host.transform.localPosition - aux_pos).normalized);
+        projectile_direction.Add((host.transform.position
+            - spawned_projectiles[spawned_projectiles.Count - 1].transform.position).normalized);
         projectile_can_damage.Add(false);
         projectile_apparates.Add(1);
 
@@ -106,13 +107,13 @@ public class EnemyCombat : MonoBehaviour
             case ProjectileType.PUNCH:
                 spawned_projectiles[spawned_projectiles.Count - 1].GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
                 spawned_projectiles[spawned_projectiles.Count - 1].transform.localPosition =
-                    new Vector3(aux_pos.x + Random.value * 136.5f, aux_pos.y + Random.value * -149.9f, aux_pos.z);
+                    new Vector3(aux_pos.x + Random.value * 164.6f, aux_pos.y + Random.value * -170.2f, aux_pos.z);
                 break;
 
             case ProjectileType.KICK:
                 spawned_projectiles[spawned_projectiles.Count - 1].GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
                 spawned_projectiles[spawned_projectiles.Count - 1].transform.localPosition =
-                    new Vector3(aux_pos.x + Random.value * 149.9f, aux_pos.y + Random.value * -112.1f, aux_pos.z);
+                    new Vector3(aux_pos.x + Random.value * 165.6f, aux_pos.y + Random.value * -170.2f, aux_pos.z);
                 break;
         }
 
@@ -141,8 +142,6 @@ public class EnemyCombat : MonoBehaviour
         {
             case ProjectileMovement.DIRECT:
                 for (int i = 0; i < spawned_projectiles.Count; ++i) {
-                    projectile_direction[i] = (host.transform.localPosition - 
-                        spawned_projectiles[spawned_projectiles.Count - 1].transform.localPosition).normalized;
                     spawned_projectiles[i].transform.localPosition += projectile_direction[i] * Time.deltaTime
                         * projectiles[current_projectile].speed;
                     projectile_can_damage[i] = true;
