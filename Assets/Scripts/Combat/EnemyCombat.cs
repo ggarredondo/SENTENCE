@@ -141,6 +141,8 @@ public class EnemyCombat : MonoBehaviour
         {
             case ProjectileMovement.DIRECT:
                 for (int i = 0; i < spawned_projectiles.Count; ++i) {
+                    projectile_direction[i] = (host.transform.localPosition - 
+                        spawned_projectiles[spawned_projectiles.Count - 1].transform.localPosition).normalized;
                     spawned_projectiles[i].transform.localPosition += projectile_direction[i] * Time.deltaTime
                         * projectiles[current_projectile].speed;
                     projectile_can_damage[i] = true;
