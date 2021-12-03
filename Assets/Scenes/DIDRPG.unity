@@ -6601,11 +6601,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats:
     level: 1
-    health: 200
-    max_health: 200
+    health: 300
+    max_health: 300
     attack: 10
   UI: {fileID: 432792654}
-  ProjectilesPanel: {fileID: 0}
   enemy_object: {fileID: 1102831699}
   player_object: {fileID: 1815206595}
   current_projectile: 0
@@ -6613,13 +6612,13 @@ MonoBehaviour:
   - UI_object: {fileID: 3206222915327600271, guid: 7d9987be8c898f1488e1804b15375f63, type: 3}
     movement: 0
     type: 0
-    speed: 200
+    speed: 250
     length: 10
     interval: 0.3
   - UI_object: {fileID: 2771228470195459346, guid: 6bd6298a2cea91e47a3bcd3af01dc6a0, type: 3}
     movement: 1
     type: 1
-    speed: 200
+    speed: 250
     length: 10
     interval: 0.3
   - UI_object: {fileID: 7027114522035966229, guid: 040bc01c8fd98d3428dae5fa972ea379, type: 3}
@@ -6627,13 +6626,13 @@ MonoBehaviour:
     type: 2
     speed: 2
     length: 10
-    interval: 0.5
+    interval: 0.2
   - UI_object: {fileID: 1188541718011862043, guid: f0edf66a5c3122c44ab2b1dfe37c5775, type: 3}
     movement: 3
     type: 3
     speed: 2
     length: 10
-    interval: 0.5
+    interval: 0.2
   depletion_transition_speed: 2
   depletion_transition_threshold: 0.005
   fade_speed: 0.65
@@ -11211,9 +11210,9 @@ MonoBehaviour:
       resilience: 5
       skills:
       - name: Sharpen
-        cost: 3
+        cost: 4
       - name: Harden
-        cost: 3
+        cost: 4
       - name: ----
         cost: 0
       - name: ----
@@ -11265,7 +11264,7 @@ MonoBehaviour:
   max_attack_multiplier: 2
   defense_multiplier: 0
   max_defense_multiplier: 2
-  healing_factor: 0.3
+  healing_factor: 0.4
   target_health: 0
   switch_max: 1
 --- !u!4 &1817900696 stripped

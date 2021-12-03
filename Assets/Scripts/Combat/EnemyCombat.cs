@@ -7,7 +7,7 @@ public class EnemyCombat : MonoBehaviour
 {
     public EnemyStats stats;
     SpriteRenderer sprite_renderer;
-    public GameObject UI, ProjectilesPanel;
+    public GameObject UI;
     public GameObject enemy_object;
     public GameObject player_object;
     public int current_projectile = 0;
@@ -23,7 +23,7 @@ public class EnemyCombat : MonoBehaviour
     private List<Vector3> projectile_direction;
     private List<bool> projectile_can_damage;
     private List<int> projectile_apparates;
-    private GameObject cut_animation, FadePanel, host;
+    private GameObject cut_animation, FadePanel, host, ProjectilesPanel;
     private TransitionPhase current_phase = TransitionPhase.FIRST_PHASE;
 
     // Start is called before the first frame update
