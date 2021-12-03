@@ -6610,18 +6610,6 @@ MonoBehaviour:
   player_object: {fileID: 1815206595}
   current_projectile: 0
   projectiles:
-  - UI_object: {fileID: 4025898974265036050, guid: 040bc01c8fd98d3428dae5fa972ea379, type: 3}
-    movement: 3
-    type: 2
-    speed: 2
-    length: 10
-    interval: 0.5
-  - UI_object: {fileID: 597277970600341614, guid: f0edf66a5c3122c44ab2b1dfe37c5775, type: 3}
-    movement: 3
-    type: 3
-    speed: 2
-    length: 10
-    interval: 0.5
   - UI_object: {fileID: 3206222915327600271, guid: 7d9987be8c898f1488e1804b15375f63, type: 3}
     movement: 0
     type: 0
@@ -6634,6 +6622,18 @@ MonoBehaviour:
     speed: 200
     length: 10
     interval: 0.3
+  - UI_object: {fileID: 4025898974265036050, guid: 040bc01c8fd98d3428dae5fa972ea379, type: 3}
+    movement: 3
+    type: 2
+    speed: 2
+    length: 10
+    interval: 0.5
+  - UI_object: {fileID: 597277970600341614, guid: f0edf66a5c3122c44ab2b1dfe37c5775, type: 3}
+    movement: 3
+    type: 3
+    speed: 2
+    length: 10
+    interval: 0.5
   depletion_transition_speed: 2
   depletion_transition_threshold: 0.005
   fade_speed: 0.65
