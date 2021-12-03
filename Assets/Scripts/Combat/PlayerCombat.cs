@@ -35,7 +35,7 @@ public class PlayerCombat : MonoBehaviour
     public bool ActivateCombatUI = false;
     public float rotation_speed = -200f, selecting_scale = 0.3f, transition_speed = 4f, transition_time = 1f, fade_speed = 0.65f,
         fade_threshold = 0.005f, depletion_threshold = 1f, attack_multiplier, max_attack_multiplier = 2f, defense_multiplier, 
-        max_defense_multiplier = 2f, healing_factor = 0.25f, target_health;
+        max_defense_multiplier = 2f, healing_factor = 0.3f, target_health;
     public int switch_max = 1;
 
     private GameObject AlterSystemUI, CombatUI, ActionMenu, MagicMenu, AvoidPanel, FadePanel, SelectionArrow, health_bar, mana_bar, shield;

@@ -6613,22 +6613,22 @@ MonoBehaviour:
   - UI_object: {fileID: 3206222915327600271, guid: 7d9987be8c898f1488e1804b15375f63, type: 3}
     movement: 0
     type: 0
-    speed: 250
-    length: 10
-    interval: 0.2
-  - UI_object: {fileID: 2574967738278422871, guid: 6bd6298a2cea91e47a3bcd3af01dc6a0, type: 3}
-    movement: 1
-    type: 1
-    speed: 250
+    speed: 200
     length: 10
     interval: 0.3
-  - UI_object: {fileID: 4025898974265036050, guid: 040bc01c8fd98d3428dae5fa972ea379, type: 3}
+  - UI_object: {fileID: 2771228470195459346, guid: 6bd6298a2cea91e47a3bcd3af01dc6a0, type: 3}
+    movement: 1
+    type: 1
+    speed: 200
+    length: 10
+    interval: 0.3
+  - UI_object: {fileID: 7027114522035966229, guid: 040bc01c8fd98d3428dae5fa972ea379, type: 3}
     movement: 3
     type: 2
     speed: 2
     length: 10
     interval: 0.5
-  - UI_object: {fileID: 597277970600341614, guid: f0edf66a5c3122c44ab2b1dfe37c5775, type: 3}
+  - UI_object: {fileID: 1188541718011862043, guid: f0edf66a5c3122c44ab2b1dfe37c5775, type: 3}
     movement: 3
     type: 3
     speed: 2
@@ -11265,7 +11265,7 @@ MonoBehaviour:
   max_attack_multiplier: 2
   defense_multiplier: 0
   max_defense_multiplier: 2
-  healing_factor: 0.25
+  healing_factor: 0.3
   target_health: 0
   switch_max: 1
 --- !u!4 &1817900696 stripped

@@ -100,19 +100,19 @@ public class EnemyCombat : MonoBehaviour
 
             case ProjectileType.FACES:
                 spawned_projectiles[spawned_projectiles.Count - 1].transform.localPosition =
-                    new Vector3(aux_pos.x + Random.value * 138.3f, aux_pos.y, aux_pos.z);
+                    new Vector3(aux_pos.x + Random.value * 148.5f, aux_pos.y, aux_pos.z);
                 break;
 
             case ProjectileType.PUNCH:
                 spawned_projectiles[spawned_projectiles.Count - 1].GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
                 spawned_projectiles[spawned_projectiles.Count - 1].transform.localPosition =
-                    new Vector3(aux_pos.x + Random.value * 113.4f, aux_pos.y + Random.value * -132.7f, aux_pos.z);
+                    new Vector3(aux_pos.x + Random.value * 136.5f, aux_pos.y + Random.value * -149.9f, aux_pos.z);
                 break;
 
             case ProjectileType.KICK:
                 spawned_projectiles[spawned_projectiles.Count - 1].GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
                 spawned_projectiles[spawned_projectiles.Count - 1].transform.localPosition =
-                    new Vector3(aux_pos.x + Random.value * 131.6f, aux_pos.y + Random.value * -92.9f, aux_pos.z);
+                    new Vector3(aux_pos.x + Random.value * 149.9f, aux_pos.y + Random.value * -112.1f, aux_pos.z);
                 break;
         }
 
