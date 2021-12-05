@@ -11221,7 +11221,7 @@ MonoBehaviour:
       name: Arathorn
       age: 22
       gender: Male
-      type: 3
+      type: 0
       attack: 15
       resilience: 40
       skills:
