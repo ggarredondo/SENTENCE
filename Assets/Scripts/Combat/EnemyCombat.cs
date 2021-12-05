@@ -86,6 +86,7 @@ public class EnemyCombat : MonoBehaviour
         spawned_projectiles[spawned_projectiles.Count - 1].GetComponent<Hitbox>().SetEnemy(this);
         spawned_projectiles[spawned_projectiles.Count - 1].GetComponent<Hitbox>().SetIndex(spawned_projectiles.Count - 1);
         aux_pos = spawned_projectiles[spawned_projectiles.Count - 1].transform.localPosition;
+        aux_image = spawned_projectiles[spawned_projectiles.Count - 1].GetComponent<Image>();
         projectile_direction.Add((host.transform.position
             - spawned_projectiles[spawned_projectiles.Count - 1].transform.position).normalized);
         projectile_can_damage.Add(false);
@@ -105,13 +106,15 @@ public class EnemyCombat : MonoBehaviour
                 break;
 
             case ProjectileType.PUNCH:
-                spawned_projectiles[spawned_projectiles.Count - 1].GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
+                spawned_projectiles[spawned_projectiles.Count - 1].GetComponent<Image>().color = 
+                    new Color(aux_image.color.r, aux_image.color.g, aux_image.color.b, 0f);
                 spawned_projectiles[spawned_projectiles.Count - 1].transform.localPosition =
                     new Vector3(aux_pos.x + Random.value * 164.6f, aux_pos.y + Random.value * -170.2f, aux_pos.z);
                 break;
 
             case ProjectileType.KICK:
-                spawned_projectiles[spawned_projectiles.Count - 1].GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
+                spawned_projectiles[spawned_projectiles.Count - 1].GetComponent<Image>().color =
+                    new Color(aux_image.color.r, aux_image.color.g, aux_image.color.b, 0f);
                 spawned_projectiles[spawned_projectiles.Count - 1].transform.localPosition =
                     new Vector3(aux_pos.x + Random.value * 165.6f, aux_pos.y + Random.value * -170.2f, aux_pos.z);
                 break;
@@ -158,7 +161,8 @@ public class EnemyCombat : MonoBehaviour
             case ProjectileMovement.APPARITION:
                 for (int i = 0; i < spawned_projectiles.Count; ++i) {
                     aux_image = spawned_projectiles[i].GetComponent<Image>();
-                    spawned_projectiles[i].GetComponent<Image>().color = new Color(1f, 1f, 1f, aux_image.color.a + 
+                    spawned_projectiles[i].GetComponent<Image>().color = new Color(aux_image.color.r, aux_image.color.g, 
+                        aux_image.color.b, aux_image.color.a + 
                         Time.deltaTime * projectiles[current_projectile].speed * projectile_apparates[i]);
                     projectile_can_damage[i] = spawned_projectiles[i].GetComponent<Image>().color.a > alpha_threshold;
                     if (aux_image.color.a >= 1f)
