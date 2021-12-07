@@ -7,8 +7,8 @@ public class PlayerInput : MonoBehaviour
 {
     PlayerController controller;
     PlayerCombat player_combat;
-    public GameObject UI, Menu, OptionsMenu;
-    bool toggle_menu = false, toggle_options = false;
+    public GameObject UI, Menu, OptionsMenu, SystemMenu;
+    bool toggle_menu = false, toggle_options = false, toggle_system = false;
 
     public void Exit() {
         Application.Quit();
@@ -16,6 +16,12 @@ public class PlayerInput : MonoBehaviour
 
     public void ToggleOptionsMenu() {
         toggle_options = !toggle_options;
+        toggle_system = false;
+    }
+
+    public void ToggleSystemMenu() {
+        toggle_system = !toggle_system;
+        toggle_options = false;
     }
 
     public void ToggleFullscreen() {
@@ -31,6 +37,7 @@ public class PlayerInput : MonoBehaviour
         player_combat = GetComponent<PlayerCombat>();
         Menu = UI.transform.Find("Menu").gameObject;
         OptionsMenu = Menu.transform.Find("OptionsMenu").gameObject;
+        SystemMenu = Menu.transform.Find("SystemMenu").gameObject;
     }
 
     private void UIStateManagement() {
@@ -40,6 +47,8 @@ public class PlayerInput : MonoBehaviour
         Menu.SetActive(toggle_menu);
         toggle_options = toggle_options && player_combat.current_state == TurnState.WAITING;
         OptionsMenu.SetActive(toggle_options);
+        toggle_system = toggle_system && player_combat.current_state == TurnState.WAITING;
+        SystemMenu.SetActive(toggle_system);
     }
 
     private void Update()

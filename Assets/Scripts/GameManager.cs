@@ -9,11 +9,6 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    void Start() 
-    {
-        Screen.SetResolution(1920, 1080, FullScreenMode.ExclusiveFullScreen);
-    }
-
     // Update is called once per frame
     void Update()
     {
