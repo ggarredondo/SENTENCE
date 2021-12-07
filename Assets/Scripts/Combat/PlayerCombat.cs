@@ -140,6 +140,8 @@ public class PlayerCombat : MonoBehaviour
         AlterSystemUI.SetActive(ActivateAlterUI);
         SelectionArrow.SetActive(ActivateAlterUI);
         AlterImages[off_screen_alter].SetActive(current_state == TurnState.SWITCHING);
+
+        // action & magic menu
         ActivateActionMenu = current_state == TurnState.SELECTING;
         ActionMenu.SetActive(ActivateActionMenu);
         if (!ActivateActionMenu)
