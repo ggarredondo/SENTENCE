@@ -7,20 +7,28 @@ public class PlayerInput : MonoBehaviour
 {
     PlayerController controller;
     PlayerCombat player_combat;
-    public GameObject UI, Menu, OptionsMenu, SystemMenu;
-    bool toggle_menu = false, toggle_options = false, toggle_system = false;
+    public GameObject UI, Menu, SystemMenu, OptionsMenu, ControlsMenu;
+    bool toggle_menu = true, toggle_system = false, toggle_options = false, toggle_controls = true;
 
     public void Exit() {
         Application.Quit();
     }
 
+    public void ToggleSystemMenu() {
+        toggle_system = !toggle_system;
+        toggle_options = false;
+        toggle_controls = false;
+    }
+
     public void ToggleOptionsMenu() {
         toggle_options = !toggle_options;
         toggle_system = false;
+        toggle_controls = false;
     }
 
-    public void ToggleSystemMenu() {
-        toggle_system = !toggle_system;
+    public void ToggleControlsMenu() {
+        toggle_controls = !toggle_controls;
+        toggle_system = false;
         toggle_options = false;
     }
 
@@ -38,6 +46,7 @@ public class PlayerInput : MonoBehaviour
         Menu = UI.transform.Find("Menu").gameObject;
         OptionsMenu = Menu.transform.Find("OptionsMenu").gameObject;
         SystemMenu = Menu.transform.Find("SystemMenu").gameObject;
+        ControlsMenu = Menu.transform.Find("ControlsMenu").gameObject;
     }
 
     private void UIStateManagement() {
@@ -45,10 +54,12 @@ public class PlayerInput : MonoBehaviour
             toggle_menu = !toggle_menu;
         toggle_menu = toggle_menu && player_combat.current_state == TurnState.WAITING;
         Menu.SetActive(toggle_menu);
-        toggle_options = toggle_options && player_combat.current_state == TurnState.WAITING;
+        toggle_options = toggle_options && player_combat.current_state == TurnState.WAITING && toggle_menu;
         OptionsMenu.SetActive(toggle_options);
-        toggle_system = toggle_system && player_combat.current_state == TurnState.WAITING;
+        toggle_system = toggle_system && player_combat.current_state == TurnState.WAITING && toggle_menu;
         SystemMenu.SetActive(toggle_system);
+        toggle_controls = toggle_controls && player_combat.current_state == TurnState.WAITING && toggle_menu;
+        ControlsMenu.SetActive(toggle_controls);
     }
 
     private void Update()
