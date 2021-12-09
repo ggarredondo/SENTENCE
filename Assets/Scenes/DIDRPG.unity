@@ -7737,7 +7737,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Navigate UI
+  m_Text: Navigate
 --- !u!222 &844098147
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11157,7 +11157,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'Receive less damage from monsters
 
-    depending on the alter''s resilience
+    depending on the Alter''s resilience
 
     and
     recover some magic power.'
