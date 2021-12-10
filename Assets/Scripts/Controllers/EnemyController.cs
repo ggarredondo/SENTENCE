@@ -7,8 +7,7 @@ public class EnemyController : MonoBehaviour
     public GameObject player, independant_collider;
     EnemyCombat enemy_combat;
 
-    private void Start()
-    {
+    private void Start() {
         enemy_combat = GetComponent<EnemyCombat>();
     }
 

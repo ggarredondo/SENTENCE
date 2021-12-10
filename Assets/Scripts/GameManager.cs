@@ -5,25 +5,44 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    static GameManager instance;
     public GameObject UI, player, enemy;
-    public Vector3 easy_dif, normal_dif, hard_dif;
-    Vector3 current_dif;
+    public Vector3 easy_dif, normal_dif, hard_dif, current_dif;
     Button easy_button, normal_button, hard_button;
 
     // Start is called before the first frame update
     private void Awake() {
-        DontDestroyOnLoad(this);
         current_dif = normal_dif;
         easy_button = UI.transform.Find("Menu").Find("OptionsMenu").Find("DifficultyMenu").Find("EasyButton").GetComponent<Button>();
         normal_button = UI.transform.Find("Menu").Find("OptionsMenu").Find("DifficultyMenu").Find("NormalButton").GetComponent<Button>();
         hard_button = UI.transform.Find("Menu").Find("OptionsMenu").Find("DifficultyMenu").Find("HardButton").GetComponent<Button>();
+
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            instance.UI = this.UI;
+            instance.player = this.player;
+            instance.enemy = this.enemy;
+            instance.easy_button = this.easy_button;
+            instance.normal_button = this.normal_button;
+            instance.hard_button = this.hard_button;
+            Destroy(this.gameObject);
+        }
     }
 
     private void DifficultyUpdate() {
-        if (player.GetComponent<PlayerCombat>().current_state == TurnState.TRANSITION_TO_FIGHT) {
-            enemy.GetComponent<EnemyCombat>().stats.health = current_dif.x;
-            enemy.GetComponent<EnemyCombat>().stats.max_health = current_dif.y;
-            enemy.GetComponent<EnemyCombat>().stats.attack = current_dif.z;
+        if (player)
+        {
+            if (player.GetComponent<PlayerCombat>().current_state == TurnState.TRANSITION_TO_FIGHT)
+            {
+                enemy.GetComponent<EnemyCombat>().stats.health = current_dif.x;
+                enemy.GetComponent<EnemyCombat>().stats.max_health = current_dif.y;
+                enemy.GetComponent<EnemyCombat>().stats.attack = current_dif.z;
+            }
         }
     }
 
