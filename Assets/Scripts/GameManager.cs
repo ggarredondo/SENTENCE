@@ -7,12 +7,13 @@ public class GameManager : MonoBehaviour
 {
     static GameManager instance;
     public GameObject UI, player, enemy;
-    public Vector3 easy_dif, normal_dif, hard_dif, current_dif;
-    Button easy_button, normal_button, hard_button;
+    public Vector3 easiest_dif, easy_dif, normal_dif, hard_dif, current_dif;
+    Button easiest_button, easy_button, normal_button, hard_button;
 
     // Start is called before the first frame update
     private void Awake() {
         current_dif = normal_dif;
+        easiest_button = UI.transform.Find("Menu").Find("OptionsMenu").Find("DifficultyMenu").Find("EasiestButton").GetComponent<Button>();
         easy_button = UI.transform.Find("Menu").Find("OptionsMenu").Find("DifficultyMenu").Find("EasyButton").GetComponent<Button>();
         normal_button = UI.transform.Find("Menu").Find("OptionsMenu").Find("DifficultyMenu").Find("NormalButton").GetComponent<Button>();
         hard_button = UI.transform.Find("Menu").Find("OptionsMenu").Find("DifficultyMenu").Find("HardButton").GetComponent<Button>();
@@ -27,6 +28,8 @@ public class GameManager : MonoBehaviour
             instance.UI = this.UI;
             instance.player = this.player;
             instance.enemy = this.enemy;
+            instance.easiest_button = this.easiest_button;
+            instance.easiest_button.onClick.AddListener(instance.EasiestButton);
             instance.easy_button = this.easy_button;
             instance.easy_button.onClick.AddListener(instance.EasyButton);
             instance.normal_button = this.normal_button;
@@ -49,6 +52,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void EasiestButton() {
+        current_dif = easiest_dif;
+    }
+
     public void EasyButton() {
         current_dif = easy_dif;
     }
@@ -62,6 +69,7 @@ public class GameManager : MonoBehaviour
     }
 
     private void UIStateManagement() {
+        easiest_button.interactable = !(current_dif == easiest_dif);
         easy_button.interactable = !(current_dif == easy_dif);
         normal_button.interactable = !(current_dif == normal_dif);
         hard_button.interactable = !(current_dif == hard_dif);
