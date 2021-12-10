@@ -8848,7 +8848,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1815206595}
   independant_collider: {fileID: 1223248228}
-  game_manager: {fileID: 1231221548}
 --- !u!212 &1102831701
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -14041,7 +14040,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UI: {fileID: 432792654}
-  game_manager: {fileID: 1231221548}
 --- !u!114 &1815206597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19241,7 +19239,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 301bf84fe1456794c92d50c2a68e92df, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e791b564049e10349bac3bf626439373, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
