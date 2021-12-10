@@ -28,8 +28,11 @@ public class GameManager : MonoBehaviour
             instance.player = this.player;
             instance.enemy = this.enemy;
             instance.easy_button = this.easy_button;
+            instance.easy_button.onClick.AddListener(instance.EasyButton);
             instance.normal_button = this.normal_button;
+            instance.normal_button.onClick.AddListener(instance.NormalButton);
             instance.hard_button = this.hard_button;
+            instance.hard_button.onClick.AddListener(instance.HardButton);
             Destroy(this.gameObject);
         }
     }
