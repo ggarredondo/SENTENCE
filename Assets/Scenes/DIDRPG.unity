@@ -2152,7 +2152,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 208157025}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8599607707869715760}
+        m_TargetAssemblyTypeName: AlterInfoScript, Assembly-CSharp
+        m_MethodName: Alter4Button
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &208157025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5395,11 +5407,23 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 541728195}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1815206596}
+        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
+        m_MethodName: ToggleSystemMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &541728195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8027,7 +8051,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 897285882}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8599607707869715760}
+        m_TargetAssemblyTypeName: AlterInfoScript, Assembly-CSharp
+        m_MethodName: Alter1Button
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &897285882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9532,7 +9568,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1106451543}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8599607707869715760}
+        m_TargetAssemblyTypeName: AlterInfoScript, Assembly-CSharp
+        m_MethodName: Alter2Button
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1106451543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12989,7 +13037,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1541098430}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8599607707869715760}
+        m_TargetAssemblyTypeName: AlterInfoScript, Assembly-CSharp
+        m_MethodName: Alter3Button
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1541098430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15112,6 +15172,7 @@ MonoBehaviour:
   UI: {fileID: 432792654}
   current_state: 0
   ActivateCombatUI: 0
+  ActivateActionMenu: 0
   rotation_speed: -200
   selecting_scale: 0.3
   transition_speed: 4

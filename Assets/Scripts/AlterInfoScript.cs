@@ -8,6 +8,7 @@ public class AlterInfoScript : MonoBehaviour
     public PlayerCombat player_combat;
     GameObject SystemMenu, Info;
     Text NameSpace, AgeSpace, GenderSpace;
+    Image sprite;
     List<Alter> system;
 
     private void UpdateSystemNames()
@@ -21,20 +22,27 @@ public class AlterInfoScript : MonoBehaviour
             SystemMenu.transform.Find("Alter4").Find("AlterName").GetComponent<Text>().text = player_combat.stats.system[3].name;
     }
 
-    public void ShowInfo(string name) 
+    private void ShowInfo(string name) 
     {
-        for (int i = 0; i < system.Count && !Info.activeInHierarchy; ++i) { 
+        Info.SetActive(true);
+        for (int i = 0; i < system.Count; ++i) { 
             if (system[i].name == name)
             {
                 NameSpace.text = system[i].name;
                 AgeSpace.text = system[i].age;
                 GenderSpace.text = system[i].gender;
-                Info.SetActive(true);
+                sprite.sprite = system[i].sprite;
+                break;
             }
         }
     }
 
-    // Start is called before the first frame update
+    public void Alter1Button() { ShowInfo(system[0].name); }
+    public void Alter2Button() { ShowInfo(system[1].name); }
+    public void Alter3Button() { ShowInfo(system[2].name); }
+    public void Alter4Button() { ShowInfo(system[3].name); }
+
+
     void Start() {
         SystemMenu = this.transform.Find("SystemMenu").gameObject;
         Info = SystemMenu.transform.Find("Info").gameObject;
@@ -43,10 +51,7 @@ public class AlterInfoScript : MonoBehaviour
         NameSpace = Info.transform.Find("NameSpace").GetComponent<Text>();
         AgeSpace = Info.transform.Find("AgeSpace").GetComponent<Text>();
         GenderSpace = Info.transform.Find("GenderSpace").GetComponent<Text>();
+        sprite = Info.transform.Find("Sprite").Find("Sprite").GetComponent<Image>();
         UpdateSystemNames();
-    }
-
-    private void Update() {
-
     }
 }

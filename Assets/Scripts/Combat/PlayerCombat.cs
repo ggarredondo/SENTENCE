@@ -32,7 +32,7 @@ public class PlayerCombat : MonoBehaviour
     public GameObject UI;
     EnemyCombat enemy;
     public TurnState current_state = TurnState.WAITING;
-    public bool ActivateCombatUI = false;
+    public bool ActivateCombatUI = false, ActivateActionMenu;
     public float rotation_speed = -200f, selecting_scale = 0.3f, transition_speed = 4f, transition_time = 1f, fade_speed = 0.65f,
         fade_threshold = 0.005f, depletion_threshold = 1f, attack_multiplier, max_attack_multiplier = 2f, defense_multiplier, 
         max_defense_multiplier = 2f, healing_factor = 0.3f, target_health;
@@ -49,7 +49,7 @@ public class PlayerCombat : MonoBehaviour
     private float timer;
     private TransitionPhase current_phase = TransitionPhase.FIRST_PHASE;
     private int current_alter = 0, switch_number, switch_counter = 0, off_screen_alter;
-    private bool ActivateAlterUI, ActivateActionMenu, defending = false, magic_interactable, toggle_magic_menu = false, regenerating,
+    private bool ActivateAlterUI, defending = false, magic_interactable, toggle_magic_menu = false, regenerating,
         update_mana_bar = false;
     private Quaternion alterUI_target_angle;
 

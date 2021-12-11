@@ -9,7 +9,7 @@ public class PlayerInput : MonoBehaviour
     PlayerController controller;
     PlayerCombat player_combat;
     public GameObject UI;
-    GameObject Menu, SystemMenu, OptionsMenu, ControlsMenu, DifficultyMenu;
+    GameObject Menu, SystemMenu, Info, OptionsMenu, ControlsMenu, DifficultyMenu;
     bool toggle_menu = true, toggle_system = false, toggle_options = false, toggle_difficulty = false, toggle_controls = true;
 
     public void Exit() {
@@ -53,6 +53,7 @@ public class PlayerInput : MonoBehaviour
         OptionsMenu = Menu.transform.Find("OptionsMenu").gameObject;
         DifficultyMenu = Menu.transform.Find("OptionsMenu").Find("DifficultyMenu").gameObject;
         SystemMenu = UI.transform.Find("AlterInfo").Find("SystemMenu").gameObject;
+        Info = SystemMenu.transform.Find("Info").gameObject;
         ControlsMenu = Menu.transform.Find("ControlsMenu").gameObject;
     }
 
@@ -63,8 +64,9 @@ public class PlayerInput : MonoBehaviour
         Menu.SetActive(toggle_menu);
         toggle_options = toggle_options && player_combat.current_state == TurnState.WAITING && toggle_menu;
         OptionsMenu.SetActive(toggle_options);
-        toggle_system = toggle_system && player_combat.current_state == TurnState.WAITING && toggle_menu;
+        toggle_system = toggle_system && (toggle_menu || player_combat.ActivateActionMenu);
         SystemMenu.SetActive(toggle_system);
+        Info.SetActive(Info.activeInHierarchy && toggle_system);
         toggle_controls = toggle_controls && player_combat.current_state == TurnState.WAITING && toggle_menu;
         ControlsMenu.SetActive(toggle_controls);
         toggle_difficulty = toggle_difficulty && toggle_options;
