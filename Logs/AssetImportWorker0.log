@@ -1184,3 +1184,12 @@ AssetImportParameters requested are different than current active one (requested
   custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
   custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 433.028440 seconds.
+  path: Assets/Scenes/Version17.unity
+  artifactKey: Guid(6f946c85ca8819b45918907b32a8cd76) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/Version17.unity using Guid(6f946c85ca8819b45918907b32a8cd76) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '96a7ca2528bfee4c3d970e67b7ad7bd5') in 0.323959 seconds 
+  Import took 0.329695 seconds .
+
+AssetImportWorkerClient::OnTransportError - code=2 error=End of file
