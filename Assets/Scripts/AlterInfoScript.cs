@@ -48,9 +48,9 @@ public class AlterInfoScript : MonoBehaviour
         Info = SystemMenu.transform.Find("Info").gameObject;
         Info.SetActive(false);
         system = player_combat.stats.system;
-        NameSpace = Info.transform.Find("NameSpace").GetComponent<Text>();
-        AgeSpace = Info.transform.Find("AgeSpace").GetComponent<Text>();
-        GenderSpace = Info.transform.Find("GenderSpace").GetComponent<Text>();
+        NameSpace = Info.transform.Find("Name").Find("Space").GetComponent<Text>();
+        AgeSpace = Info.transform.Find("Age").Find("Space").GetComponent<Text>();
+        GenderSpace = Info.transform.Find("Gender").Find("Space").GetComponent<Text>();
         sprite = Info.transform.Find("Sprite").Find("Sprite").GetComponent<Image>();
         UpdateSystemNames();
     }
