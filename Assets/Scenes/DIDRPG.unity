@@ -60671,7 +60671,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Deal damage to monsters depending \non the Alter's attack."
+  m_Text: 'Deal damage to monsters relative to
+
+    the Alter''s attack power.'
 --- !u!224 &3700787272852533865
 RectTransform:
   m_ObjectHideFlags: 0
@@ -62383,7 +62385,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'Receive less damage from monsters
 
-    depending on the Alter''s resilience
+    relative to the Alter''s resilience
 
     and
     recover some magic power.'
