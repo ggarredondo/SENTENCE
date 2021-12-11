@@ -7,6 +7,8 @@ public class AlterInfoScript : MonoBehaviour
 {
     public PlayerCombat player_combat;
     GameObject SystemMenu, Info;
+    Text NameSpace, AgeSpace, GenderSpace;
+    List<Alter> system;
 
     private void UpdateSystemNames()
     {
@@ -19,11 +21,32 @@ public class AlterInfoScript : MonoBehaviour
             SystemMenu.transform.Find("Alter4").Find("AlterName").GetComponent<Text>().text = player_combat.stats.system[3].name;
     }
 
+    public void ShowInfo(string name) 
+    {
+        for (int i = 0; i < system.Count && !Info.activeInHierarchy; ++i) { 
+            if (system[i].name == name)
+            {
+                NameSpace.text = system[i].name;
+                AgeSpace.text = system[i].age;
+                GenderSpace.text = system[i].gender;
+                Info.SetActive(true);
+            }
+        }
+    }
+
     // Start is called before the first frame update
     void Start() {
         SystemMenu = this.transform.Find("SystemMenu").gameObject;
-        Info = this.transform.Find("Info").gameObject;
+        Info = SystemMenu.transform.Find("Info").gameObject;
         Info.SetActive(false);
+        system = player_combat.stats.system;
+        NameSpace = Info.transform.Find("NameSpace").GetComponent<Text>();
+        AgeSpace = Info.transform.Find("AgeSpace").GetComponent<Text>();
+        GenderSpace = Info.transform.Find("GenderSpace").GetComponent<Text>();
         UpdateSystemNames();
+    }
+
+    private void Update() {
+
     }
 }

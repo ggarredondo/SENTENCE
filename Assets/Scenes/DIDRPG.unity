@@ -841,7 +841,7 @@ GameObject:
   - component: {fileID: 94913526}
   - component: {fileID: 94913525}
   m_Layer: 0
-  m_Name: IdentityText
+  m_Name: NameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -966,7 +966,7 @@ GameObject:
   - component: {fileID: 113911253}
   - component: {fileID: 113911252}
   m_Layer: 0
-  m_Name: CustomText (2)
+  m_Name: AgeSpace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6280,8 +6280,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 643980121}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 136.32169, y: -17.722927, z: -2322.2427}
-  m_LocalScale: {x: 2.563418, y: 2.563418, z: 2.563418}
+  m_LocalPosition: {x: 136.32324, y: -17.723145, z: -2322.2676}
+  m_LocalScale: {x: 2.5634453, y: 2.5634453, z: 2.5634453}
   m_Children:
   - {fileID: 8599607707617100157}
   - {fileID: 8599607706712754849}
@@ -6294,8 +6294,8 @@ Transform:
   - {fileID: 1231139413}
   - {fileID: 113911251}
   - {fileID: 1211872891}
-  m_Father: {fileID: 8599607707869715759}
-  m_RootOrder: 1
+  m_Father: {fileID: 1931312969}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &661069895 stripped
 Transform:
@@ -9419,7 +9419,6 @@ MonoBehaviour:
     max_health: 300
     attack: 10
   UI: {fileID: 432792654}
-  enemy_object: {fileID: 1102831699}
   player_object: {fileID: 1815206595}
   current_projectile: 0
   projectiles:
@@ -10507,7 +10506,7 @@ GameObject:
   - component: {fileID: 1211872893}
   - component: {fileID: 1211872892}
   m_Layer: 0
-  m_Name: CustomText (3)
+  m_Name: GenderSpace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10635,7 +10634,7 @@ GameObject:
   - component: {fileID: 1231139415}
   - component: {fileID: 1231139414}
   m_Layer: 0
-  m_Name: CustomText
+  m_Name: NameSpace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11202,7 +11201,7 @@ GameObject:
   - component: {fileID: 1302762747}
   - component: {fileID: 1302762746}
   m_Layer: 0
-  m_Name: IdentityText (2)
+  m_Name: GenderText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12580,7 +12579,7 @@ GameObject:
   - component: {fileID: 1508695499}
   - component: {fileID: 1508695498}
   m_Layer: 0
-  m_Name: IdentityText (1)
+  m_Name: AgeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15885,6 +15884,7 @@ RectTransform:
   - {fileID: 1106451541}
   - {fileID: 1541098428}
   - {fileID: 208157023}
+  - {fileID: 643980122}
   m_Father: {fileID: 8599607707869715759}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -66552,7 +66552,6 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1931312969}
-  - {fileID: 643980122}
   m_Father: {fileID: 432792655}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
