@@ -8,7 +8,6 @@ public class EnemyCombat : MonoBehaviour
     public EnemyStats stats;
     SpriteRenderer sprite_renderer;
     public GameObject UI;
-    public GameObject enemy_object;
     public GameObject player_object;
     public int current_projectile = 0;
     public List<Projectile> projectiles;
@@ -248,7 +247,7 @@ public class EnemyCombat : MonoBehaviour
                         if (FadePanel.GetComponent<Image>().color.a <= 0f) {
                             player.current_state = TurnState.WAITING;
                             player.ResetAvoidPanelRotation();
-                            enemy_object.SetActive(false);
+                            this.gameObject.SetActive(false);
                         }
                         break;
                 }
