@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public AlterInfoScript alter_info;
     public Vector3 easiest_dif, easy_dif, normal_dif, hard_dif, current_dif;
     public List<Alter> new_alters;
-    const int fst_threshold = 1, snd_threshold = 2, thrd_threshold = 3, fth_threshold = 4;
+    const int fst_threshold = 2, snd_threshold = 3, thrd_threshold = 4, fth_threshold = 5;
     PlayerCombat player_combat;
     Button easiest_button, easy_button, normal_button, hard_button;
     int last_counter = 0, death_counter = 0;
@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            player_combat.stats.system[0].name = System.Environment.UserName;
             DontDestroyOnLoad(this.gameObject);
         }
         else
