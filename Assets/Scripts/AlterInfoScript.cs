@@ -7,7 +7,7 @@ public class AlterInfoScript : MonoBehaviour
 {
     public PlayerCombat player_combat;
     GameObject SystemMenu, Info;
-    Text NameSpace, AgeSpace, GenderSpace;
+    Text NameSpace, AgeSpace, GenderSpace, TypeSpace, AttackSpace, ResilienceSpace;
     Image sprite;
     List<Alter> system;
 
@@ -28,10 +28,15 @@ public class AlterInfoScript : MonoBehaviour
         for (int i = 0; i < system.Count; ++i) { 
             if (system[i].name == name)
             {
+                sprite.sprite = system[i].sprite;
+
                 NameSpace.text = system[i].name;
                 AgeSpace.text = system[i].age;
                 GenderSpace.text = system[i].gender;
-                sprite.sprite = system[i].sprite;
+
+                TypeSpace.text = system[i].type.ToString();
+                AttackSpace.text = system[i].attack.ToString();
+                ResilienceSpace.text = system[i].resilience.ToString();
                 break;
             }
         }
@@ -48,10 +53,16 @@ public class AlterInfoScript : MonoBehaviour
         Info = SystemMenu.transform.Find("Info").gameObject;
         Info.SetActive(false);
         system = player_combat.stats.system;
+        sprite = Info.transform.Find("Sprite").Find("Sprite").GetComponent<Image>();
+
         NameSpace = Info.transform.Find("Name").Find("Space").GetComponent<Text>();
         AgeSpace = Info.transform.Find("Age").Find("Space").GetComponent<Text>();
         GenderSpace = Info.transform.Find("Gender").Find("Space").GetComponent<Text>();
-        sprite = Info.transform.Find("Sprite").Find("Sprite").GetComponent<Image>();
+
+        TypeSpace = Info.transform.Find("Type").Find("Space").GetComponent<Text>();
+        AttackSpace = Info.transform.Find("Attack").Find("Space").GetComponent<Text>();
+        ResilienceSpace = Info.transform.Find("Resilience").Find("Space").GetComponent<Text>();
+
         UpdateSystemNames();
     }
 }
