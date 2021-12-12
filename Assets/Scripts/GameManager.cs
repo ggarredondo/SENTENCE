@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public AlterInfoScript alter_info;
     public Vector3 easiest_dif, easy_dif, normal_dif, hard_dif, current_dif;
     public List<Alter> new_alters;
-    const int fst_threshold = 2, snd_threshold = 3, thrd_threshold = 4, fth_threshold = 5;
+    public int fst_threshold = 1, snd_threshold = 2, thrd_threshold = 3;
     PlayerCombat player_combat;
     Button easiest_button, easy_button, normal_button, hard_button;
     int last_counter = 0, death_counter = 0;
@@ -92,29 +92,16 @@ public class GameManager : MonoBehaviour
     {
         if (last_counter != death_counter)
         {
-            switch (death_counter)
-            {
-                case fst_threshold:
-                    NextAlter();
-                    break;
-
-                case snd_threshold:
-                    NextAlter();
-                    NextAlter();
-                    break;
-
-                case thrd_threshold:
-                    NextAlter();
-                    NextAlter();
-                    NextAlter();
-                    break;
-
-                case fth_threshold:
-                    NextAlter();
-                    NextAlter();
-                    NextAlter();
-                    NextAlter();
-                    break;
+            if (death_counter == fst_threshold)
+                NextAlter();
+            else if (death_counter == snd_threshold) {
+                NextAlter();
+                NextAlter();
+            }
+            else if (death_counter >= thrd_threshold) {
+                NextAlter();
+                NextAlter();
+                NextAlter();
             }
             alter_info.UpdateSystemNames();
             last_counter = death_counter;

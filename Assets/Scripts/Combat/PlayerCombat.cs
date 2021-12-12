@@ -39,7 +39,7 @@ public class PlayerCombat : MonoBehaviour
     public int switch_max = 1;
 
     private GameObject AlterSystemUI, CombatUI, ActionMenu, MagicMenu, AvoidPanel, FadePanel, SelectionArrow, health_bar, mana_bar, shield,
-        heart;
+        heart, kid;
     private Button MagicButton, SwitchButton;
     private List<Button> SkillButtons;
     private Image health_forebar, mana_forebar, host;
@@ -51,7 +51,7 @@ public class PlayerCombat : MonoBehaviour
     private TransitionPhase current_phase = TransitionPhase.FIRST_PHASE;
     private int current_alter = 0, switch_number, switch_counter = 0, off_screen_alter;
     private bool ActivateAlterUI, defending = false, magic_interactable, toggle_magic_menu = false, regenerating,
-        update_mana_bar = false;
+        update_mana_bar = false, special_death = false;
     private Quaternion alterUI_target_angle;
 
     private void Start()
@@ -97,6 +97,7 @@ public class PlayerCombat : MonoBehaviour
         shield = host.transform.Find("DefendingShield").gameObject;
         shield.GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
         heart = UI.transform.Find("Fade").Find("Heart").gameObject;
+        kid = UI.transform.Find("Fade").Find("Kid").gameObject;
     }
 
     private void AlterUISpriteUpdate()
@@ -143,6 +144,8 @@ public class PlayerCombat : MonoBehaviour
         SelectionArrow.SetActive(ActivateAlterUI);
         AlterImages[off_screen_alter].SetActive(current_state == TurnState.SWITCHING);
         heart.SetActive(current_state == TurnState.TRANSITION_TO_PLAYERS_DEATH);
+        kid.SetActive(current_state == TurnState.TRANSITION_TO_PLAYERS_DEATH);
+        kid.GetComponent<Animator>().SetBool("special_death", special_death);
 
         // action & magic menu
         ActivateActionMenu = current_state == TurnState.SELECTING;
@@ -335,6 +338,8 @@ public class PlayerCombat : MonoBehaviour
                     case TransitionPhase.FIRST_PHASE:
                         FadePanel.GetComponent<Image>().color = new Color(0f, 0f, 0f, 1f);
                         heart.transform.localPosition = host.transform.localPosition;
+                        kid.transform.localPosition = host.transform.localPosition;
+                        special_death = Random.value >= 0.5f;
                         current_phase = TransitionPhase.SECOND_PHASE;
                         break;
 
