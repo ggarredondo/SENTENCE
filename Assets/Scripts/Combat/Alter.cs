@@ -14,14 +14,13 @@ public enum Type
     Fragment
 }
 
-[System.Serializable]
-public class Alter
+public class Alter : MonoBehaviour
 {
     // variables
     public Sprite sprite;
 
     // info
-    public string name;
+    public new string name;
     public string age;
     public string gender;
 

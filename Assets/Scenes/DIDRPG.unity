@@ -12074,11 +12074,16 @@ MonoBehaviour:
   UI: {fileID: 432792654}
   player: {fileID: 1815206595}
   enemy: {fileID: 1102831699}
+  alter_info: {fileID: 8599607707869715760}
   easiest_dif: {x: 100, y: 100, z: 3}
   easy_dif: {x: 200, y: 200, z: 5}
   normal_dif: {x: 300, y: 300, z: 10}
   hard_dif: {x: 400, y: 400, z: 15}
   current_dif: {x: 0, y: 0, z: 0}
+  new_alters:
+  - {fileID: 5896613007927120973, guid: 810926225ea73fa428956da3f0d4f231, type: 3}
+  - {fileID: 4500463772659532728, guid: 603af54493c48d34cad8620b69c2e045, type: 3}
+  - {fileID: 5882412083889366144, guid: dd5d044d97b3f944fbe1b4bbf96a7340, type: 3}
 --- !u!1 &1237439336
 GameObject:
   m_ObjectHideFlags: 0
@@ -17014,89 +17019,7 @@ MonoBehaviour:
     max_mana: 10
     mana_regen: 2
     system:
-    - sprite: {fileID: 21300000, guid: 4d8d8465e6f6f154e9879e7e703ab75d, type: 3}
-      name: Gamon
-      age: 24000
-      gender: Non-binary
-      type: 3
-      attack: 10
-      resilience: 20
-      skills:
-      - name: Switch
-        cost: 0
-        desc: Switch to another alter, once per turn. Can be used regardless of the
-          Alter in front.
-      - name: ----
-        cost: 0
-        desc: 
-      - name: ----
-        cost: 0
-        desc: 
-      - name: ----
-        cost: 0
-        desc: 
-    - sprite: {fileID: 21300000, guid: c984336789e88c344a1c8e5a43be7473, type: 3}
-      name: Cinderella
-      age: 3000
-      gender: Female
-      type: 6
-      attack: 5
-      resilience: 5
-      skills:
-      - name: Sharpen
-        cost: 4
-        desc: Enhance the entire system's attack power by 25%. Can be stacked up
-          to four times.
-      - name: Harden
-        cost: 4
-        desc: Enhance the entire system's resilience by 25%. Can be stacked up to
-          four times.
-      - name: ----
-        cost: 0
-        desc: 
-      - name: ----
-        cost: 0
-        desc: 
-    - sprite: {fileID: 21300000, guid: 7b2cd9ab584b4e44d8505bc0ea1a7070, type: 3}
-      name: Arathorn
-      age: 22
-      gender: Male
-      type: 0
-      attack: 15
-      resilience: 40
-      skills:
-      - name: ----
-        cost: 0
-        desc: 
-      - name: ----
-        cost: 0
-        desc: 
-      - name: ----
-        cost: 0
-        desc: 
-      - name: ----
-        cost: 0
-        desc: 
-    - sprite: {fileID: 21300000, guid: 2f27906a1466f5541a9f3ee62c817cab, type: 3}
-      name: Brunhilda
-      age: 63
-      gender: Female
-      type: 1
-      attack: 5
-      resilience: 20
-      skills:
-      - name: Heal
-        cost: 3
-        desc: Recover 40% of the system's sanity.
-      - name: ----
-        cost: 0
-        desc: 
-      - name: ----
-        cost: 0
-        desc: 
-      - name: ----
-        cost: 0
-        desc: 
+    - {fileID: 7263852393618884601, guid: 1826bea1f7184da41a9119a648482f39, type: 3}
   player: {fileID: 1815206596}
   UI: {fileID: 432792654}
   current_state: 0

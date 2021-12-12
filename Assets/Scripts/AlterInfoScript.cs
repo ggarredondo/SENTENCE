@@ -12,7 +12,7 @@ public class AlterInfoScript : MonoBehaviour
     Image sprite;
     List<Alter> system;
 
-    private void UpdateSystemNames()
+    public void UpdateSystemNames()
     {
         SystemMenu.transform.Find("Alter1").Find("AlterName").GetComponent<Text>().text = player_combat.stats.system[0].name;
         if (player_combat.stats.system.Count > 1)

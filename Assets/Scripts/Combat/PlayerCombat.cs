@@ -160,8 +160,8 @@ public class PlayerCombat : MonoBehaviour
             target_health = 0f;
         else if (target_health > stats.max_health)
             target_health = stats.max_health;
-        if (stats.health <= 0) // temp
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // temp
+        if (stats.health <= 0)
+            current_state = TurnState.TRANSITION_TO_PLAYERS_DEATH;
     }
 
     private void UpdateManaBar() {
@@ -324,6 +324,10 @@ public class PlayerCombat : MonoBehaviour
                     off_screen_alter = (off_screen_alter + switch_number) % 4;
                     current_state = TurnState.SELECTING;
                 }
+                break;
+
+            case TurnState.TRANSITION_TO_PLAYERS_DEATH:
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
                 break;
         }
     }
