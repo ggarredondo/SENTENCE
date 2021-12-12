@@ -38,7 +38,8 @@ public class PlayerCombat : MonoBehaviour
         max_defense_multiplier = 2f, healing_factor = 0.3f, target_health;
     public int switch_max = 1;
 
-    private GameObject AlterSystemUI, CombatUI, ActionMenu, MagicMenu, AvoidPanel, FadePanel, SelectionArrow, health_bar, mana_bar, shield;
+    private GameObject AlterSystemUI, CombatUI, ActionMenu, MagicMenu, AvoidPanel, FadePanel, SelectionArrow, health_bar, mana_bar, shield,
+        heart;
     private Button MagicButton, SwitchButton;
     private List<Button> SkillButtons;
     private Image health_forebar, mana_forebar, host;
@@ -95,6 +96,7 @@ public class PlayerCombat : MonoBehaviour
         SelectionArrow = CombatUI.transform.Find("SelectionArrow").gameObject;
         shield = host.transform.Find("DefendingShield").gameObject;
         shield.GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
+        heart = UI.transform.Find("Fade").Find("Heart").gameObject;
     }
 
     private void AlterUISpriteUpdate()
@@ -134,12 +136,13 @@ public class PlayerCombat : MonoBehaviour
     {
         CombatUI.SetActive(current_state != TurnState.WAITING && ActivateCombatUI);
         FadePanel.SetActive(current_state == TurnState.TRANSITION_TO_FIGHT || current_state == TurnState.TRANSITION_TO_ENEMYS_DEATH || 
-            update_mana_bar);
+            update_mana_bar || current_state == TurnState.TRANSITION_TO_PLAYERS_DEATH);
         ActivateAlterUI = current_state != TurnState.AVOIDING && current_state != TurnState.TRANSITION_TO_AVOID
             && current_state != TurnState.TRANSITION_TO_SELECT;
         AlterSystemUI.SetActive(ActivateAlterUI);
         SelectionArrow.SetActive(ActivateAlterUI);
         AlterImages[off_screen_alter].SetActive(current_state == TurnState.SWITCHING);
+        heart.SetActive(current_state == TurnState.TRANSITION_TO_PLAYERS_DEATH);
 
         // action & magic menu
         ActivateActionMenu = current_state == TurnState.SELECTING;
@@ -327,7 +330,19 @@ public class PlayerCombat : MonoBehaviour
                 break;
 
             case TurnState.TRANSITION_TO_PLAYERS_DEATH:
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                switch (current_phase)
+                {
+                    case TransitionPhase.FIRST_PHASE:
+                        FadePanel.GetComponent<Image>().color = new Color(0f, 0f, 0f, 1f);
+                        heart.transform.localPosition = host.transform.localPosition;
+                        current_phase = TransitionPhase.SECOND_PHASE;
+                        break;
+
+                    case TransitionPhase.SECOND_PHASE:
+                        if (heart.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("End"))
+                            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                        break;
+                }
                 break;
         }
     }
