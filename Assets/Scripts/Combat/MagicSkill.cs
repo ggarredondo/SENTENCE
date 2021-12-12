@@ -7,4 +7,5 @@ public class MagicSkill
 {
     public string name;
     public float cost;
+    public string desc;
 }

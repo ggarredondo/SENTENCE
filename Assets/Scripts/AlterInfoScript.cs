@@ -7,6 +7,7 @@ public class AlterInfoScript : MonoBehaviour
 {
     public PlayerCombat player_combat;
     GameObject SystemMenu, Info;
+    Transform Magic1, Magic2, Magic3, Magic4;
     Text NameSpace, AgeSpace, GenderSpace, TypeSpace, AttackSpace, ResilienceSpace;
     Image sprite;
     List<Alter> system;
@@ -37,15 +38,28 @@ public class AlterInfoScript : MonoBehaviour
                 TypeSpace.text = system[i].type.ToString();
                 AttackSpace.text = system[i].attack.ToString();
                 ResilienceSpace.text = system[i].resilience.ToString();
+
+                Magic1.Find("Text").GetComponent<Text>().text = system[i].skills[0].name;
+                Magic1.Find("Desc").GetComponent<Text>().text = system[i].skills[0].desc;
+
+                Magic2.Find("Text").GetComponent<Text>().text = system[i].skills[1].name;
+                Magic2.Find("Desc").GetComponent<Text>().text = system[i].skills[1].desc;
+
+                Magic3.Find("Text").GetComponent<Text>().text = system[i].skills[2].name;
+                Magic3.Find("Desc").GetComponent<Text>().text = system[i].skills[2].desc;
+
+                Magic4.Find("Text").GetComponent<Text>().text = system[i].skills[3].name;
+                Magic4.Find("Desc").GetComponent<Text>().text = system[i].skills[3].desc;
+
                 break;
             }
         }
     }
 
     public void Alter1Button() { ShowInfo(system[0].name); }
-    public void Alter2Button() { ShowInfo(system[1].name); }
-    public void Alter3Button() { ShowInfo(system[2].name); }
-    public void Alter4Button() { ShowInfo(system[3].name); }
+    public void Alter2Button() { if (player_combat.stats.system.Count > 1) ShowInfo(system[1].name); }
+    public void Alter3Button() { if (player_combat.stats.system.Count > 2) ShowInfo(system[2].name); }
+    public void Alter4Button() { if (player_combat.stats.system.Count > 3) ShowInfo(system[3].name); }
 
 
     void Start() {
@@ -62,6 +76,11 @@ public class AlterInfoScript : MonoBehaviour
         TypeSpace = Info.transform.Find("Type").Find("Space").GetComponent<Text>();
         AttackSpace = Info.transform.Find("Attack").Find("Space").GetComponent<Text>();
         ResilienceSpace = Info.transform.Find("Resilience").Find("Space").GetComponent<Text>();
+
+        Magic1 = Info.transform.Find("Magic").Find("Magic1");
+        Magic2 = Info.transform.Find("Magic").Find("Magic2");
+        Magic3 = Info.transform.Find("Magic").Find("Magic3");
+        Magic4 = Info.transform.Find("Magic").Find("Magic4");
 
         UpdateSystemNames();
     }
