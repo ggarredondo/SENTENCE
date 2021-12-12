@@ -38,6 +38,11 @@ public class PlayerInput : MonoBehaviour
         toggle_options = false;
     }
 
+    public void InitialShowControls(bool show) {
+        toggle_menu = show;
+        toggle_controls = show;
+    }
+
     public void ToggleFullscreen() {
         if (Screen.fullScreenMode == FullScreenMode.Windowed)
             Screen.SetResolution(1920, 1080, FullScreenMode.ExclusiveFullScreen);

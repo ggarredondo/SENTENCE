@@ -12075,6 +12075,7 @@ MonoBehaviour:
   player: {fileID: 1815206595}
   enemy: {fileID: 1102831699}
   alter_info: {fileID: 8599607707869715760}
+  show_controls: 1
   easiest_dif: {x: 100, y: 100, z: 3}
   easy_dif: {x: 200, y: 200, z: 5}
   normal_dif: {x: 300, y: 300, z: 10}
@@ -16968,6 +16969,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UI: {fileID: 432792654}
+  game_manager: {fileID: 1231221548}
 --- !u!114 &1815206597
 MonoBehaviour:
   m_ObjectHideFlags: 0

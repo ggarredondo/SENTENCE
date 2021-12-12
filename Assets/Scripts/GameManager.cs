@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
             instance.UI = this.UI;
             instance.alter_info = this.alter_info;
             instance.player = this.player;
+            instance.player.GetComponent<PlayerInput>().InitialShowControls(false);
             instance.player_combat = this.player.GetComponent<PlayerCombat>();
             instance.enemy = this.enemy;
             instance.easiest_button = this.easiest_button;
