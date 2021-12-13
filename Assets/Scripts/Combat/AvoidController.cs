@@ -13,6 +13,7 @@ public class AvoidController : MonoBehaviour
 
     private void Start()
     {
+        Cursor.lockState = CursorLockMode.Confined;
         player_combat = player_object.GetComponent<PlayerCombat>();
     }
 

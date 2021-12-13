@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,10 +14,25 @@ public class GameManager : MonoBehaviour
     public int fst_threshold = 1, snd_threshold = 2, thrd_threshold = 3;
     PlayerCombat player_combat;
     Button easiest_button, easy_button, normal_button, hard_button;
+    string path;
     int last_counter = 0, death_counter = 0;
+
+    private void Load() {
+        if (File.Exists(path)) {
+            StreamReader reader = new StreamReader(path);
+            int.TryParse(reader.ReadToEnd(), out death_counter);
+        }
+    }
+
+    private void Save() {
+        StreamWriter writer = new StreamWriter(path);
+        writer.Write(instance.death_counter);
+        writer.Close();
+    }
 
     // Start is called before the first frame update
     private void Awake() {
+        path = Application.persistentDataPath + "/DIDRPG.dat";
         current_dif = normal_dif;
         easiest_button = UI.transform.Find("Menu").Find("OptionsMenu").Find("DifficultyMenu").Find("EasiestButton").GetComponent<Button>();
         easy_button = UI.transform.Find("Menu").Find("OptionsMenu").Find("DifficultyMenu").Find("EasyButton").GetComponent<Button>();
@@ -29,10 +45,12 @@ public class GameManager : MonoBehaviour
             instance = this;
             player_combat.stats.system[0].name = System.Environment.UserName;
             DontDestroyOnLoad(this.gameObject);
+            Load();
         }
         else
         {
             instance.death_counter++;
+            Save();
             instance.UI = this.UI;
             instance.alter_info = this.alter_info;
             instance.player = this.player;
