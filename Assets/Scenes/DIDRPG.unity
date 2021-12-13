@@ -18262,7 +18262,7 @@ MonoBehaviour:
   music: {fileID: 1567146595}
   sfx: {fileID: 534351283}
   ambience_music: {fileID: 8300000, guid: f3ca216371189ec47ac192f3606c0155, type: 3}
-  combat_music: {fileID: 8300000, guid: 3ce215cc778394b4a838e0635910fc88, type: 3}
+  combat_music: {fileID: 8300000, guid: c8dfb6120a2407c489f4f25e83758e77, type: 3}
   heal_sound: {fileID: 8300000, guid: 7976e700de9885b4385681c6463fe3af, type: 3}
   hurt_sound: {fileID: 8300000, guid: cb86599005eedf64aadc0e6c1f5ca787, type: 3}
   defend_sound: {fileID: 8300000, guid: 7f7a943f371b6a7469b5d194fb1078a8, type: 3}
