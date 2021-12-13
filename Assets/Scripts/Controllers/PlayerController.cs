@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     public float transitionRotationSpeed = 500f;
 
     Vector3 targetGridPos, prevtargetGridPos, targetRotation;
+    public AudioSource sfx;
+    public AudioClip step_sound;
 
     private void Start()
     {
@@ -23,6 +25,8 @@ public class PlayerController : MonoBehaviour
     void MovePlayer()
     {
         if (!Physics.Raycast(transform.position, targetGridPos - transform.position, 0.6f)) {
+            if (prevtargetGridPos != targetGridPos)
+                sfx.PlayOneShot(step_sound);
             prevtargetGridPos = targetGridPos;
             Vector3 targetPosition = targetGridPos;
 

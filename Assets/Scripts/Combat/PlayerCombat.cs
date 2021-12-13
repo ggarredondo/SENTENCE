@@ -56,7 +56,8 @@ public class PlayerCombat : MonoBehaviour
 
     // audio
     public AudioSource music, sfx;
-    public AudioClip ambience_music, combat_music, heal_sound, hurt_sound, defend_sound, stats_up_sound, heart_break_sound;
+    public AudioClip ambience_music, combat_music, heal_sound, hurt_sound, defend_sound, stats_up_sound, heart_break_sound,
+        switch_sound;
 
     private void Start()
     {
@@ -149,7 +150,7 @@ public class PlayerCombat : MonoBehaviour
         AlterImages[off_screen_alter].SetActive(current_state == TurnState.SWITCHING);
         heart.SetActive(current_state == TurnState.TRANSITION_TO_PLAYERS_DEATH);
         kid.SetActive(current_state == TurnState.TRANSITION_TO_PLAYERS_DEATH);
-        kid.GetComponent<Animator>().SetBool("special_death", special_death);
+        kid.GetComponent<Animator>().SetBool("special_death", true);
 
         // action & magic menu
         ActivateActionMenu = current_state == TurnState.SELECTING;
@@ -393,23 +394,20 @@ public class PlayerCombat : MonoBehaviour
         {
             case "Heal":
                 target_health = stats.health + Mathf.Round(stats.max_health * healing_factor);
-                sfx.clip = heal_sound;
-                sfx.Play();
+                sfx.PlayOneShot(heal_sound);
                 break;
             case "Sharpen":
                 if (attack_multiplier < max_attack_multiplier) {
                     attack_multiplier += 0.25f;
                     AttackButtonText.text += '^';
-                    sfx.clip = stats_up_sound;
-                    sfx.Play();
+                    sfx.PlayOneShot(stats_up_sound);
                 }
                 break;
             case "Harden":
                 if (defense_multiplier < max_defense_multiplier) {
                     defense_multiplier += 0.25f;
                     DefendButtonText.text += '^';
-                    sfx.clip = stats_up_sound;
-                    sfx.Play();
+                    sfx.PlayOneShot(stats_up_sound);
                 }
                 break;
         }
@@ -442,8 +440,7 @@ public class PlayerCombat : MonoBehaviour
             stats.mana = stats.max_mana;
         target_mana_scale = new Vector3(1f, stats.mana / stats.max_mana, 1f);
         update_mana_bar = true;
-        sfx.clip = defend_sound;
-        sfx.Play();
+        sfx.PlayOneShot(defend_sound);
     }
 
     public void Switch() {
@@ -454,6 +451,7 @@ public class PlayerCombat : MonoBehaviour
         alterUI_target_angle = Quaternion.Euler(new Vector3(0f, 0f, 90f * switch_number) + AlterSystemUI.transform.localRotation.eulerAngles);
         current_alter = (current_alter + switch_number) % 4;
         MagicMenuUpdate();
+        sfx.PlayOneShot(switch_sound);
         current_state = TurnState.SWITCHING;
     }
 
@@ -461,8 +459,7 @@ public class PlayerCombat : MonoBehaviour
     {
         target_health = stats.health - Mathf.Round(damage - damage * stats.system[current_alter].resilience * defense_multiplier * 0.01f 
             * System.Convert.ToSingle(defending));
-        sfx.clip = hurt_sound;
-        sfx.Play();
+        sfx.PlayOneShot(hurt_sound);
     }
 
     // Update is called once per frame

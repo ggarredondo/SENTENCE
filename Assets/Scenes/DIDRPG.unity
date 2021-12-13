@@ -18203,6 +18203,8 @@ MonoBehaviour:
   smoothTransition: 1
   transitionSpeed: 10
   transitionRotationSpeed: 500
+  sfx: {fileID: 534351283}
+  step_sound: {fileID: 8300000, guid: f90ce6f4a78a9524086e845609e32311, type: 3}
 --- !u!4 &1815206598
 Transform:
   m_ObjectHideFlags: 0
@@ -18267,7 +18269,8 @@ MonoBehaviour:
   hurt_sound: {fileID: 8300000, guid: cb86599005eedf64aadc0e6c1f5ca787, type: 3}
   defend_sound: {fileID: 8300000, guid: 7f7a943f371b6a7469b5d194fb1078a8, type: 3}
   stats_up_sound: {fileID: 8300000, guid: 97177e34ce29d3e41b0d341f00c1b0ba, type: 3}
-  heart_break_sound: {fileID: 8300000, guid: 7f75f1ee2164f8844af207e360434d73, type: 3}
+  heart_break_sound: {fileID: 8300000, guid: 62f7e898f38cb15458dcad3fb037d7a6, type: 3}
+  switch_sound: {fileID: 8300000, guid: ae3cc3685940a454f968f1c7321ec990, type: 3}
 --- !u!4 &1817900696 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6126135561446613998, guid: 70df45a515cff944c9cc4515e1f5cb2e, type: 3}
@@ -20322,6 +20325,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2114011145}
+  - component: {fileID: 2114011146}
   m_Layer: 0
   m_Name: DifficultyMenu
   m_TagString: Untagged
@@ -20348,6 +20352,102 @@ Transform:
   m_Father: {fileID: 930743080}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &2114011146
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2114011144}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 40c6646738801364e932c13813595d7d, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!4 &2117867648 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6126135561446613998, guid: 70df45a515cff944c9cc4515e1f5cb2e, type: 3}
