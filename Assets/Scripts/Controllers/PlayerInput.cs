@@ -9,8 +9,9 @@ public class PlayerInput : MonoBehaviour
     PlayerController controller;
     PlayerCombat player_combat;
     public GameObject UI;
-    GameObject Menu, SystemMenu, Info, OptionsMenu, ControlsMenu, DifficultyMenu;
-    bool toggle_menu = true, toggle_system = false, toggle_options = false, toggle_difficulty = false, toggle_controls = true;
+    GameObject Menu, SystemMenu, Info, OptionsMenu, ControlsMenu, DifficultyMenu, SoundMenu;
+    bool toggle_menu = true, toggle_system = false, toggle_options = false, toggle_difficulty = false, toggle_sound = false,
+        toggle_controls = true;
 
     public void Exit() {
         Application.Quit();
@@ -30,6 +31,12 @@ public class PlayerInput : MonoBehaviour
 
     public void ToggleDifficultyMenu() {
         toggle_difficulty = !toggle_difficulty;
+        toggle_sound = false;
+    }
+
+    public void ToggleSoundMenu() {
+        toggle_sound = !toggle_sound;
+        toggle_difficulty = false;
     }
 
     public void ToggleControlsMenu() {
@@ -57,6 +64,7 @@ public class PlayerInput : MonoBehaviour
         Menu = UI.transform.Find("Menu").gameObject;
         OptionsMenu = Menu.transform.Find("OptionsMenu").gameObject;
         DifficultyMenu = Menu.transform.Find("OptionsMenu").Find("DifficultyMenu").gameObject;
+        SoundMenu = Menu.transform.Find("OptionsMenu").Find("SoundMenu").gameObject;
         SystemMenu = UI.transform.Find("AlterInfo").Find("SystemMenu").gameObject;
         Info = SystemMenu.transform.Find("Info").gameObject;
         ControlsMenu = Menu.transform.Find("ControlsMenu").gameObject;
@@ -78,6 +86,8 @@ public class PlayerInput : MonoBehaviour
         ControlsMenu.SetActive(toggle_controls);
         toggle_difficulty = toggle_difficulty && toggle_options;
         DifficultyMenu.SetActive(toggle_difficulty);
+        toggle_sound = toggle_sound && toggle_options;
+        SoundMenu.SetActive(toggle_sound);
     }
 
     private void Update()

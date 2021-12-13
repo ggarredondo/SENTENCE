@@ -12,6 +12,10 @@ public class GameManager : MonoBehaviour
     public Vector3 easiest_dif, easy_dif, normal_dif, hard_dif, current_dif;
     public List<Alter> new_alters;
     public int fst_threshold = 1, snd_threshold = 2, thrd_threshold = 3;
+    public AudioSource music;
+    public List<AudioSource> sfx;
+    public Slider MusicSlider, SFXSlider;
+    float music_volume = 0.2f, sfx_volume = 1f;
     PlayerCombat player_combat;
     Button easiest_button, easy_button, normal_button, hard_button;
     string path;
@@ -30,6 +34,18 @@ public class GameManager : MonoBehaviour
         writer.Close();
     }
 
+    private void UpdateAllSound() {
+        music.volume = music_volume;
+        MusicSlider.value = music_volume;
+        UpdateSFX();
+        SFXSlider.value = sfx_volume;
+    }
+
+    private void UpdateSFX() {
+        foreach (AudioSource a in sfx)
+            a.volume = sfx_volume;
+    }
+
     // Start is called before the first frame update
     private void Awake() {
         path = Application.persistentDataPath + "/DIDRPG.dat";
@@ -44,6 +60,7 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
             player_combat.stats.system[0].name = System.Environment.UserName;
+            UpdateAllSound();
             DontDestroyOnLoad(this.gameObject);
             Load();
         }
@@ -65,6 +82,13 @@ public class GameManager : MonoBehaviour
             instance.normal_button.onClick.AddListener(instance.NormalButton);
             instance.hard_button = this.hard_button;
             instance.hard_button.onClick.AddListener(instance.HardButton);
+            instance.music = this.music;
+            instance.sfx = this.sfx;
+            instance.MusicSlider = this.MusicSlider;
+            instance.MusicSlider.onValueChanged.AddListener(instance.MusicVolume);
+            instance.SFXSlider = this.SFXSlider;
+            instance.SFXSlider.onValueChanged.AddListener(instance.SFXVolume);
+            instance.UpdateAllSound();
             Destroy(this.gameObject);
         }
     }
@@ -95,6 +119,16 @@ public class GameManager : MonoBehaviour
 
     public void HardButton() {
         current_dif = hard_dif;
+    }
+
+    public void MusicVolume(float new_volume) {
+        music_volume = new_volume;
+        music.volume = music_volume;
+    }
+
+    public void SFXVolume(float new_volume) {
+        sfx_volume = new_volume;
+        UpdateSFX();
     }
 
     private void UIStateManagement() {

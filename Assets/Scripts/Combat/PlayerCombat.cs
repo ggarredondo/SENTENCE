@@ -150,7 +150,7 @@ public class PlayerCombat : MonoBehaviour
         AlterImages[off_screen_alter].SetActive(current_state == TurnState.SWITCHING);
         heart.SetActive(current_state == TurnState.TRANSITION_TO_PLAYERS_DEATH);
         kid.SetActive(current_state == TurnState.TRANSITION_TO_PLAYERS_DEATH);
-        kid.GetComponent<Animator>().SetBool("special_death", true);
+        kid.GetComponent<Animator>().SetBool("special_death", special_death);
 
         // action & magic menu
         ActivateActionMenu = current_state == TurnState.SELECTING;
