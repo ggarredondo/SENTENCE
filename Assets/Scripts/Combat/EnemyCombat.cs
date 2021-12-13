@@ -237,6 +237,7 @@ public class EnemyCombat : MonoBehaviour
                         if (FadePanel.GetComponent<Image>().color.a >= 1f) {
                             sprite_renderer.color = new Color(1f, 1f, 1f, 0f);
                             player.ActivateCombatUI = false;
+                            player.ChangeToAmbience();
                             current_phase = TransitionPhase.THIRD_PHASE;
                         }
                         break;

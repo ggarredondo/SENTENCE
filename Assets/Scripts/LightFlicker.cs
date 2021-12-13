@@ -5,6 +5,8 @@ using UnityEngine;
 public class LightFlicker : MonoBehaviour
 {
     public Light light_variable;
+    public PlayerCombat player;
+    AudioSource sfx;
 
     public float minTime;
     public float maxTime;
@@ -14,12 +16,14 @@ public class LightFlicker : MonoBehaviour
     void Start()
     {
         timer = Random.Range(minTime, maxTime);
+        sfx = this.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        FlickeringLight();   
+        FlickeringLight();
+        sfx.mute = player.current_state != TurnState.WAITING;
     }
 
     void FlickeringLight()
