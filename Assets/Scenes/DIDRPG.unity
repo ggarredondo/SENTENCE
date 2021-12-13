@@ -13607,9 +13607,9 @@ MonoBehaviour:
   - {fileID: 5896613007927120973, guid: 810926225ea73fa428956da3f0d4f231, type: 3}
   - {fileID: 4500463772659532728, guid: 603af54493c48d34cad8620b69c2e045, type: 3}
   - {fileID: 5882412083889366144, guid: dd5d044d97b3f944fbe1b4bbf96a7340, type: 3}
-  fst_threshold: 5
-  snd_threshold: 10
-  thrd_threshold: 15
+  fst_threshold: 3
+  snd_threshold: 6
+  thrd_threshold: 9
   music: {fileID: 1567146595}
   sfx:
   - {fileID: 534351283}
