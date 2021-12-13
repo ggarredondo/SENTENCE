@@ -45,8 +45,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 4d8d8465e6f6f154e9879e7e703ab75d, type: 3}
   name: ggarr
-  age: 32
-  gender: Nonbinary
+  age: '?'
+  gender: '?'
+  quote: This is you. You had wandered long and weary through the black sea of your
+    consciouness, endlessly roaming about until you stumbled upon this dungeon. But
+    who are you? Little is known, but you have a feeling you are here to protect
+    something, or someone. This little girl, in the corner of you mind. She is unconscious,
+    but she can feel pain. You would make sure she would never feel it again.
   type: 3
   attack: 10
   resilience: 20

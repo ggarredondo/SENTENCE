@@ -45,8 +45,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: c984336789e88c344a1c8e5a43be7473, type: 3}
   name: Cinderella
-  age: 2107
+  age: 8
   gender: Female
+  quote: 'As it turned out, there were others like you. You couldn''t see them, but
+    you could hear them. "You can''t do it alone. Can''t you see?" she whispered
+    inside your mind, almost as a second thought. "Let me help you. I''m not strong
+    myself but... I will make *you* strong! And tough! Together we will trash that
+    pig." '
   type: 6
   attack: 5
   resilience: 5

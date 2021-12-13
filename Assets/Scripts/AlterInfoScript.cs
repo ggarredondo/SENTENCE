@@ -8,8 +8,9 @@ public class AlterInfoScript : MonoBehaviour
     public PlayerCombat player_combat;
     GameObject SystemMenu, Info;
     Transform Magic1, Magic2, Magic3, Magic4;
-    Text NameSpace, AgeSpace, GenderSpace, TypeSpace, AttackSpace, ResilienceSpace;
+    Text NameSpace, AgeSpace, GenderSpace, TypeSpace, AttackSpace, ResilienceSpace, QuoteSpace;
     Image sprite;
+    Button Alter1, Alter2, Alter3, Alter4;
     List<Alter> system;
 
     public void UpdateSystemNames()
@@ -21,6 +22,7 @@ public class AlterInfoScript : MonoBehaviour
             SystemMenu.transform.Find("Alter3").Find("AlterName").GetComponent<Text>().text = player_combat.stats.system[2].name;
         if (player_combat.stats.system.Count > 3)
             SystemMenu.transform.Find("Alter4").Find("AlterName").GetComponent<Text>().text = player_combat.stats.system[3].name;
+        UIStateManagement();
     }
 
     private void ShowInfo(string name) 
@@ -38,6 +40,8 @@ public class AlterInfoScript : MonoBehaviour
                 TypeSpace.text = system[i].type.ToString();
                 AttackSpace.text = system[i].attack.ToString();
                 ResilienceSpace.text = system[i].resilience.ToString();
+
+                QuoteSpace.text = system[i].quote;
 
                 Magic1.Find("Text").GetComponent<Text>().text = system[i].skills[0].name;
                 Magic1.Find("Desc").GetComponent<Text>().text = system[i].skills[0].desc;
@@ -61,9 +65,20 @@ public class AlterInfoScript : MonoBehaviour
     public void Alter3Button() { if (player_combat.stats.system.Count > 2) ShowInfo(system[2].name); }
     public void Alter4Button() { if (player_combat.stats.system.Count > 3) ShowInfo(system[3].name); }
 
+    private void UIStateManagement() {
+        Alter1.interactable = Alter1.transform.Find("AlterName").GetComponent<Text>().text != "----";
+        Alter2.interactable = Alter2.transform.Find("AlterName").GetComponent<Text>().text != "----";
+        Alter3.interactable = Alter3.transform.Find("AlterName").GetComponent<Text>().text != "----";
+        Alter4.interactable = Alter4.transform.Find("AlterName").GetComponent<Text>().text != "----";
+    }
 
     void Start() {
         SystemMenu = this.transform.Find("SystemMenu").gameObject;
+        Alter1 = SystemMenu.transform.Find("Alter1").GetComponent<Button>();
+        Alter2 = SystemMenu.transform.Find("Alter2").GetComponent<Button>();
+        Alter3 = SystemMenu.transform.Find("Alter3").GetComponent<Button>();
+        Alter4 = SystemMenu.transform.Find("Alter4").GetComponent<Button>();
+
         Info = SystemMenu.transform.Find("Info").gameObject;
         Info.SetActive(false);
         system = player_combat.stats.system;
@@ -76,6 +91,8 @@ public class AlterInfoScript : MonoBehaviour
         TypeSpace = Info.transform.Find("Type").Find("Space").GetComponent<Text>();
         AttackSpace = Info.transform.Find("Attack").Find("Space").GetComponent<Text>();
         ResilienceSpace = Info.transform.Find("Resilience").Find("Space").GetComponent<Text>();
+
+        QuoteSpace = Info.transform.Find("Quote").Find("Space").GetComponent<Text>();
 
         Magic1 = Info.transform.Find("Magic").Find("Magic1");
         Magic2 = Info.transform.Find("Magic").Find("Magic2");

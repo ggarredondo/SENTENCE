@@ -63,8 +63,10 @@ public class PlayerInput : MonoBehaviour
     }
 
     private void UIStateManagement() {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape)) {
             toggle_menu = !toggle_menu;
+            toggle_system = false;
+        }
         toggle_menu = toggle_menu && player_combat.current_state == TurnState.WAITING;
         Menu.SetActive(toggle_menu);
         toggle_options = toggle_options && player_combat.current_state == TurnState.WAITING && toggle_menu;

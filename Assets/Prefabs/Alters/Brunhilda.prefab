@@ -47,6 +47,11 @@ MonoBehaviour:
   name: Brunhilda
   age: 63
   gender: Female
+  quote: When everything seemed lost, when it appeared that your wounds would never
+    heal and the scars would only open, she came. "You are brave, but reckless,"
+    said the lady in white, who you could only hear and picture. "If you can't put
+    her out of harm's way, fret not. I will mend her soul. I will fix her heart.
+    Together we will make sure she remains unscathed."
   type: 1
   attack: 5
   resilience: 20

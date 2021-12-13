@@ -23,6 +23,7 @@ public class Alter : MonoBehaviour
     public new string name;
     public string age;
     public string gender;
+    public string quote;
 
     // stats
     public Type type;

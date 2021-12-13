@@ -44,9 +44,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 7b2cd9ab584b4e44d8505bc0ea1a7070, type: 3}
-  name: Arathorn
-  age: 22
+  name: Lancelot
+  age: 851
   gender: Male
+  quote: 'All of sudden, you felt robust and muscular. Your arms grew brawnier, and
+    your legs grew firmer. Or were they someone else''s? You heard the hefty clanks
+    of steel on stone as someone new approached your thoughts. "I have seen what
+    ails you, and I feel nothing but profound disgust and ire. You have my sword,
+    and my shield. That swine shall never touch her again." '
   type: 0
   attack: 15
   resilience: 40
