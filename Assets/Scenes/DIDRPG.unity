@@ -18267,6 +18267,7 @@ MonoBehaviour:
   hurt_sound: {fileID: 8300000, guid: cb86599005eedf64aadc0e6c1f5ca787, type: 3}
   defend_sound: {fileID: 8300000, guid: 7f7a943f371b6a7469b5d194fb1078a8, type: 3}
   stats_up_sound: {fileID: 8300000, guid: 97177e34ce29d3e41b0d341f00c1b0ba, type: 3}
+  heart_break_sound: {fileID: 8300000, guid: 7f75f1ee2164f8844af207e360434d73, type: 3}
 --- !u!4 &1817900696 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6126135561446613998, guid: 70df45a515cff944c9cc4515e1f5cb2e, type: 3}

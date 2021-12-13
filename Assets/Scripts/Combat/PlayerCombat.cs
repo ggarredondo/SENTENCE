@@ -56,7 +56,7 @@ public class PlayerCombat : MonoBehaviour
 
     // audio
     public AudioSource music, sfx;
-    public AudioClip ambience_music, combat_music, heal_sound, hurt_sound, defend_sound, stats_up_sound;
+    public AudioClip ambience_music, combat_music, heal_sound, hurt_sound, defend_sound, stats_up_sound, heart_break_sound;
 
     private void Start()
     {
@@ -346,6 +346,9 @@ public class PlayerCombat : MonoBehaviour
                         heart.transform.localPosition = host.transform.localPosition;
                         kid.transform.localPosition = host.transform.localPosition;
                         special_death = Random.value >= 0.5f;
+                        music.mute = true;
+                        sfx.clip = heart_break_sound;
+                        sfx.PlayDelayed(0.5f);
                         current_phase = TransitionPhase.SECOND_PHASE;
                         break;
 
