@@ -13,6 +13,7 @@ We made our best to represent the disorder as faithfully as possible while also 
 **CREATIVE DIRECTION -** Guillermo García Arredondo <br/>
 **MODELLING -** Lee McKenzie Dickie <br/>
 **CONCEPT ART -** Ilayda Ardic <br/>
+**WRITING -** Guillermo García Arredondo <br/>
 **SPRITES -** Shaun Murphy, Temmie Chang (Undertale, Deltarune) <br/>
 **SOUND DESIGN -** Ape / HAL Laboratory (Earthbound), Ilayda Ardic, Guillermo García Arredondo, Toby Fox (Undertale) <br/>
 **UI DESIGN -** Ape / HAL Laboratory (Earthbound), EDslashEM (Paid RPG Pixel Art Assets 2), Guillermo García Arredondo <br/>
