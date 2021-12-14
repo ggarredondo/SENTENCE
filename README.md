@@ -8,7 +8,7 @@ We made our best to represent the disorder as faithfully as possible while also 
 <br/>
 # CREDITS
 **TEAM -** Ilayda Ardic, Guillermo García Arredondo, Lee McKenzie Dickie, Shaun Murphy <br/>
-**PROGRAMMING -** Guillermo García Arredondo, Lee McKenzie Dickie <br/>
+**PROGRAMMING -** Guillermo García Arredondo <br/>
 **LEVEL DESIGN -** Lee McKenzie Dickie <br/>
 **CREATIVE DIRECTION -** Guillermo García Arredondo <br/>
 **MODELLING -** Lee McKenzie Dickie <br/>
