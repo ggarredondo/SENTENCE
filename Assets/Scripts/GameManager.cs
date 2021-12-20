@@ -46,7 +46,6 @@ public class GameManager : MonoBehaviour
             a.volume = sfx_volume;
     }
 
-    // Start is called before the first frame update
     private void Awake() {
         path = Application.persistentDataPath + "/DIDRPG.dat";
         current_dif = normal_dif;
@@ -144,9 +143,9 @@ public class GameManager : MonoBehaviour
     {
         if (last_counter != death_counter)
         {
-            if (death_counter == fst_threshold)
+            if (death_counter >= fst_threshold && death_counter < snd_threshold)
                 NextAlter();
-            else if (death_counter == snd_threshold) {
+            else if (death_counter >= snd_threshold && death_counter < thrd_threshold) {
                 NextAlter();
                 NextAlter();
             }
