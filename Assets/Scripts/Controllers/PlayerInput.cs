@@ -93,6 +93,8 @@ public class PlayerInput : MonoBehaviour
     private void Update()
     {
         UIStateManagement();
+        Cursor.visible = toggle_menu || (player_combat.current_state != TurnState.WAITING && player_combat.current_state != TurnState.TRANSITION_TO_FIGHT 
+            && player_combat.current_state != TurnState.TRANSITION_TO_ENEMYS_DEATH);
 
         if (player_combat.current_state == TurnState.WAITING)
         {
