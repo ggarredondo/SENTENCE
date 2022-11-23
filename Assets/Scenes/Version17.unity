@@ -11739,15 +11739,15 @@ MonoBehaviour:
   - UI_object: {fileID: 1294136129114080086, guid: 040bc01c8fd98d3428dae5fa972ea379, type: 3}
     movement: 3
     type: 2
-    speed: 2
-    length: 7
-    interval: 0.07
+    speed: 3
+    length: 25
+    interval: 0.05
   - UI_object: {fileID: 1294136129114080086, guid: 040bc01c8fd98d3428dae5fa972ea379, type: 3}
     movement: 3
     type: 3
-    speed: 2
-    length: 7
-    interval: 0.07
+    speed: 3
+    length: 25
+    interval: 0.05
   depletion_transition_speed: 2
   depletion_transition_threshold: 0.005
   fade_speed: 0.65
