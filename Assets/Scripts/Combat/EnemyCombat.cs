@@ -12,7 +12,7 @@ public class EnemyCombat : MonoBehaviour
     public int current_projectile = 0;
     public List<Projectile> projectiles;
     public float depletion_transition_speed = 2.5f, depletion_transition_threshold = 0.005f, fade_speed = 0.65f,
-        alpha_threshold = 0.3f;
+        alpha_threshold = 0.3f, red_attack_modifier = 3f;
 
     private Image health_bar, aux_image;
     private PlayerCombat player;
@@ -109,6 +109,7 @@ public class EnemyCombat : MonoBehaviour
                     new Color(aux_image.color.r, aux_image.color.g, aux_image.color.b, 0f);
                 spawned_projectiles[spawned_projectiles.Count - 1].transform.localPosition =
                     new Vector3(aux_pos.x + Random.value * 164.6f, aux_pos.y + Random.value * -170.2f, aux_pos.z);
+                player.TakeDamage(0f);
                 break;
 
             case ProjectileType.KICK:
@@ -116,6 +117,7 @@ public class EnemyCombat : MonoBehaviour
                     new Color(aux_image.color.r, aux_image.color.g, aux_image.color.b, 0f);
                 spawned_projectiles[spawned_projectiles.Count - 1].transform.localPosition =
                     new Vector3(aux_pos.x + Random.value * 165.6f, aux_pos.y + Random.value * -170.2f, aux_pos.z);
+                player.TakeDamage(0f);
                 break;
         }
 
@@ -197,9 +199,12 @@ public class EnemyCombat : MonoBehaviour
                     projectile_direction.Clear();
                     projectile_can_damage.Clear();
                     projectile_apparates.Clear();
-                    if (projectiles[current_projectile].type == ProjectileType.PUNCH 
+                    if (projectiles[current_projectile].type == ProjectileType.PUNCH
                         || projectiles[current_projectile].type == ProjectileType.KICK)
+                    {
+                        player.TakeDamage(stats.attack * red_attack_modifier);
                         current_projectile = 0;
+                    }
                     else
                         current_projectile = (current_projectile + 1) % projectiles.Count;
                 }

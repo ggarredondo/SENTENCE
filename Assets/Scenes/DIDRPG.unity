@@ -11751,19 +11751,20 @@ MonoBehaviour:
   - UI_object: {fileID: 1294136129114080086, guid: 040bc01c8fd98d3428dae5fa972ea379, type: 3}
     movement: 3
     type: 2
-    speed: 2
-    length: 10
-    interval: 0.2
+    speed: 3
+    length: 4
+    interval: 0.12
   - UI_object: {fileID: 4276017777825899148, guid: f0edf66a5c3122c44ab2b1dfe37c5775, type: 3}
     movement: 3
     type: 3
-    speed: 2
-    length: 10
-    interval: 0.2
+    speed: 3
+    length: 4
+    interval: 0.12
   depletion_transition_speed: 2
   depletion_transition_threshold: 0.005
   fade_speed: 0.65
-  alpha_threshold: 0
+  alpha_threshold: 2
+  red_attack_modifier: 3
 --- !u!1 &1106451540
 GameObject:
   m_ObjectHideFlags: 0
